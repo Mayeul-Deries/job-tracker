@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { StatusOffer } from '../utils/enums/statusOffer';
 
-const candidatureSchema = new mongoose.Schema(
+const jobApplicationSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     company: { type: String, required: true },
@@ -19,4 +19,4 @@ const candidatureSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model('Candidature', candidatureSchema);
+export default mongoose.model('JobApplication', jobApplicationSchema);
