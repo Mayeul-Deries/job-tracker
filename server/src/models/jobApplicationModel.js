@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { StatusOffer } from '../utils/enums/statusOffer';
+import { StatusOffer } from '../utils/enums/statusOffer.js';
 
 const jobApplicationSchema = new mongoose.Schema(
   {
