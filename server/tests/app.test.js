@@ -1,7 +1,13 @@
 import request from 'supertest';
-import app from '../index.js'; // Importez votre app Express
+import app from '../src/app.js';
+import '../src/server.js';
 
-describe('API Tests', () => {
+describe('Express App', () => {
+  it('should be a valid Express instance', () => {
+    expect(app).toBeDefined();
+    expect(typeof app.use).toBe('function');
+  });
+
   it('should return 404 for an unknown route', async () => {
     const response = await request(app).get('/unknown-route');
     expect(response.status).toBe(404);
