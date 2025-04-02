@@ -8,6 +8,16 @@ export const register = async (req, res) => {
   if (!username || !email || !password || !confirmPassword) {
     return res.status(400).json({ message: 'All fields are required' });
   }
+
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&:.]).{8,}$/;
+
+  if (!regex.test(password)) {
+    return res.status(400).json({
+      message:
+        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character',
+    });
+  }
+
   if (password !== confirmPassword) {
     return res.status(400).json({ message: 'Passwords do not match' });
   }
