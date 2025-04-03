@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { StatusOffer } from '../utils/enums/statusOffer.js';
+import { Categories } from '../utils/enums/categories.js';
 
 const jobApplicationSchema = new mongoose.Schema(
   {
@@ -14,7 +15,10 @@ const jobApplicationSchema = new mongoose.Schema(
     },
     notes: { type: String },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    category: {
+      type: String,
+      enum: Object.values(Categories),
+    },
   },
   { timestamps: true }
 );
