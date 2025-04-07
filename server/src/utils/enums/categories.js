@@ -1,9 +1,9 @@
 export const Categories = {
-  INTERNSHIP: 'internship',
-  APPRENTICESHIP: 'apprenticeship',
-  FULL_TIME: 'full-time',
-  PART_TIME: 'part-time',
-  FREELANCE: 'freelance',
-  CONTRACT: 'contract',
-  SEASONAL: 'seasonal',
+  INTERNSHIP: 'Internship',
+  APPRENTICESHIP: 'Apprenticeship',
+  FULL_TIME: 'Full-time',
+  PART_TIME: 'Part-time',
+  FREELANCE: 'Freelance',
+  CONTRACT: 'Contract',
+  SEASONAL: 'Seasonal',
 };
