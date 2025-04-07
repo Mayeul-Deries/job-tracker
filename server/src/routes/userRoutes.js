@@ -1,10 +1,11 @@
 import express from 'express';
+import { verifyToken } from '../middlewares/verifyToken.js';
 import { getUser, updateUser, deleteUser } from '../controllers/userController.js';
 
 const userRouter = express.Router();
 
-userRouter.get('/:id', getUser);
-userRouter.put('/:id', updateUser);
-userRouter.delete('/:id', deleteUser);
+userRouter.get('/:id', verifyToken, getUser);
+userRouter.put('/:id', verifyToken, updateUser);
+userRouter.delete('/:id', verifyToken, deleteUser);
 
 export default userRouter;

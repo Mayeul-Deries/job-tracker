@@ -6,12 +6,14 @@ import {
   updateJobApplication,
   deleteJobApplication,
 } from '../controllers/jobApplicationController.js';
+import { verifyToken } from '../middlewares/verifyToken.js';
+
 const jobApplicationRouter = express.Router();
 
-jobApplicationRouter.get('/', getJobApplications);
-jobApplicationRouter.post('/', createJobApplication);
-jobApplicationRouter.get('/:id', getJobApplication);
-jobApplicationRouter.put('/:id', updateJobApplication);
-jobApplicationRouter.delete('/:id', deleteJobApplication);
+jobApplicationRouter.get('/', verifyToken, getJobApplications);
+jobApplicationRouter.post('/', verifyToken, createJobApplication);
+jobApplicationRouter.get('/:id', verifyToken, getJobApplication);
+jobApplicationRouter.put('/:id', verifyToken, updateJobApplication);
+jobApplicationRouter.delete('/:id', verifyToken, deleteJobApplication);
 
 export default jobApplicationRouter;
