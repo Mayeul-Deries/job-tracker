@@ -5,8 +5,5 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     maxConcurrency: 1,
-    coverage: {
-      reporter: ['html'],
-    },
   },
 });
