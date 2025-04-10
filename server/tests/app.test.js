@@ -1,4 +1,5 @@
 import request from 'supertest';
+import { vi, describe, it, expect } from 'vitest';
 import app from '../src/app.js';
 import '../src/server.js';
 
@@ -15,7 +16,7 @@ describe('Express App', () => {
   });
 
   it('should log the request path and method', async () => {
-    const consoleSpy = jest.spyOn(console, 'log');
+    const consoleSpy = vi.spyOn(console, 'log');
     consoleSpy.mockImplementation(() => {});
     await request(app).get('/api');
     expect(consoleSpy).toHaveBeenCalledWith('/api', 'GET');
