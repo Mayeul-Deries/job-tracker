@@ -9,9 +9,13 @@ export const register = async (req, res) => {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
-  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&:.]).{8,}$/;
+  if (!Constants.USERNAME_REGEX.test(username)) {
+    return res.status(400).json({
+      message: 'Username can only contain letters, numbers, and underscores, with no spaces or special characters',
+    });
+  }
 
-  if (!regex.test(password)) {
+  if (!Constants.PASSWORD_REGEX.test(password)) {
     return res.status(400).json({
       message:
         'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character',
@@ -23,14 +27,18 @@ export const register = async (req, res) => {
   }
 
   try {
-    if (await userModel.findOne({ email })) {
-      return res.status(409).json({ message: 'User already exists' });
+    if (await userModel.findOne({ email: email.toLowerCase() })) {
+      return res.status(409).json({ message: 'Email already exists' });
     }
-    if (await userModel.findOne({ username })) {
+    if (await userModel.findOne({ username: username.toLowerCase() })) {
       return res.status(409).json({ message: 'Username already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await userModel.create({ username, email, password: hashedPassword });
+    const user = await userModel.create({
+      username: username.toLowerCase(),
+      email: email.toLowerCase(),
+      password: hashedPassword,
+    });
     const token = generateToken(user._id);
 
     res.cookie('__jt_token', token, {
@@ -52,7 +60,14 @@ export const login = async (req, res) => {
     return res.status(400).json({ message: 'All fields are required' });
   }
   try {
-    const user = await userModel.findOne({ $or: [{ email }, { username }] }).select('+password');
+    const query = {
+      $or: [
+        ...(username ? [{ username: username.toLowerCase() }] : []),
+        ...(email ? [{ email: email.toLowerCase() }] : []),
+      ],
+    };
+
+    const user = await userModel.findOne(query).select('+password');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
