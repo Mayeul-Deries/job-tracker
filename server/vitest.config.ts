@@ -5,5 +5,9 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     maxConcurrency: 1,
+    coverage: {
+      exclude: ['index.js', 'vitest.config.ts', '**/uploads/**'],
+      reportsDirectory: './coverage',
+    },
   },
 });
