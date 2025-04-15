@@ -21,7 +21,7 @@ export const updateUser = async (req, res) => {
       });
 
       if (existingEmail) {
-        return res.status(409).json({ message: 'Email already exists' });
+        return res.status(409).json({ error: 'Email already exists' });
       }
 
       req.body.email = req.body.email.toLowerCase();
@@ -34,7 +34,7 @@ export const updateUser = async (req, res) => {
       });
 
       if (existingUsername) {
-        return res.status(409).json({ message: 'Username already exists' });
+        return res.status(409).json({ error: 'Username already exists' });
       }
 
       req.body.username = req.body.username.toLowerCase();
