@@ -9,5 +9,6 @@ export default defineConfig({
       exclude: ['index.js', 'vitest.config.ts', '**/uploads/**'],
       reportsDirectory: './coverage',
     },
+    fileParallelism: false,
   },
 });
