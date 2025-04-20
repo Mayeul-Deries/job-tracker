@@ -88,7 +88,7 @@ describe('User Controller', () => {
       });
     });
 
-    it('should return an error if the email already exists', async () => {
+    it('should return a 409 if the email already exists', async () => {
       const user = await User.create(defaultUser);
       await User.create(otherUser);
 
@@ -100,7 +100,7 @@ describe('User Controller', () => {
       expect(response.body.error).toBe('Email already exists');
     });
 
-    it('should return an error if the username already exists', async () => {
+    it('should return a 409 if the username already exists', async () => {
       const user = await User.create(defaultUser);
       await User.create(otherUser);
 
