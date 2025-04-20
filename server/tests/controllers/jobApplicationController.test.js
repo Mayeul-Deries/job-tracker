@@ -65,5 +65,17 @@ describe('JobApplications Controller', () => {
       ]);
       expect(response.body.jobApplications).toHaveLength(2);
     });
+
+    it('should return 500 if an error occurs', async () => {
+      const user = await User.create(defaultUser);
+      vi.spyOn(JobApplication, 'find').mockRejectedValue(new Error('Database error'));
+
+      const response = await request(app)
+        .get('/api/jobApplications')
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+      expect(response.status).toBe(500);
+      expect(response.body.message).toBe('Database error');
+    });
   });
 });

@@ -4,10 +4,7 @@ export const getJobApplications = async (req, res) => {
   const { userId } = req;
   try {
     const jobApplications = await jobApplicationModel.find({ userId });
-    if (!jobApplications) {
-      return res.status(404).json({ message: 'No job applications found' });
-    }
-    res.status(200).json({ message: 'job applications successfully recovered', jobApplications });
+    res.status(200).json({ message: 'Job applications successfully recovered', jobApplications });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -23,7 +20,7 @@ export const createJobApplication = async (req, res) => {
     }
     const jobApplication = await jobApplicationModel.create({ ...req.body, userId });
 
-    res.status(201).json({ message: 'job application successfully created', jobApplication });
+    res.status(201).json({ message: 'Job application successfully created', jobApplication });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -33,9 +30,9 @@ export const getJobApplication = async (req, res) => {
   try {
     const jobApplication = await jobApplicationModel.findOne({ _id: req.params.id });
     if (!jobApplication) {
-      return res.status(404).json({ message: 'job application not found' });
+      return res.status(404).json({ message: 'Job application not found' });
     }
-    res.status(200).json({ message: 'job application successfully recovered', jobApplication });
+    res.status(200).json({ message: 'Job application successfully recovered', jobApplication });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -54,10 +51,10 @@ export const updateJobApplication = async (req, res) => {
     );
 
     if (!jobApplication) {
-      return res.status(404).json({ message: 'job application not found' });
+      return res.status(404).json({ message: 'Job application not found' });
     }
 
-    res.status(200).json({ message: 'job application successfully updated', jobApplication });
+    res.status(200).json({ message: 'Job application successfully updated', jobApplication });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -67,9 +64,9 @@ export const deleteJobApplication = async (req, res) => {
   try {
     const jobApplication = await jobApplicationModel.findOneAndDelete({ _id: req.params.id });
     if (!jobApplication) {
-      return res.status(404).json({ message: 'job application not found' });
+      return res.status(404).json({ message: 'Job application not found' });
     }
-    res.status(200).json({ message: 'job application successfully deleted', jobApplication });
+    res.status(200).json({ message: 'Job application successfully deleted', jobApplication });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
