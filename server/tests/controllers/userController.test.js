@@ -12,6 +12,8 @@ describe('User Controller', () => {
   });
 
   beforeEach(async () => {
+    vi.restoreAllMocks();
+
     await User.deleteMany();
   });
 

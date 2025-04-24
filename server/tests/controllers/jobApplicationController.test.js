@@ -18,6 +18,8 @@ describe('JobApplications Controller', () => {
   });
 
   beforeEach(async () => {
+    vi.restoreAllMocks();
+
     await User.deleteMany();
     await JobApplication.deleteMany();
   });
@@ -136,6 +138,53 @@ describe('JobApplications Controller', () => {
 
         expect(response.status).toBe(500);
         expect(response.body.message).toBe('Database error');
+      });
+    });
+
+    describe('getJobApplication', () => {
+      it('should return 200 and the job application if it exists', async () => {
+        const user = await User.create(defaultUser);
+        const jobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+
+        const res = await request(app)
+          .get(`/api/jobApplications/${jobApplication._id}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(res.status).toBe(200);
+        expect(res.body).toMatchObject({
+          message: 'Job application successfully recovered',
+          jobApplication: {
+            ...defaultJobApplication,
+            date: expect.any(String),
+            userId: user._id.toString(),
+          },
+        });
+      });
+
+      it('should return 404 if the job application does not exist', async () => {
+        const nonExistentUserId = new mongoose.Types.ObjectId();
+
+        const res = await request(app)
+          .get(`/api/jobApplications/${nonExistentUserId}`)
+          .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`]);
+
+        expect(res.status).toBe(404);
+        expect(res.body.error).toBe('Job application not found');
+      });
+
+      it('should return 500 if an error occurs', async () => {
+        const user = await User.create(defaultUser);
+        vi.spyOn(JobApplication, 'findOne').mockRejectedValue(new Error('Database error'));
+
+        const res = await request(app)
+          .get(`/api/jobApplications/${user._id}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(res.status).toBe(500);
+        expect(res.body.error).toBe('Database error');
       });
     });
   });
