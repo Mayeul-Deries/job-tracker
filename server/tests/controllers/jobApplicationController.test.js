@@ -187,5 +187,51 @@ describe('JobApplications Controller', () => {
         expect(res.body.error).toBe('Database error');
       });
     });
+
+    describe('deleteJobApplication', () => {
+      it('should return 200 and delete the job application if it exists', async () => {
+        const user = await User.create(defaultUser);
+        const jobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+
+        const res = await request(app)
+          .delete(`/api/jobApplications/${jobApplication._id}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(res.status).toBe(200);
+        expect(res.body.message).toBe('Job application successfully deleted');
+      });
+
+      it('should return 404 if the job application does not exist', async () => {
+        const user = await User.create(defaultUser);
+        const nonExistentJobApplicationId = new mongoose.Types.ObjectId();
+
+        const res = await request(app)
+          .delete(`/api/jobApplications/${nonExistentJobApplicationId}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(res.status).toBe(404);
+        expect(res.body.error).toBe('Job application not found');
+      });
+
+      it('should return 500 if an error occurs', async () => {
+        const user = await User.create(defaultUser);
+        const jobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+
+        vi.spyOn(JobApplication, 'findOneAndDelete').mockRejectedValue(new Error('Database error'));
+
+        const res = await request(app)
+          .delete(`/api/jobApplications/${jobApplication._id}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(res.status).toBe(500);
+        expect(res.body.error).toBe('Database error');
+      });
+    });
   });
 });
