@@ -10,9 +10,9 @@ describe('Express App', () => {
   });
 
   it('should return 404 for an unknown route', async () => {
-    const response = await request(app).get('/unknown-route');
-    expect(response.status).toBe(404);
-    expect(response.body.message).toBe('Route not found');
+    const res = await request(app).get('/unknown-route');
+    expect(res.status).toBe(404);
+    expect(res.body.error).toBe('Route not found');
   });
 
   it('should log the request path and method', async () => {

@@ -41,11 +41,11 @@ describe('JobApplications Controller', () => {
           userId: user._id,
         });
 
-        const response = await request(app)
+        const res = await request(app)
           .get('/api/jobApplications')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
 
-        expect(response.status).toBe(200);
+        expect(res.status).toBe(200);
         expect.arrayContaining([
           expect.objectContaining({
             _id: firstJobApplication._id.toString(),
@@ -70,19 +70,19 @@ describe('JobApplications Controller', () => {
             userId: user._id.toString(),
           }),
         ]);
-        expect(response.body.jobApplications).toHaveLength(2);
+        expect(res.body.jobApplications).toHaveLength(2);
       });
 
       it('should return 500 if an error occurs', async () => {
         const user = await User.create(defaultUser);
         vi.spyOn(JobApplication, 'find').mockRejectedValue(new Error('Database error'));
 
-        const response = await request(app)
+        const res = await request(app)
           .get('/api/jobApplications')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
 
-        expect(response.status).toBe(500);
-        expect(response.body.message).toBe('Database error');
+        expect(res.status).toBe(500);
+        expect(res.body.error).toBe('Database error');
       });
     });
 
@@ -90,7 +90,7 @@ describe('JobApplications Controller', () => {
       it('should return 201 and create a job application when all required fields are provided', async () => {
         const user = await User.create(defaultUser);
 
-        const response = await request(app)
+        const res = await request(app)
           .post('/api/jobApplications')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
           .send({
@@ -98,8 +98,8 @@ describe('JobApplications Controller', () => {
             userId: user._id,
           });
 
-        expect(response.status).toBe(201);
-        expect(response.body).toMatchObject({
+        expect(res.status).toBe(201);
+        expect(res.body).toMatchObject({
           message: 'Job application successfully created',
           jobApplication: {
             ...defaultJobApplication,
@@ -112,7 +112,7 @@ describe('JobApplications Controller', () => {
       it('should return 400 if required fields are missing', async () => {
         const user = await User.create(defaultUser);
 
-        const response = await request(app)
+        const res = await request(app)
           .post('/api/jobApplications')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
           .send({
@@ -120,15 +120,15 @@ describe('JobApplications Controller', () => {
             ...jobApplicationWithMissingFields,
           });
 
-        expect(response.status).toBe(400);
-        expect(response.body.message).toBe('Missing required fields');
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe('Missing required fields');
       });
 
       it('should return 500 if an error occurs', async () => {
         const user = await User.create(defaultUser);
         vi.spyOn(JobApplication, 'create').mockRejectedValue(new Error('Database error'));
 
-        const response = await request(app)
+        const res = await request(app)
           .post('/api/jobApplications')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
           .send({
@@ -136,8 +136,8 @@ describe('JobApplications Controller', () => {
             userId: user._id,
           });
 
-        expect(response.status).toBe(500);
-        expect(response.body.message).toBe('Database error');
+        expect(res.status).toBe(500);
+        expect(res.body.error).toBe('Database error');
       });
     });
 

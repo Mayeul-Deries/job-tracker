@@ -23,7 +23,7 @@ describe('verifyToken middleware', () => {
     await verifyToken(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Not authenticated' });
+    expect(res.json).toHaveBeenCalledWith({ error: 'Not authenticated' });
     expect(next).not.toHaveBeenCalled();
   });
 
@@ -36,7 +36,7 @@ describe('verifyToken middleware', () => {
     await verifyToken(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(403);
-    expect(res.json).toHaveBeenCalledWith({ message: 'Invalid token' });
+    expect(res.json).toHaveBeenCalledWith({ error: 'Invalid token' });
     expect(next).not.toHaveBeenCalled();
   });
 
