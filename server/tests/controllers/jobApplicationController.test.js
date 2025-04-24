@@ -22,60 +22,62 @@ describe('JobApplications Controller', () => {
     await mongoose.disconnect();
   });
 
-  describe('getJobApplications', () => {
-    it('should return 200 and job applications when user has job applications', async () => {
-      const user = await User.create(defaultUser);
-      const firstJobApplication = await JobApplication.create({
-        ...defaultJobApplication,
-        userId: user._id,
+  describe('jobApplicationController', () => {
+    describe('getJobApplications', () => {
+      it('should return 200 and job applications when user has job applications', async () => {
+        const user = await User.create(defaultUser);
+        const firstJobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+        const secondJobApplication = await JobApplication.create({
+          ...otherJobApplication,
+          userId: user._id,
+        });
+
+        const response = await request(app)
+          .get('/api/jobApplications')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(response.status).toBe(200);
+        expect.arrayContaining([
+          expect.objectContaining({
+            _id: firstJobApplication._id.toString(),
+            company: firstJobApplication.company,
+            title: firstJobApplication.title,
+            status: firstJobApplication.status,
+            category: firstJobApplication.category,
+            link: firstJobApplication.link,
+            notes: firstJobApplication.notes,
+            date: expect.any(Date),
+            userId: user._id.toString(),
+          }),
+          expect.objectContaining({
+            _id: secondJobApplication._id.toString(),
+            company: secondJobApplication.company,
+            title: secondJobApplication.title,
+            status: secondJobApplication.status,
+            category: secondJobApplication.category,
+            link: secondJobApplication.link,
+            notes: secondJobApplication.notes,
+            date: expect.any(Date),
+            userId: user._id.toString(),
+          }),
+        ]);
+        expect(response.body.jobApplications).toHaveLength(2);
       });
-      const secondJobApplication = await JobApplication.create({
-        ...otherJobApplication,
-        userId: user._id,
+
+      it('should return 500 if an error occurs', async () => {
+        const user = await User.create(defaultUser);
+        vi.spyOn(JobApplication, 'find').mockRejectedValue(new Error('Database error'));
+
+        const response = await request(app)
+          .get('/api/jobApplications')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe('Database error');
       });
-
-      const response = await request(app)
-        .get('/api/jobApplications')
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
-
-      expect(response.status).toBe(200);
-      expect.arrayContaining([
-        expect.objectContaining({
-          _id: firstJobApplication._id.toString(),
-          company: firstJobApplication.company,
-          title: firstJobApplication.title,
-          status: firstJobApplication.status,
-          category: firstJobApplication.category,
-          link: firstJobApplication.link,
-          notes: firstJobApplication.notes,
-          date: expect.any(Date),
-          userId: user._id.toString(),
-        }),
-        expect.objectContaining({
-          _id: secondJobApplication._id.toString(),
-          company: secondJobApplication.company,
-          title: secondJobApplication.title,
-          status: secondJobApplication.status,
-          category: secondJobApplication.category,
-          link: secondJobApplication.link,
-          notes: secondJobApplication.notes,
-          date: expect.any(Date),
-          userId: user._id.toString(),
-        }),
-      ]);
-      expect(response.body.jobApplications).toHaveLength(2);
-    });
-
-    it('should return 500 if an error occurs', async () => {
-      const user = await User.create(defaultUser);
-      vi.spyOn(JobApplication, 'find').mockRejectedValue(new Error('Database error'));
-
-      const response = await request(app)
-        .get('/api/jobApplications')
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
-
-      expect(response.status).toBe(500);
-      expect(response.body.message).toBe('Database error');
     });
   });
 });
