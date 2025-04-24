@@ -17,3 +17,10 @@ export const otherJobApplication = {
   notes: 'Other notes',
   category: 'Internship',
 };
+
+export const jobApplicationWithMissingFields = {
+  link: 'https://example-software.com/job',
+  status: 'Sent',
+  notes: 'Some notes',
+  category: 'Apprenticeship',
+};

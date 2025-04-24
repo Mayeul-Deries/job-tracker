@@ -1,7 +1,11 @@
 import request from 'supertest';
 import app from '../../src/app.js';
 import { defaultUser } from '../fixtures/userFixture.js';
-import { defaultJobApplication, otherJobApplication } from '../fixtures/jobApplicationFixture.js';
+import {
+  defaultJobApplication,
+  otherJobApplication,
+  jobApplicationWithMissingFields,
+} from '../fixtures/jobApplicationFixture.js';
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
@@ -74,6 +78,61 @@ describe('JobApplications Controller', () => {
         const response = await request(app)
           .get('/api/jobApplications')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(response.status).toBe(500);
+        expect(response.body.message).toBe('Database error');
+      });
+    });
+
+    describe('createJobApplication', () => {
+      it('should return 201 and create a job application when all required fields are provided', async () => {
+        const user = await User.create(defaultUser);
+
+        const response = await request(app)
+          .post('/api/jobApplications')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            ...defaultJobApplication,
+            userId: user._id,
+          });
+
+        expect(response.status).toBe(201);
+        expect(response.body).toMatchObject({
+          message: 'Job application successfully created',
+          jobApplication: {
+            ...defaultJobApplication,
+            date: expect.any(String),
+            userId: user._id.toString(),
+          },
+        });
+      });
+
+      it('should return 400 if required fields are missing', async () => {
+        const user = await User.create(defaultUser);
+
+        const response = await request(app)
+          .post('/api/jobApplications')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            userId: user._id,
+            ...jobApplicationWithMissingFields,
+          });
+
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('Missing required fields');
+      });
+
+      it('should return 500 if an error occurs', async () => {
+        const user = await User.create(defaultUser);
+        vi.spyOn(JobApplication, 'create').mockRejectedValue(new Error('Database error'));
+
+        const response = await request(app)
+          .post('/api/jobApplications')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            ...defaultJobApplication,
+            userId: user._id,
+          });
 
         expect(response.status).toBe(500);
         expect(response.body.message).toBe('Database error');
