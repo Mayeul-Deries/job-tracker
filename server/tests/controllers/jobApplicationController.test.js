@@ -188,6 +188,90 @@ describe('JobApplications Controller', () => {
       });
     });
 
+    describe('updateJobApplication', () => {
+      it('should return 200 and update the job application if it exists', async () => {
+        const user = await User.create(defaultUser);
+        const jobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+
+        const res = await request(app)
+          .put(`/api/jobApplications/${jobApplication._id}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            ...otherJobApplication,
+            userId: user._id,
+          });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toMatchObject({
+          message: 'Job application successfully updated',
+          jobApplication: {
+            ...otherJobApplication,
+            date: expect.any(String),
+            userId: user._id.toString(),
+          },
+        });
+      });
+
+      it('should return 400 if required fields are missing', async () => {
+        const user = await User.create(defaultUser);
+        const jobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+
+        const res = await request(app)
+          .put(`/api/jobApplications/${jobApplication._id}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            userId: user._id,
+            ...jobApplicationWithMissingFields,
+          });
+
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe('Missing required fields');
+      });
+
+      it('should return 404 if the job application does not exist', async () => {
+        const user = await User.create(defaultUser);
+        const nonExistentJobApplicationId = new mongoose.Types.ObjectId();
+
+        const res = await request(app)
+          .put(`/api/jobApplications/${nonExistentJobApplicationId}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            ...otherJobApplication,
+            userId: user._id,
+          });
+
+        expect(res.status).toBe(404);
+        expect(res.body.error).toBe('Job application not found');
+      });
+
+      it('should return 500 if an error occurs', async () => {
+        const user = await User.create(defaultUser);
+        const jobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+
+        vi.spyOn(JobApplication, 'findOneAndUpdate').mockRejectedValue(new Error('Database error'));
+
+        const res = await request(app)
+          .put(`/api/jobApplications/${jobApplication._id}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            ...otherJobApplication,
+            userId: user._id,
+          });
+
+        expect(res.status).toBe(500);
+        expect(res.body.error).toBe('Database error');
+      });
+    });
+
     describe('deleteJobApplication', () => {
       it('should return 200 and delete the job application if it exists', async () => {
         const user = await User.create(defaultUser);
