@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../../src/app.js';
-import { userRegistration } from '../fixtures/userFixture.js';
+import { logout } from '../../src/controllers/authenticationController.js';
+import { defaultUser, userRegistration } from '../fixtures/userFixture.js';
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
@@ -245,6 +246,46 @@ describe('JobApplications Controller', () => {
         expect(res.body).toMatchObject({
           error: 'Database error',
         });
+      });
+    });
+
+    describe('logout', () => {
+      it('should return a 200 status and clear the cookies', async () => {
+        const user = new User(defaultUser);
+        await user.save();
+        const response = await request(app)
+          .get('/api/auth/logout')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe('User successfully logged out');
+        expect(response.headers['set-cookie'][0].startsWith('__jt_token=;')).toBe(true);
+      });
+
+      // it('should return a 500 status if an error occurs', async () => {
+      //   vi.spyOn(User, 'findOne').mockImplementation(() => {
+      //     throw new Error('Database error');
+      //   });
+
+      //   const response = await request(app).get('/api/auth/logout');
+
+      //   expect(response.status).toBe(500);
+      //   expect(response.body.error).toBe('Database error');
+      // });
+
+      it('should return a 500 error status in case of an internal error', async () => {
+        const error = new Error('Test error');
+        const res = {
+          clearCookie: vitest.fn(() => {
+            throw error;
+          }),
+          status: vitest.fn().mockReturnThis(),
+          json: vitest.fn(),
+        };
+        await logout({}, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: error.message });
       });
     });
   });
