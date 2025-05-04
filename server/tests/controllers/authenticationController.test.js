@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../../src/app.js';
-import { defaultUser, userRegistration } from '../fixtures/userFixture.js';
+import { userRegistration } from '../fixtures/userFixture.js';
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
@@ -92,7 +92,7 @@ describe('JobApplications Controller', () => {
       });
 
       it.each(invalidPasswords)('should return 400 if password "%s" is invalid', async invalidPassword => {
-        const response = await request(app)
+        const res = await request(app)
           .post('/api/auth/register')
           .send({
             ...userRegistration,
@@ -100,8 +100,8 @@ describe('JobApplications Controller', () => {
             confirmPassword: invalidPassword,
           });
 
-        expect(response.status).toBe(400);
-        expect(response.body.error).toBe(
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe(
           'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character'
         );
       });
@@ -157,6 +157,89 @@ describe('JobApplications Controller', () => {
         });
 
         const res = await request(app).post('/api/auth/register').send(userRegistration);
+
+        expect(res.status).toBe(500);
+        expect(res.body).toMatchObject({
+          error: 'Database error',
+        });
+      });
+    });
+
+    describe('login', () => {
+      it('should login a user with email', async () => {
+        await request(app).post('/api/auth/register').send(userRegistration);
+        const res = await request(app).post('/api/auth/login').send({
+          email: userRegistration.email,
+          password: userRegistration.password,
+        });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toMatchObject({
+          message: 'User successfully logged in',
+          user: {
+            email: userRegistration.email,
+          },
+        });
+      });
+
+      it('should login a user with username', async () => {
+        await request(app).post('/api/auth/register').send(userRegistration);
+        const res = await request(app).post('/api/auth/login').send({
+          username: userRegistration.username,
+          password: userRegistration.password,
+        });
+
+        expect(res.status).toBe(200);
+        expect(res.body).toMatchObject({
+          message: 'User successfully logged in',
+          user: {
+            username: userRegistration.username,
+          },
+        });
+      });
+
+      it('should return 400 if required fields are missing', async () => {
+        const res = await request(app).post('/api/auth/login').send({});
+
+        expect(res.status).toBe(400);
+        expect(res.body).toMatchObject({
+          error: 'All fields are required',
+        });
+      });
+
+      it('should return 404 if user not found', async () => {
+        const res = await request(app).post('/api/auth/login').send({
+          email: 'non-existent.user@example.com',
+          password: 'NonExistentPassword123*',
+        });
+        expect(res.status).toBe(404);
+        expect(res.body).toMatchObject({
+          error: 'User not found',
+        });
+      });
+
+      it('should return 401 if password is incorrect', async () => {
+        await request(app).post('/api/auth/register').send(userRegistration);
+        const res = await request(app).post('/api/auth/login').send({
+          email: userRegistration.email,
+          password: 'WrongPassword123*',
+        });
+
+        expect(res.status).toBe(401);
+        expect(res.body).toMatchObject({
+          error: 'Invalid credentials',
+        });
+      });
+
+      it('should return 500 if an error occurs', async () => {
+        vi.spyOn(User, 'findOne').mockImplementation(() => {
+          throw new Error('Database error');
+        });
+
+        const res = await request(app).post('/api/auth/login').send({
+          email: userRegistration.email,
+          password: userRegistration.password,
+        });
 
         expect(res.status).toBe(500);
         expect(res.body).toMatchObject({
