@@ -1,0 +1,68 @@
+{
+  "pages": {
+    "login": {
+      "errors": {
+        "loginName_min": "Email address or username is required",
+        "loginName_no_spaces": "Spaces are forbidden",
+        "password_min": "Password is required"
+      },
+      "form": {
+        "title": "Login to your account",
+        "description": "Enter your credentials to login to your account",
+        "label": {
+          "login": "Login",
+          "password": "Password"
+        },
+        "placeholder": {
+          "login": "example@email.com",
+          "password": "*******"
+        },
+        "button": {
+          "login": "Login",
+          "google": "Connect with Google",
+          "signup": "Sign up"
+        },
+        "text": {
+          "or_continue_with": "Or continue with",
+          "no_account": "Don't have an account?"
+        }
+      }
+    },
+    "register": {
+      "errors": {
+        "username_min": "Username must be at least 2 characters long",
+        "username_max": "Username must be at most 25 characters long",
+        "username_regex": "Username must not contain leading, trailing, middle spaces or uppercase letters",
+        "email_invalid": "Invalid email address",
+        "password_max": "Password must be at most 255 characters long",
+        "password_regex": "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+        "password_do_not_match": "Passwords don't match"
+      },
+      "form": {
+        "title": "Create an account",
+        "description": "Create a new account by filling out the form below",
+        "label": {
+          "username": "Username",
+          "email": "Email",
+          "password": "Password",
+          "confirmPassword": "Confirm Password"
+        },
+        "placeholder": {
+          "username": "example",
+          "email": "example@email.com",
+          "password": "*******",
+          "confirmPassword": "*******"
+        },
+        "button": {
+          "register": "Register",
+          "google": "Connect with Google",
+          "login": "Login"
+        },
+        "text": {
+          "or_continue_with": "Or continue with",
+          "no_account": "Don't have an account?"
+        }
+      }
+    }
+  }
+}

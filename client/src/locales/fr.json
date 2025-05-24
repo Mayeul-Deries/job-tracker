@@ -1,0 +1,68 @@
+{
+  "pages": {
+    "login": {
+      "errors": {
+        "loginName_min": "Adresse e-mail ou nom d'utilisateur requis",
+        "loginName_no_spaces": "Les espaces ne sont pas autorisés",
+        "password_min": "Mot de passe requis"
+      },
+      "form": {
+        "title": "Connectez-vous à votre compte",
+        "description": "Entrez vos identifiants pour accéder à votre compte",
+        "label": {
+          "login": "Identifiant",
+          "password": "Mot de passe"
+        },
+        "placeholder": {
+          "login": "exemple@email.com",
+          "password": "*******"
+        },
+        "button": {
+          "login": "Connexion",
+          "google": "Se connecter avec Google",
+          "signup": "Créer un compte"
+        },
+        "text": {
+          "or_continue_with": "Ou continuez avec",
+          "no_account": "Vous n'avez pas de compte ?"
+        }
+      }
+    },
+    "register": {
+      "errors": {
+        "username_min": "Le nom d'utilisateur doit contenir au moins 2 caractères",
+        "username_max": "Le nom d'utilisateur doit contenir au maximum 25 caractères",
+        "username_regex": "Le nom d'utilisateur ne doit pas contenir d'espaces ou de majuscules",
+        "email_invalid": "Adresse e-mail invalide",
+        "password_max": "Le mot de passe doit contenir au maximum 255 caractères",
+        "password_regex": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
+        "password_do_not_match": "Les mots de passe ne correspondent pas"
+      },
+      "form": {
+        "title": "Créer un compte",
+        "description": "Créez un compte en remplissant le formulaire",
+        "label": {
+          "username": "Nom d'utilisateur",
+          "email": "Email",
+          "password": "Mot de passe",
+          "confirmPassword": "Confirmez le mot de passe"
+        },
+        "placeholder": {
+          "username": "exemple",
+          "email": "exemple@email.com",
+          "password": "*******",
+          "confirmPassword": "*******"
+        },
+        "button": {
+          "register": "Créer un compte",
+          "google": "Se connecter avec Google",
+          "login": "Connexion"
+        },
+        "text": {
+          "or_continue_with": "Ou continuez avec",
+          "no_account": "Vous n'avez pas de compte ?"
+        }
+      }
+    }
+  }
+}

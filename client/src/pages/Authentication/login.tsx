@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { FcGoogle } from 'react-icons/fc';
 
@@ -17,12 +18,17 @@ export const Login = () => {
 
   const navigate = useNavigate();
 
+  const { t } = useTranslation();
+
   const loginSchema = z.object({
     loginName: z
       .string()
-      .min(2, { message: 'Email address or username is required' })
-      .regex(/^[^A-Z\s]+$/, { message: 'Spaces are forbidden' }),
-    password: z.string().min(1, 'Password is required').max(255, { message: 'Password cannot be longer than 255' }),
+      .min(2, { message: t('pages.login.errors.loginName_min') })
+      .regex(/^[^A-Z\s]+$/, { message: t('pages.login.errors.loginName_no_spaces') }),
+    password: z
+      .string()
+      .min(1, 'Password is required')
+      .max(255, { message: t('pages.login.errors.password_min') }),
   });
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
@@ -61,10 +67,8 @@ export const Login = () => {
             <Form {...loginForm}>
               <form onSubmit={loginForm.handleSubmit(login)} className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center gap-2 text-center'>
-                  <h1 className='text-2xl font-bold'>Login to your account</h1>
-                  <p className='text-balance text-sm text-muted-foreground'>
-                    Enter your credentials to login to your account
-                  </p>
+                  <h1 className='text-2xl font-bold'>{t('pages.login.form.title')}</h1>
+                  <p className='text-balance text-sm text-muted-foreground'>{t('pages.login.form.description')}</p>
                 </div>
                 <div className='grid gap-6'>
                   <FormField
@@ -72,9 +76,9 @@ export const Login = () => {
                     name='loginName'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Login</FormLabel>
+                        <FormLabel>{t('pages.login.form.label.login')}</FormLabel>
                         <FormControl>
-                          <Input placeholder='example@email.com' {...field} />
+                          <Input placeholder={t('pages.login.form.placeholder.login')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -86,9 +90,9 @@ export const Login = () => {
                     name='password'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{t('pages.login.form.label.password')}</FormLabel>
                         <FormControl>
-                          <Input type='password' placeholder='******' {...field} />
+                          <Input type='password' placeholder={t('pages.login.form.placeholder.password')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -96,24 +100,26 @@ export const Login = () => {
                   />
 
                   <Button type='submit' className='w-full' disabled={loading}>
-                    Login
+                    {t('pages.login.form.button.login')}
                   </Button>
                 </div>
               </form>
             </Form>
             <div className='flex flex-col mt-6 gap-6'>
               <div className='relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border'>
-                <span className='relative z-10 bg-background px-2 text-muted-foreground'>Or continue with</span>
+                <span className='relative z-10 bg-background px-2 text-muted-foreground'>
+                  {t('pages.login.form.text.or_continue_with')}
+                </span>
               </div>
               <Button disabled variant='outline' className='w-full'>
                 <FcGoogle />
-                Connect with Google
+                {t('pages.login.form.button.google')}
               </Button>
 
               <div className='text-center text-sm'>
-                Don&apos;t have an account?{' '}
+                {t('pages.login.form.text.no_account')}{' '}
                 <Link to='/auth/register' className='underline underline-offset-4'>
-                  Sign up
+                  {t('pages.login.form.button.signup')}
                 </Link>
               </div>
             </div>
