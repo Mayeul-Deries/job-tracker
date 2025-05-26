@@ -6,6 +6,7 @@ import { axiosConfig } from '@/config/axiosConfig';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useAuthContext } from '@/contexts/authContext';
 
 import { FcGoogle } from 'react-icons/fc';
 
@@ -17,7 +18,9 @@ export const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+
   const { t } = useTranslation();
+  const { setAuthenticatedUser } = useAuthContext();
 
   const registerSchema = z
     .object({
@@ -59,6 +62,7 @@ export const Register = () => {
       const response = await axiosConfig.post('/auth/register', values);
 
       toast.success(response.data.message);
+      setAuthenticatedUser(response.data.user);
       navigate('/');
     } catch (error: any) {
       toast.error(error.response.data.error);
