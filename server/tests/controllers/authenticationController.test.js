@@ -262,17 +262,6 @@ describe('JobApplications Controller', () => {
         expect(response.headers['set-cookie'][0].startsWith('__jt_token=;')).toBe(true);
       });
 
-      // it('should return a 500 status if an error occurs', async () => {
-      //   vi.spyOn(User, 'findOne').mockImplementation(() => {
-      //     throw new Error('Database error');
-      //   });
-
-      //   const response = await request(app).get('/api/auth/logout');
-
-      //   expect(response.status).toBe(500);
-      //   expect(response.body.error).toBe('Database error');
-      // });
-
       it('should return a 500 error status in case of an internal error', async () => {
         const error = new Error('Test error');
         const res = {
@@ -286,6 +275,38 @@ describe('JobApplications Controller', () => {
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ error: error.message });
+      });
+    });
+
+    describe('me', () => {
+      it('should return a 200 status and the user connected', async () => {
+        const user = new User(defaultUser);
+        await user.save();
+        const response = await request(app)
+          .get('/api/auth/me')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(response.status).toBe(200);
+        expect(response.body.user).toMatchObject({
+          email: defaultUser.email,
+          username: defaultUser.username,
+        });
+      });
+
+      it('should return a 500 error if user is not connected', async () => {
+        vi.spyOn(User, 'findById').mockImplementation(() => {
+          throw new Error('User not found');
+        });
+
+        const user = new User(defaultUser);
+        await user.save();
+
+        const response = await request(app)
+          .get('/api/auth/me')
+          .set('Cookie', `__jt_token=${generateToken(user._id)}`);
+
+        expect(response.status).toBe(500);
+        expect(response.body.error).toBe('User not found');
       });
     });
   });

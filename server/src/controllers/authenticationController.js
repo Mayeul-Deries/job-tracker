@@ -99,3 +99,12 @@ export const logout = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getConnectedUser = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.userId);
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
