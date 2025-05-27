@@ -1,13 +1,55 @@
 import { Login } from '@/pages/Authentication/login';
 import { Register } from '@/pages/Authentication/register';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ProtectedRoute } from '@/router/protectedRoute';
+
+function Home() {
+  return <h2>Accueil</h2>;
+}
+
+function NotFound() {
+  return <h1>Page not found</h1>;
+}
 
 export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/auth/login' element={<Login />} />
-        <Route path='/auth/register' element={<Register />} />
+        <Route
+          path='/auth/login'
+          element={
+            <ProtectedRoute authRequired={false}>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/auth/register'
+          element={
+            <ProtectedRoute authRequired={false}>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/*'
+          element={
+            <ProtectedRoute authRequired={false}>
+              <NotFound />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/'
+          element={
+            <ProtectedRoute authRequired={true}>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
