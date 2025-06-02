@@ -33,14 +33,7 @@ export const Router = () => {
           }
         />
 
-        <Route
-          path='/*'
-          element={
-            <ProtectedRoute authRequired={false}>
-              <NotFound />
-            </ProtectedRoute>
-          }
-        />
+        <Route path='/*' element={<NotFound />} />
 
         <Route
           path='/'
