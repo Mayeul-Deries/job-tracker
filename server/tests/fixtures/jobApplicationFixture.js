@@ -6,6 +6,7 @@ export const defaultJobApplication = {
   status: 'Sent',
   notes: 'Some notes',
   category: 'Apprenticeship',
+  city: 'Paris',
 };
 
 export const otherJobApplication = {
@@ -16,6 +17,7 @@ export const otherJobApplication = {
   status: 'Sent',
   notes: 'Other notes',
   category: 'Internship',
+  city: 'Lyon',
 };
 
 export const jobApplicationWithMissingFields = {

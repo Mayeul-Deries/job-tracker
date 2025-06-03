@@ -6,6 +6,7 @@ const jobApplicationSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     company: { type: String, required: true },
+    city: { type: String, required: true },
     link: { type: String },
     date: { type: Date, required: true },
     status: {

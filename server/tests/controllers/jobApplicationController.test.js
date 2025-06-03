@@ -57,6 +57,7 @@ describe('JobApplications Controller', () => {
             notes: firstJobApplication.notes,
             date: expect.any(Date),
             userId: user._id.toString(),
+            city: firstJobApplication.city,
           }),
           expect.objectContaining({
             _id: secondJobApplication._id.toString(),
@@ -68,6 +69,7 @@ describe('JobApplications Controller', () => {
             notes: secondJobApplication.notes,
             date: expect.any(Date),
             userId: user._id.toString(),
+            city: secondJobApplication.city,
           }),
         ]);
         expect(res.body.jobApplications).toHaveLength(2);
@@ -105,6 +107,7 @@ describe('JobApplications Controller', () => {
             ...defaultJobApplication,
             date: expect.any(String),
             userId: user._id.toString(),
+            city: defaultJobApplication.city,
           },
         });
       });
@@ -160,6 +163,7 @@ describe('JobApplications Controller', () => {
             ...defaultJobApplication,
             date: expect.any(String),
             userId: user._id.toString(),
+            city: defaultJobApplication.city,
           },
         });
       });
@@ -202,6 +206,7 @@ describe('JobApplications Controller', () => {
           .send({
             ...otherJobApplication,
             userId: user._id,
+            city: otherJobApplication.city,
           });
 
         expect(res.status).toBe(200);
