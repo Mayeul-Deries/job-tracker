@@ -4,7 +4,8 @@
       "errors": {
         "loginName_min": "Email address or username is required",
         "loginName_no_spaces": "Spaces are forbidden",
-        "password_min": "Password is required"
+        "password_min": "Password is required",
+        "password_max": "Password must be at most 255 characters long"
       },
       "form": {
         "title": "Login to your account",

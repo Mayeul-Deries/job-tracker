@@ -29,8 +29,8 @@ export const Login = () => {
       .regex(/^[^A-Z\s]+$/, { message: t('pages.login.errors.loginName_no_spaces') }),
     password: z
       .string()
-      .min(1, 'Password is required')
-      .max(255, { message: t('pages.login.errors.password_min') }),
+      .min(1, { message: t('pages.login.errors.password_min') })
+      .max(255, { message: t('pages.login.errors.password_max') }),
   });
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
