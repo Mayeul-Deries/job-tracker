@@ -1,4 +1,20 @@
 {
+  "status": {
+    "sent": "Envoyé",
+    "followed_up": "Relancé",
+    "interview_scheduled": "Entretien prévu",
+    "accepted": "Accepté",
+    "rejected": "Rejeté"
+  },
+  "categories": {
+    "Internship": "Stage",
+    "Apprenticeship": "Apprentissage",
+    "Full-time": "Temps plein",
+    "Part-time": "Temps partiel",
+    "Freelance": "Freelance",
+    "Contract": "Contrat",
+    "Seasonal": "Saisonnier"
+  },
   "pages": {
     "login": {
       "errors": {
@@ -62,6 +78,48 @@
         "text": {
           "or_continue_with": "Ou continuez avec",
           "no_account": "Vous n'avez pas de compte ?"
+        }
+      }
+    },
+    "home": {
+      "button": {
+        "add_job_application": "Ajouter une nouvelle candidature"
+      }
+    },
+    "createJobApplication": {
+      "errors": {
+        "jobTitle_required": "L'intitulé du poste est requis",
+        "companyName_required": "Le nom de l'entreprise est requis",
+        "city_required": "La ville est requise",
+        "applicationDate_required": "La date de candidature est requise",
+        "link_invalid": "Le lien vers l'offre d'emploi doit être une URL valide"
+      },
+      "form": {
+        "title": "Ajouter une candidature",
+        "description": "Remplissez le formulaire pour ajouter une nouvelle candidature",
+        "label": {
+          "jobTitle": "Intitulé du poste",
+          "companyName": "Nom de l'entreprise",
+          "city": "Ville",
+          "applicationDate": "Date de candidature",
+          "category": "Catégorie",
+          "status": "Statut",
+          "link": "Lien vers l'offre d'emploi",
+          "notes": "Notes"
+        },
+        "placeholder": {
+          "jobTitle": "Alternance développeur web",
+          "companyName": "Compagnie XYZ",
+          "city": "Paris",
+          "applicationDate": "Choisir une date",
+          "category": "Sélectionnez une catégorie",
+          "status": "Sélectionnez un statut",
+          "link": "https://www.example-job.com",
+          "notes": "Informations supplémentaires"
+        },
+        "button": {
+          "submit": "Créer la candidature",
+          "cancel": "Annuler"
         }
       }
     }

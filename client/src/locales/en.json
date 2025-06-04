@@ -1,4 +1,20 @@
 {
+  "status": {
+    "sent": "Sent",
+    "followed_up": "Followed up",
+    "interview_scheduled": "Interview scheduled",
+    "accepted": "Accepted",
+    "rejected": "Rejected"
+  },
+  "categories": {
+    "Internship": "Internship",
+    "Apprenticeship": "Apprenticeship",
+    "Full-time": "Full time",
+    "Part-time": "Part time",
+    "Freelance": "Freelance",
+    "Contract": "Contract",
+    "Seasonal": "Seasonal"
+  },
   "pages": {
     "login": {
       "errors": {
@@ -62,6 +78,48 @@
         "text": {
           "or_continue_with": "Or continue with",
           "no_account": "Don't have an account?"
+        }
+      }
+    },
+    "home": {
+      "button": {
+        "add_job_application": "Add a new job application"
+      }
+    },
+    "createJobApplication": {
+      "errors": {
+        "jobTitle_required": "Job title is required",
+        "companyName_required": "Company name is required",
+        "city_required": "City is required",
+        "applicationDate_required": "Application date is required",
+        "link_invalid": "The job offer link must be a valid URL"
+      },
+      "form": {
+        "title": "Add a job application",
+        "description": "Fill out the form to add a new job application",
+        "label": {
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
+          "applicationDate": "Application date",
+          "category": "Category",
+          "status": "Status",
+          "link": "Job offer link",
+          "notes": "Notes"
+        },
+        "placeholder": {
+          "jobTitle": "Web developer apprenticeship",
+          "companyName": "XYZ Company",
+          "city": "Paris",
+          "applicationDate": "Choose a date",
+          "category": "Select a category",
+          "status": "Select a status",
+          "link": "https://www.example-job.com",
+          "notes": "Additional information"
+        },
+        "button": {
+          "submit": "Create application",
+          "cancel": "Cancel"
         }
       }
     }
