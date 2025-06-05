@@ -6,10 +6,12 @@ export interface JobApplication {
   title: string;
   company: string;
   city: string;
+  date: Date;
   category: CategoryType;
   status: StatusType;
   link: string;
   notes: string;
   createdAt: string;
   updatedAt?: string;
+  __v: number;
 }
