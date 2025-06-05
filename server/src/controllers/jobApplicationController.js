@@ -1,10 +1,20 @@
 import jobApplicationModel from '../models/jobApplicationModel.js';
 
 export const getJobApplications = async (req, res) => {
+  const size = parseInt(req.query.size);
+  const page = parseInt(req.query.page);
+
   const { userId } = req;
   try {
-    const jobApplications = await jobApplicationModel.find({ userId });
-    res.status(200).json({ message: 'Job applications successfully recovered', jobApplications });
+    const jobApplications = await jobApplicationModel
+      .find({ userId })
+      .sort({ createdAt: -1 })
+      .skip(size * page)
+      .limit(size);
+
+    const count = await jobApplicationModel.countDocuments();
+
+    res.status(200).json({ message: 'Job applications successfully recovered', jobApplications, count });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

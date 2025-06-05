@@ -75,16 +75,18 @@ describe('JobApplications Controller', () => {
         expect(res.body.jobApplications).toHaveLength(2);
       });
 
-      it('should return 500 if an error occurs', async () => {
+      it('should return a 500 status if an error occurs', async () => {
         const user = await User.create(defaultUser);
-        vi.spyOn(JobApplication, 'find').mockRejectedValue(new Error('Database error'));
+
+        vitest.spyOn(JobApplication, 'find').mockImplementationOnce(() => {
+          throw new Error('Test error');
+        });
 
         const res = await request(app)
           .get('/api/jobApplications')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
-
         expect(res.status).toBe(500);
-        expect(res.body.error).toBe('Database error');
+        expect(res.body.error).toBe('Test error');
       });
     });
 
