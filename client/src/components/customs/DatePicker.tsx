@@ -11,7 +11,7 @@ type DatePickerProps = {
   value?: Date;
   onChange: (date: Date | undefined) => void;
   placeholder?: string;
-  variant?: 'outline' | 'ghost'; // ou selon les variants définis dans ton design system
+  variant?: 'outline' | 'ghost';
 };
 
 export const DatePicker = ({ value, onChange, placeholder, variant = 'outline' }: DatePickerProps) => {
