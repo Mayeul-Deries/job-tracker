@@ -158,6 +158,7 @@ export const CreateJobApplication = () => {
                               <DatePicker
                                 value={field.value}
                                 onChange={field.onChange}
+                                variant='outline'
                                 placeholder={t('pages.createJobApplication.form.placeholder.applicationDate')}
                               />
                             </FormControl>

@@ -11,9 +11,10 @@ type DatePickerProps = {
   value?: Date;
   onChange: (date: Date | undefined) => void;
   placeholder?: string;
+  variant?: 'outline' | 'ghost'; // ou selon les variants définis dans ton design system
 };
 
-export const DatePicker = ({ value, onChange, placeholder }: DatePickerProps) => {
+export const DatePicker = ({ value, onChange, placeholder, variant = 'outline' }: DatePickerProps) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language.split('-')[0];
   const localeMap = { en: enUS, fr };
@@ -23,7 +24,7 @@ export const DatePicker = ({ value, onChange, placeholder }: DatePickerProps) =>
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant='outline'
+          variant={variant}
           className={cn('justify-start text-left font-normal', !value && 'text-muted-foreground')}
         >
           {value ? (
