@@ -1,5 +1,4 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { StatusOffer } from '@/constants/statusOffer';
@@ -19,19 +18,15 @@ export const StatusSelect = ({ value, onChange }: { value: string; onChange: (va
 
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className='w-full'>
-        <SelectValue>
-          {selectedOption && (
-            <Badge className={cn('px-2 py-1 rounded-sm', selectedOption.color)}>
-              {t(`status.${selectedOption.value.toLowerCase().replace(' ', '_')}`)}
-            </Badge>
-          )}
+      <SelectTrigger className={cn(selectedOption?.color, 'px-2 h-auto w-full', 'rounded text-sm')}>
+        <SelectValue className='w-full text-center'>
+          {t(`status.${selectedOption?.value.toLowerCase().replace(/ /g, '_')}`)}
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
         {statusOptions.map(option => (
           <SelectItem key={option.value} value={option.value}>
-            {t(`status.${option.value.toLowerCase().replace(' ', '_')}`)}
+            {t(`status.${option.value.toLowerCase().replace(/ /g, '_')}`)}
           </SelectItem>
         ))}
       </SelectContent>
