@@ -12,9 +12,10 @@ type DatePickerProps = {
   onChange: (date: Date | undefined) => void;
   placeholder?: string;
   variant?: 'outline' | 'ghost';
+  showIcon?: boolean;
 };
 
-export const DatePicker = ({ value, onChange, placeholder, variant = 'outline' }: DatePickerProps) => {
+export const DatePicker = ({ value, onChange, placeholder, variant = 'outline', showIcon = true }: DatePickerProps) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language.split('-')[0];
   const localeMap = { en: enUS, fr };
@@ -32,7 +33,7 @@ export const DatePicker = ({ value, onChange, placeholder, variant = 'outline' }
           ) : (
             <span>{placeholder || t('pages.createJobApplication.form.placeholder.applicationDate')}</span>
           )}
-          <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
+          {showIcon && <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />}
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-auto p-0' align='start'>
