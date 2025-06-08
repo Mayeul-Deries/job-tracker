@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
 
-import { columns } from './columns';
+import { getColumns } from './columns';
 import { DataTable } from './dataTable';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -31,6 +31,22 @@ export const JobApplicationsList = () => {
     }
   }
 
+  async function patchJobApplication(id: string, field: string, value: any) {
+    setLoading(true);
+    try {
+      const response = await axiosConfig.patch(`jobApplications/${id}`, {
+        [field]: value,
+      });
+
+      setJobApplications(prev => prev.map(app => (app._id === id ? { ...app, [field]: value } : app)));
+      toast.success(response.data.message);
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className='container mx-auto px-20 py-10 max-w-[1920px]'>
       <Link to='/create-application'>
@@ -39,7 +55,7 @@ export const JobApplicationsList = () => {
           {t('pages.home.button.add_job_application')}
         </Button>
       </Link>
-      <DataTable columns={columns} data={jobApplications} />
+      <DataTable columns={getColumns(patchJobApplication)} data={jobApplications} />
     </div>
   );
 };

@@ -136,7 +136,8 @@
         "notes_dialog": {
           "title": "Notes",
           "description": "You can edit your notes here",
-          "placeholder": "Add your notes..."
+          "placeholder": "Add your notes...",
+          "save": "Save"
         }
       }
     }

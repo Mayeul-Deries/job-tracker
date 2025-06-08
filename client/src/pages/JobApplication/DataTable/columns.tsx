@@ -1,8 +1,8 @@
+import { useCallback, useState } from 'react';
 import type { JobApplication } from '@/interfaces/JobApplication';
 import type { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, ExternalLink } from 'lucide-react';
-import { FileText } from 'lucide-react';
 
+import { ArrowUpDown, ExternalLink, FileText } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -14,11 +14,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/customs/DatePicker';
 import { StatusSelect } from '@/components/customs/StatusSelect';
-import { useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { t } from 'i18next';
 
-export const columns: ColumnDef<JobApplication>[] = [
+export const getColumns = (
+  onUpdateField: (id: string, field: string, value: any) => void
+): ColumnDef<JobApplication>[] => [
   {
     accessorKey: 'title',
     header: ({ column }) => (
@@ -77,7 +78,7 @@ export const columns: ColumnDef<JobApplication>[] = [
           value={date}
           variant='ghost'
           onChange={newDate => {
-            console.log('Date changed:', newDate);
+            onUpdateField(row.original._id, 'date', newDate);
           }}
           showIcon={false}
         />
@@ -120,7 +121,8 @@ export const columns: ColumnDef<JobApplication>[] = [
           value={status}
           withBorder={false}
           onChange={newStatus => {
-            console.log('Status changed:', newStatus);
+            console.log('Updating status:', row.original);
+            onUpdateField(row.original._id, 'status', newStatus);
           }}
         />
       );
@@ -147,8 +149,8 @@ export const columns: ColumnDef<JobApplication>[] = [
       const existingNotes = row.getValue('notes') as string;
       const [notes, setNotes] = useState(existingNotes || '');
 
-      const handleNotesChange = (value: string) => {
-        setNotes(value);
+      const handleSaveNotes = () => {
+        onUpdateField(row.original._id, 'notes', notes);
       };
 
       return (
@@ -163,12 +165,17 @@ export const columns: ColumnDef<JobApplication>[] = [
               <DialogTitle>{t('pages.dataTable.columns.notes_dialog.title')}</DialogTitle>
               <DialogDescription>{t('pages.dataTable.columns.notes_dialog.description')}</DialogDescription>
             </DialogHeader>
-            <Textarea
-              value={notes}
-              className='min-h-[200px] max-w-[375px] resize-none'
-              onChange={e => handleNotesChange(e.target.value)}
-              placeholder={t('pages.dataTable.columns.notes_dialog.placeholder')}
-            />
+            <div className='space-y-4'>
+              <Textarea
+                value={notes}
+                className='min-h-[200px] max-w-[375px] resize-none'
+                onChange={e => setNotes(e.target.value)}
+                placeholder={t('pages.dataTable.columns.notes_dialog.placeholder')}
+              />
+              <div className='flex justify-start'>
+                <Button onClick={handleSaveNotes}>{t('pages.dataTable.columns.notes_dialog.save')}</Button>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
       );

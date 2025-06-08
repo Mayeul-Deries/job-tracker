@@ -2,7 +2,7 @@ import type { CategoryType } from '@/constants/categories';
 import type { StatusType } from '@/constants/statusOffer';
 
 export interface JobApplication {
-  id: string;
+  _id: string;
   title: string;
   company: string;
   city: string;
