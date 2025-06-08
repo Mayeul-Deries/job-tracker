@@ -3,10 +3,19 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, ExternalLink } from 'lucide-react';
 import { FileText } from 'lucide-react';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/customs/DatePicker';
 import { StatusSelect } from '@/components/customs/StatusSelect';
+import { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
 
 export const columns: ColumnDef<JobApplication>[] = [
   {
@@ -104,6 +113,7 @@ export const columns: ColumnDef<JobApplication>[] = [
       return (
         <StatusSelect
           value={status}
+          withBorder={false}
           onChange={newStatus => {
             console.log('Status changed:', newStatus);
           }}
@@ -129,22 +139,34 @@ export const columns: ColumnDef<JobApplication>[] = [
     accessorKey: 'notes',
     header: 'Notes',
     cell: ({ row }) => {
-      const notes = row.getValue('notes') as string;
-      return notes ? (
+      const existingNotes = row.getValue('notes') as string;
+      const [notes, setNotes] = useState(existingNotes || '');
+
+      const handleNotesChange = (value: string) => {
+        setNotes(value);
+      };
+
+      return (
         <Dialog>
           <DialogTrigger asChild>
             <Button variant='ghost' size='icon' className='size-8'>
               <FileText className='size-4' />
             </Button>
           </DialogTrigger>
-          <DialogContent aria-describedby={undefined}>
+          <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
               <DialogTitle>Notes</DialogTitle>
+              <DialogDescription>Vous pouvez modifier vos notes ici</DialogDescription>
             </DialogHeader>
-            <div className='mt-4 text-sm'>{notes}</div>
+            <Textarea
+              value={notes}
+              className='min-h-[200px] max-w-[375px] resize-none'
+              onChange={e => handleNotesChange(e.target.value)}
+              placeholder='Ajouter des notes...'
+            />
           </DialogContent>
         </Dialog>
-      ) : null;
+      );
     },
   },
 ];
