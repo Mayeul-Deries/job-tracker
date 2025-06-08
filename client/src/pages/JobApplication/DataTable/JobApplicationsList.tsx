@@ -32,7 +32,6 @@ export const JobApplicationsList = () => {
   }
 
   async function patchJobApplication(id: string, field: string, value: any) {
-    setLoading(true);
     try {
       const response = await axiosConfig.patch(`jobApplications/${id}`, {
         [field]: value,
@@ -43,7 +42,6 @@ export const JobApplicationsList = () => {
     } catch (error: any) {
       toast.error(error.response.data.error);
     } finally {
-      setLoading(false);
     }
   }
 
@@ -55,7 +53,7 @@ export const JobApplicationsList = () => {
           {t('pages.home.button.add_job_application')}
         </Button>
       </Link>
-      <DataTable columns={getColumns(patchJobApplication)} data={jobApplications} />
+      <DataTable columns={getColumns(patchJobApplication)} data={jobApplications} loading={loading} />
     </div>
   );
 };

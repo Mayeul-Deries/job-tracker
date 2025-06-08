@@ -22,6 +22,7 @@ export const getColumns = (
 ): ColumnDef<JobApplication>[] => [
   {
     accessorKey: 'title',
+    size: 200,
     header: ({ column }) => (
       <Button
         variant='ghost'
@@ -35,6 +36,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'company',
+    size: 200,
     header: ({ column }) => (
       <Button
         variant='ghost'
@@ -48,6 +50,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'city',
+    size: 200,
     header: ({ column }) => (
       <Button
         variant='ghost'
@@ -61,6 +64,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'date',
+    size: 120,
     header: ({ column }) => (
       <Button
         variant='ghost'
@@ -87,6 +91,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'category',
+    size: 150,
     header: ({ column }) => (
       <Button
         variant='ghost'
@@ -104,6 +109,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'status',
+    size: 150,
     header: ({ column }) => (
       <Button
         variant='ghost'
@@ -130,6 +136,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'link',
+    size: 50,
     header: () => <span className='font-bold'>{t('pages.dataTable.columns.link')}</span>,
     cell: ({ row }) => {
       const link = row.getValue('link') as string;
@@ -144,6 +151,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'notes',
+    size: 50,
     header: () => <span className='font-bold'>{t('pages.dataTable.columns.notes')}</span>,
     cell: ({ row }) => {
       const existingNotes = row.getValue('notes') as string;
