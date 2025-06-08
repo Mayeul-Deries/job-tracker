@@ -132,7 +132,12 @@
         "category": "Catégorie",
         "status": "Statut",
         "link": "Lien",
-        "notes": "Notes"
+        "notes": "Notes",
+        "notes_dialog": {
+          "title": "Notes",
+          "description": "Vous pouvez modifier vos notes ici",
+          "placeholder": "Ajoutez des notes..."
+        }
       }
     }
   }

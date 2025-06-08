@@ -160,14 +160,14 @@ export const columns: ColumnDef<JobApplication>[] = [
           </DialogTrigger>
           <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
-              <DialogTitle>Notes</DialogTitle>
-              <DialogDescription>Vous pouvez modifier vos notes ici</DialogDescription>
+              <DialogTitle>{t('pages.dataTable.columns.notes_dialog.title')}</DialogTitle>
+              <DialogDescription>{t('pages.dataTable.columns.notes_dialog.description')}</DialogDescription>
             </DialogHeader>
             <Textarea
               value={notes}
               className='min-h-[200px] max-w-[375px] resize-none'
               onChange={e => handleNotesChange(e.target.value)}
-              placeholder='Ajouter des notes...'
+              placeholder={t('pages.dataTable.columns.notes_dialog.placeholder')}
             />
           </DialogContent>
         </Dialog>
