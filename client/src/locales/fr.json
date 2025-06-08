@@ -122,6 +122,18 @@
           "cancel": "Annuler"
         }
       }
+    },
+    "dataTable": {
+      "columns": {
+        "jobTitle": "Poste",
+        "companyName": "Entreprise",
+        "city": "Ville",
+        "applicationDate": "Date",
+        "category": "Catégorie",
+        "status": "Statut",
+        "link": "Lien",
+        "notes": "Notes"
+      }
     }
   }
 }

@@ -32,7 +32,7 @@ export const JobApplicationsList = () => {
   }
 
   return (
-    <div className='container mx-auto py-10'>
+    <div className='container mx-auto px-20 py-10 max-w-[1920px]'>
       <Link to='/create-application'>
         <Button variant='outline' size='sm'>
           <Plus />

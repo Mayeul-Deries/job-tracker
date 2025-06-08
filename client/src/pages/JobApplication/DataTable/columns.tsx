@@ -16,6 +16,7 @@ import { DatePicker } from '@/components/customs/DatePicker';
 import { StatusSelect } from '@/components/customs/StatusSelect';
 import { useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
+import { t } from 'i18next';
 
 export const columns: ColumnDef<JobApplication>[] = [
   {
@@ -26,7 +27,7 @@ export const columns: ColumnDef<JobApplication>[] = [
         className='font-bold'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Title
+        {t('pages.dataTable.columns.jobTitle')}
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
@@ -39,7 +40,7 @@ export const columns: ColumnDef<JobApplication>[] = [
         className='font-bold'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Company
+        {t('pages.dataTable.columns.companyName')}
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
@@ -52,7 +53,7 @@ export const columns: ColumnDef<JobApplication>[] = [
         className='font-bold'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        City
+        {t('pages.dataTable.columns.city')}
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
@@ -65,7 +66,7 @@ export const columns: ColumnDef<JobApplication>[] = [
         className='font-bold'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Date
+        {t('pages.dataTable.columns.applicationDate')}
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
@@ -91,10 +92,14 @@ export const columns: ColumnDef<JobApplication>[] = [
         className='font-bold'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Category
+        {t('pages.dataTable.columns.category')}
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
+    cell: ({ row }) => {
+      const category = row.getValue('category') as string;
+      return t(`categories.${category}`);
+    },
   },
   {
     accessorKey: 'status',
@@ -104,7 +109,7 @@ export const columns: ColumnDef<JobApplication>[] = [
         className='font-bold'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Status
+        {t('pages.dataTable.columns.status')}
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
@@ -123,7 +128,7 @@ export const columns: ColumnDef<JobApplication>[] = [
   },
   {
     accessorKey: 'link',
-    header: 'Link',
+    header: () => <span className='font-bold'>{t('pages.dataTable.columns.link')}</span>,
     cell: ({ row }) => {
       const link = row.getValue('link') as string;
       return link ? (
@@ -137,7 +142,7 @@ export const columns: ColumnDef<JobApplication>[] = [
   },
   {
     accessorKey: 'notes',
-    header: 'Notes',
+    header: () => <span className='font-bold'>{t('pages.dataTable.columns.notes')}</span>,
     cell: ({ row }) => {
       const existingNotes = row.getValue('notes') as string;
       const [notes, setNotes] = useState(existingNotes || '');
