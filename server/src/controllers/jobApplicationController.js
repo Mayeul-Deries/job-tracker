@@ -70,6 +70,26 @@ export const updateJobApplication = async (req, res) => {
   }
 };
 
+export const patchJobApplication = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const update = req.body;
+
+    const jobApplication = await jobApplicationModel.findByIdAndUpdate(id, { $set: update }, { new: true });
+
+    if (!jobApplication) {
+      return res.status(404).json({ error: 'Job application not found' });
+    }
+
+    res.status(200).json({
+      message: 'Job application field updated successfully',
+      jobApplication,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const deleteJobApplication = async (req, res) => {
   try {
     const jobApplication = await jobApplicationModel.findOneAndDelete({ _id: req.params.id });
