@@ -26,7 +26,7 @@ export const getColumns = (
     header: ({ column }) => (
       <Button
         variant='ghost'
-        className='font-bold'
+        className='font-bold has-[>svg]:px-0'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         {t('pages.dataTable.columns.jobTitle')}
@@ -36,11 +36,11 @@ export const getColumns = (
   },
   {
     accessorKey: 'company',
-    size: 200,
+    size: 150,
     header: ({ column }) => (
       <Button
         variant='ghost'
-        className='font-bold'
+        className='font-bold has-[>svg]:px-0'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         {t('pages.dataTable.columns.companyName')}
@@ -50,11 +50,11 @@ export const getColumns = (
   },
   {
     accessorKey: 'city',
-    size: 200,
+    size: 130,
     header: ({ column }) => (
       <Button
         variant='ghost'
-        className='font-bold'
+        className='font-bold has-[>svg]:px-0'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         {t('pages.dataTable.columns.city')}
@@ -64,7 +64,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'date',
-    size: 120,
+    size: 170,
     header: ({ column }) => (
       <Button
         variant='ghost'
@@ -91,11 +91,11 @@ export const getColumns = (
   },
   {
     accessorKey: 'category',
-    size: 150,
+    size: 130,
     header: ({ column }) => (
       <Button
         variant='ghost'
-        className='font-bold'
+        className='font-bold has-[>svg]:px-0'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         {t('pages.dataTable.columns.category')}
@@ -109,11 +109,11 @@ export const getColumns = (
   },
   {
     accessorKey: 'status',
-    size: 150,
+    size: 160,
     header: ({ column }) => (
       <Button
         variant='ghost'
-        className='font-bold'
+        className='font-bold has-[>svg]:px-0'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         {t('pages.dataTable.columns.status')}
@@ -123,15 +123,13 @@ export const getColumns = (
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
       return (
-        <div className='flex items-center justify-center w-full'>
-          <StatusSelect
-            status={status}
-            onStatusChange={newStatus => {
-              onUpdateField(row.original._id, 'status', newStatus);
-            }}
-            variant='table'
-          />
-        </div>
+        <StatusSelect
+          status={status}
+          onStatusChange={newStatus => {
+            onUpdateField(row.original._id, 'status', newStatus);
+          }}
+          variant='table'
+        />
       );
     },
   },
