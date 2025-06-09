@@ -206,7 +206,7 @@ export const CreateJobApplication = () => {
                           <FormItem>
                             <FormLabel>{t('pages.createJobApplication.form.label.status')}</FormLabel>
                             <FormControl>
-                              <StatusSelect status={field.value} onStatusChange={field.onChange} />
+                              <StatusSelect status={field.value} onStatusChange={field.onChange} variant='form' />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

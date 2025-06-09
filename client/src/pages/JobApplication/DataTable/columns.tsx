@@ -123,12 +123,15 @@ export const getColumns = (
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
       return (
-        <StatusSelect
-          status={status}
-          onStatusChange={newStatus => {
-            onUpdateField(row.original._id, 'status', newStatus);
-          }}
-        />
+        <div className='flex items-center justify-center w-full'>
+          <StatusSelect
+            status={status}
+            onStatusChange={newStatus => {
+              onUpdateField(row.original._id, 'status', newStatus);
+            }}
+            variant='table'
+          />
+        </div>
       );
     },
   },
