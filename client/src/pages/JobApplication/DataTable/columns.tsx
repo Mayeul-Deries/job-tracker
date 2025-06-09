@@ -124,10 +124,8 @@ export const getColumns = (
       const status = row.getValue('status') as string;
       return (
         <StatusSelect
-          value={status}
-          withBorder={false}
-          onChange={newStatus => {
-            console.log('Updating status:', row.original);
+          status={status}
+          onStatusChange={newStatus => {
             onUpdateField(row.original._id, 'status', newStatus);
           }}
         />

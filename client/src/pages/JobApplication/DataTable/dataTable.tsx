@@ -17,7 +17,7 @@ interface DataTableProps<TData> {
   loading?: boolean;
 }
 
-export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
+export function DataTable<TData>({ columns, data, loading = false }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -101,7 +101,6 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           </TableBody>
         </Table>
       </div>
-     
     </div>
   );
 }
