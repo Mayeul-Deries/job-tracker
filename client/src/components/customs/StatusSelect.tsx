@@ -11,7 +11,7 @@ interface StatusSelectProps {
 }
 
 const variantStyles = {
-  table: { trigger: 'px-2 py-1 rounded-full px-2 py-1 gap-2', content: 'w-[150px]' },
+  table: { trigger: 'px-2 py-1 rounded-full px-2 py-1 gap-2', content: 'w-[180px]' },
   form: { trigger: 'px-3 py-2 rounded-md shadow-xs rounded-md', content: 'w-[248px]' },
 } as const;
 
@@ -40,7 +40,7 @@ export const StatusSelect = ({ status, onStatusChange, variant = 'form' }: Statu
           )}
         >
           {t(`status.${status.toLowerCase().replace(/ /g, '_')}`)}
-          {variant === 'form' && <ChevronDownIcon className='h-4 w-4' />}
+          <ChevronDownIcon className='h-4 w-4' />
         </button>
       </PopoverTrigger>
       <PopoverContent className={cn('p-1', variantStyles[variant].content)}>
