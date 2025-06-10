@@ -33,6 +33,10 @@ export const getColumns = (
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
+    cell: ({ row }) => {
+      const value = row.getValue('title') as string;
+      return <div className='truncate'>{value}</div>;
+    },
   },
   {
     accessorKey: 'company',
@@ -47,6 +51,10 @@ export const getColumns = (
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
+    cell: ({ row }) => {
+      const value = row.getValue('company') as string;
+      return <div className='truncate'>{value}</div>;
+    },
   },
   {
     accessorKey: 'city',
@@ -61,6 +69,10 @@ export const getColumns = (
         <ArrowUpDown className='ml-1' />
       </Button>
     ),
+    cell: ({ row }) => {
+      const value = row.getValue('city') as string;
+      return <div className='truncate'>{value}</div>;
+    },
   },
   {
     accessorKey: 'date',
@@ -109,7 +121,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'status',
-    size: 160,
+    size: 175,
     header: ({ column }) => (
       <Button
         variant='ghost'

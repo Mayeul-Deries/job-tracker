@@ -91,7 +91,6 @@ export function DataTable<TData>({ columns, data, loading = false }: DataTablePr
                         width: cell.column.getSize(),
                         maxWidth: cell.column.getSize(),
                       }}
-                      className='truncate'
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
