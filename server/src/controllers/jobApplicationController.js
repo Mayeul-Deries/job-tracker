@@ -12,7 +12,7 @@ export const getJobApplications = async (req, res) => {
       .skip(size * page)
       .limit(size);
 
-    const count = await jobApplicationModel.countDocuments();
+    const count = await jobApplicationModel.countDocuments({ userId });
 
     res.status(200).json({ message: 'Job applications successfully recovered', jobApplications, count });
   } catch (error) {
