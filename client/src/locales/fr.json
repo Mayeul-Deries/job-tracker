@@ -141,8 +141,14 @@
         }
       },
       "pagination": {
-        "previous": "Précédent",
-        "next": "Suivant"
+        "rows_per_page": "Lignes par page",
+        "page": "Page",
+        "of": "sur",
+        "total_rows": "Total de Lignes : ",
+        "go_first": "Aller à la première page",
+        "go_last": "Aller à la dernière page",
+        "previous": "Page précédente",
+        "next": "Page suivante"
       },
       "errors": {
         "no_data": "Aucune candidature trouvée"

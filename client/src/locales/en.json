@@ -141,8 +141,14 @@
         }
       },
       "pagination": {
-        "previous": "Previous",
-        "next": "Next"
+        "rows_per_page": "Rows per page",
+        "page": "Page",
+        "of": "of",
+        "total_rows": "Total rows: ",
+        "go_first": "Go to the first page",
+        "go_last": "Go to the last page",
+        "previous": "Previous page",
+        "next": "Next page"
       },
       "errors": {
         "no_data": "No job applications found"

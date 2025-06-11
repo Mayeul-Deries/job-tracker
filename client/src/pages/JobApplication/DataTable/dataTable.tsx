@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { t } from 'i18next';
 import {
   type ColumnDef,
   flexRender,
@@ -11,8 +12,7 @@ import {
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { t } from 'i18next';
+import { DataTablePagination } from '@/components/customs/DataTablePagination';
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -126,12 +126,7 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
         </Table>
       </div>
       <div className='flex items-center justify-end space-x-2 py-4'>
-        <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
-          {t('pages.dataTable.pagination.previous')}
-        </Button>
-        <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-          {t('pages.dataTable.pagination.next')}
-        </Button>
+        <DataTablePagination table={table} dataCount={dataCount} />
       </div>
     </div>
   );
