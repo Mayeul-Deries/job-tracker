@@ -139,6 +139,13 @@
           "placeholder": "Ajoutez des notes...",
           "save": "Enregistrer"
         }
+      },
+      "pagination": {
+        "previous": "Précédent",
+        "next": "Suivant"
+      },
+      "errors": {
+        "no_data": "Aucune candidature trouvée"
       }
     }
   }

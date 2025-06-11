@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { t } from 'i18next';
 import { Link } from 'react-router-dom';
@@ -11,9 +11,6 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 export const JobApplicationsList = () => {
-  useEffect(() => {
-    fetchJobApplications();
-  }, []);
   const [loading, setLoading] = useState<boolean>(false);
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
   const [jobApplicationsCount, setJobApplicationsCount] = useState<number>(0);
@@ -53,7 +50,13 @@ export const JobApplicationsList = () => {
           {t('pages.home.button.add_job_application')}
         </Button>
       </Link>
-      <DataTable columns={getColumns(patchJobApplication)} data={jobApplications} loading={loading} />
+      <DataTable
+        columns={getColumns(patchJobApplication)}
+        data={jobApplications}
+        loading={loading}
+        fetchData={fetchJobApplications}
+        dataCount={jobApplicationsCount}
+      />
     </div>
   );
 };

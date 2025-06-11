@@ -139,6 +139,13 @@
           "placeholder": "Add your notes...",
           "save": "Save"
         }
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "errors": {
+        "no_data": "No job applications found"
       }
     }
   }

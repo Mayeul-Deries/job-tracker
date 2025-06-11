@@ -1,24 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   type ColumnDef,
   flexRender,
   type SortingState,
   getCoreRowModel,
+  getPaginationRowModel,
   useReactTable,
   getSortedRowModel,
 } from '@tanstack/react-table';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { t } from 'i18next';
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
   data: TData[];
   loading?: boolean;
+  fetchData: (pageIndex: number, pageSize: number) => void;
+  dataCount: number;
 }
 
-export function DataTable<TData>({ columns, data, loading = false }: DataTableProps<TData>) {
+export function DataTable<TData>({ columns, data, loading = false, fetchData, dataCount }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  useEffect(() => {
+    fetchData(pagination.pageIndex, pagination.pageSize);
+  }, [pagination.pageIndex, pagination.pageSize]);
 
   const table = useReactTable({
     data,
@@ -26,8 +39,13 @@ export function DataTable<TData>({ columns, data, loading = false }: DataTablePr
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    pageCount: Math.ceil(dataCount / pagination.pageSize),
+    manualPagination: true,
+    onPaginationChange: setPagination,
     state: {
       sorting,
+      pagination,
     },
   });
 
@@ -100,12 +118,20 @@ export function DataTable<TData>({ columns, data, loading = false }: DataTablePr
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className='h-24 text-center'>
-                  No results.
+                  {t('pages.dataTable.errors.no_data')}
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className='flex items-center justify-end space-x-2 py-4'>
+        <Button variant='outline' size='sm' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+          {t('pages.dataTable.pagination.previous')}
+        </Button>
+        <Button variant='outline' size='sm' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          {t('pages.dataTable.pagination.next')}
+        </Button>
       </div>
     </div>
   );
