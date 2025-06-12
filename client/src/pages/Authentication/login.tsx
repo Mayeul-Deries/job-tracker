@@ -25,7 +25,7 @@ export const Login = () => {
   const loginSchema = z.object({
     loginName: z
       .string()
-      .min(1, { message: t('pages.login.errors.loginName_min') })
+      .min(2, { message: t('pages.login.errors.loginName_min') })
       .regex(/^[^A-Z\s]+$/, { message: t('pages.login.errors.loginName_no_spaces') }),
     password: z
       .string()
