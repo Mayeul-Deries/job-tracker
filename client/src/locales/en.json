@@ -151,6 +151,18 @@
         "previous": "Previous page",
         "next": "Next page"
       },
+      "visibility": {
+        "toggle_columns": "Display columns",
+        "columns": "Columns",
+        "title": "Title",
+        "company": "Company",
+        "city": "City",
+        "date": "Date",
+        "category": "Category",
+        "status": "Status",
+        "link": "Link",
+        "notes": "Notes"
+      },
       "search": {
         "placeholder": "Search for a job application..."
       },

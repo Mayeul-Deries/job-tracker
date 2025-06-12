@@ -155,6 +155,7 @@
         "placeholder": "Rechercher une candidature..."
       },
       "visibility": {
+        "toggle_columns": "Afficher les colonnes",
         "columns": "Colonnes",
         "title": "Poste",
         "company": "Entreprise",
