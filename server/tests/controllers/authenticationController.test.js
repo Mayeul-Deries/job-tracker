@@ -8,9 +8,9 @@ import User from '../../src/models/userModel.js';
 import { describe, expect, it, vi } from 'vitest';
 
 describe('Authentication Controller', () => {
-  const invalidUsernames = ['bad username', 'bad@username', 'badusername!', 'bad#username!'];
+  const invalidUsernames = ['bad username', 'bad@username', 'badusername!', 'bad#username!', 'badUsername'];
 
-  const validUsernames = ['good_username', 'goodUsername', 'goodusername123', 'good.username', 'good-username'];
+  const validUsernames = ['good_username', 'goodusername123', 'good.username', 'good-username'];
 
   const invalidPasswords = [
     'password', // pas de majuscule, pas de chiffre, pas de spécial
@@ -71,7 +71,8 @@ describe('Authentication Controller', () => {
 
         expect(res.status).toBe(400);
         expect(res.body).toMatchObject({
-          error: 'Username can only contain letters, numbers, and underscores, with no spaces or special characters',
+          error:
+            'Username can only contain letters, numbers, and underscores, with no spaces, special characters and capital letter',
         });
       });
 
@@ -170,7 +171,7 @@ describe('Authentication Controller', () => {
       it('should login a user with email', async () => {
         await request(app).post('/api/auth/register').send(userRegistration);
         const res = await request(app).post('/api/auth/login').send({
-          email: userRegistration.email,
+          loginName: userRegistration.email,
           password: userRegistration.password,
         });
 
@@ -186,7 +187,7 @@ describe('Authentication Controller', () => {
       it('should login a user with username', async () => {
         await request(app).post('/api/auth/register').send(userRegistration);
         const res = await request(app).post('/api/auth/login').send({
-          username: userRegistration.username,
+          loginName: userRegistration.username,
           password: userRegistration.password,
         });
 
@@ -210,9 +211,10 @@ describe('Authentication Controller', () => {
 
       it('should return 404 if user not found', async () => {
         const res = await request(app).post('/api/auth/login').send({
-          email: 'non-existent.user@example.com',
+          loginName: 'non-existent.user@example.com',
           password: 'NonExistentPassword123*',
         });
+
         expect(res.status).toBe(404);
         expect(res.body).toMatchObject({
           error: 'User not found',
@@ -222,7 +224,7 @@ describe('Authentication Controller', () => {
       it('should return 401 if password is incorrect', async () => {
         await request(app).post('/api/auth/register').send(userRegistration);
         const res = await request(app).post('/api/auth/login').send({
-          email: userRegistration.email,
+          loginName: userRegistration.email,
           password: 'WrongPassword123*',
         });
 
@@ -238,7 +240,7 @@ describe('Authentication Controller', () => {
         });
 
         const res = await request(app).post('/api/auth/login').send({
-          email: userRegistration.email,
+          loginName: userRegistration.email,
           password: userRegistration.password,
         });
 

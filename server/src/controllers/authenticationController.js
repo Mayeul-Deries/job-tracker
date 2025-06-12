@@ -1,38 +1,23 @@
 import bcrypt from 'bcryptjs';
+import { registerSchema, loginSchema } from '../validations/authSchemas.js';
 import { Constants } from '../utils/constants/constants.js';
 import { generateToken } from '../utils/generateToken.js';
 import userModel from '../models/userModel.js';
 
 export const register = async (req, res) => {
-  const { username, email, password, confirmPassword } = req.body;
-  if (!username || !email || !password || !confirmPassword) {
-    return res.status(400).json({ error: 'All fields are required' });
-  }
-
-  if (!Constants.USERNAME_REGEX.test(username)) {
-    return res.status(400).json({
-      error: 'Username can only contain letters, numbers, and underscores, with no spaces or special characters',
-    });
-  }
-
-  if (!Constants.PASSWORD_REGEX.test(password)) {
-    return res.status(400).json({
-      error:
-        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character',
-    });
-  }
-
-  if (password !== confirmPassword) {
-    return res.status(400).json({ error: 'Passwords do not match' });
-  }
-
   try {
-    if (await userModel.findOne({ email: email.toLowerCase() })) {
+    const { username, email, password } = registerSchema.parse(req.body);
+
+    const existingEmail = await userModel.findOne({ email: email.toLowerCase() });
+    if (existingEmail) {
       return res.status(409).json({ error: 'Email already exists' });
     }
-    if (await userModel.findOne({ username: username.toLowerCase() })) {
+
+    const existingUsername = await userModel.findOne({ username: username.toLowerCase() });
+    if (existingUsername) {
       return res.status(409).json({ error: 'Username already exists' });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await userModel.create({
       username: username.toLowerCase(),
@@ -50,21 +35,20 @@ export const register = async (req, res) => {
 
     res.status(201).json({ message: 'User successfully created', user: userWithoutPassword });
   } catch (error) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
     res.status(500).json({ error: error.message });
   }
 };
 
 export const login = async (req, res) => {
-  const { email, username, password } = req.body;
-  if (!(username || email) || !password) {
-    return res.status(400).json({ error: 'All fields are required' });
-  }
   try {
+    const { loginName, password } = loginSchema.parse(req.body);
+
+    const isEmail = /\S+@\S+\.\S+/.test(loginName);
     const query = {
-      $or: [
-        ...(username ? [{ username: username.toLowerCase() }] : []),
-        ...(email ? [{ email: email.toLowerCase() }] : []),
-      ],
+      [isEmail ? 'email' : 'username']: loginName.toLowerCase(),
     };
 
     const user = await userModel.findOne(query).select('+password');
@@ -87,6 +71,9 @@ export const login = async (req, res) => {
 
     res.status(200).json({ message: 'User successfully logged in', user: userWithoutPassword });
   } catch (error) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
     res.status(500).json({ error: error.message });
   }
 };

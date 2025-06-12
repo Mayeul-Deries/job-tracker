@@ -45,9 +45,8 @@ export const Login = () => {
     try {
       setLoading(true);
 
-      const isEmail = /\S+@\S+\.\S+/.test(values.loginName);
       const data = {
-        ...(isEmail ? { email: values.loginName } : { username: values.loginName }),
+        loginName: values.loginName,
         password: values.password,
       };
       const response = await axiosConfig.post('/auth/login', data);

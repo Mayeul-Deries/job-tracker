@@ -47,10 +47,13 @@ importers:
       vitest:
         specifier: ^3.1.1
         version: 3.1.1(@types/node@22.13.14)(@vitest/ui@3.1.1)(jsdom@26.0.0)
+      zod:
+        specifier: ^3.25.63
+        version: 3.25.63
     devDependencies:
       '@vitest/coverage-v8':
         specifier: 3.1.1
-        version: 3.1.1(vitest@3.1.1(@types/node@22.13.14)(@vitest/ui@3.1.1)(jsdom@26.0.0))
+        version: 3.1.1(vitest@3.1.1)
 
 packages:
 
@@ -2220,6 +2223,9 @@ packages:
     resolution: {integrity: sha512-Ow9nuGZE+qp1u4JIPvg+uCiUr7xGQWdff7JQSk5VGYTAZMDe2q8lxJ10ygv10qmSj031Ty/6FNJpLO4o1Sgc+w==}
     engines: {node: '>=12'}
 
+  zod@3.25.63:
+    resolution: {integrity: sha512-3ttCkqhtpncYXfP0f6dsyabbYV/nEUW+Xlu89jiXbTBifUfjaSqXOG6JnQPLtqt87n7KAmnMqcjay6c0Wq0Vbw==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -3087,7 +3093,7 @@ snapshots:
     dependencies:
       '@types/webidl-conversions': 7.0.3
 
-  '@vitest/coverage-v8@3.1.1(vitest@3.1.1(@types/node@22.13.14)(@vitest/ui@3.1.1)(jsdom@26.0.0))':
+  '@vitest/coverage-v8@3.1.1(vitest@3.1.1)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 1.0.2
@@ -4531,3 +4537,5 @@ snapshots:
     dependencies:
       buffer-crc32: 0.2.13
       pend: 1.2.0
+
+  zod@3.25.63: {}
