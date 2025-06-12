@@ -7,6 +7,7 @@ import { t } from 'i18next';
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
+  className?: string;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
@@ -22,7 +23,7 @@ export function DataTableColumnHeader<TData, TValue>({
     <Button
       variant='ghost'
       size='sm'
-      className='font-bold -ml-3 h-8'
+      className={cn('font-bold -ml-3 h-8', className)}
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
     >
       <span>{t(`pages.dataTable.columns.${title}`)}</span>

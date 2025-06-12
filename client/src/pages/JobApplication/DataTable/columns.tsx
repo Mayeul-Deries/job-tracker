@@ -71,7 +71,7 @@ export const getColumns = (
   {
     accessorKey: 'date',
     size: 170,
-    header: ({ column }) => <DataTableColumnHeader column={column} title='date' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} className='ml-1' title='date' />,
     cell: ({ row }) => {
       const date = row.getValue('date') as Date;
       return (
