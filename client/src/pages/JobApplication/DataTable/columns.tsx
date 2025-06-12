@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import type { JobApplication } from '@/interfaces/JobApplication';
 import type { ColumnDef } from '@tanstack/react-table';
+import { t } from 'i18next';
 
 import { ArrowUpDown, ExternalLink, FileText } from 'lucide-react';
 import {
@@ -15,11 +16,30 @@ import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/customs/DatePicker';
 import { StatusSelect } from '@/components/customs/StatusSelect';
 import { Textarea } from '@/components/ui/textarea';
-import { t } from 'i18next';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export const getColumns = (
   onUpdateField: (id: string, field: string, value: any) => void
 ): ColumnDef<JobApplication>[] => [
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
+        aria-label='Select all'
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={value => row.toggleSelected(!!value)}
+        aria-label='Select row'
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'title',
     size: 200,

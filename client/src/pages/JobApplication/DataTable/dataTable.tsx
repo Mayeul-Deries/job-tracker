@@ -41,6 +41,7 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   useEffect(() => {
     fetchData(pagination.pageIndex, pagination.pageSize);
@@ -59,11 +60,13 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       pagination,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
   });
 

@@ -12,7 +12,11 @@ interface DataTablePaginationProps<TData> {
 
 export function DataTablePagination<TData>({ table, dataCount }: DataTablePaginationProps<TData>) {
   return (
-    <div className='flex items-center justify-between'>
+    <div className='flex w-full items-center justify-between'>
+      <div className='text-muted-foreground text-sm'>
+        {table.getFilteredSelectedRowModel().rows.length} {t('pages.dataTable.pagination.of')}{' '}
+        {table.getFilteredRowModel().rows.length} {t('pages.dataTable.pagination.rows_selected')}
+      </div>
       <div className='flex items-center space-x-6 lg:space-x-8'>
         <div className='flex items-center space-x-2'>
           <p className='text-sm font-medium'>{t('pages.dataTable.pagination.rows_per_page')}</p>

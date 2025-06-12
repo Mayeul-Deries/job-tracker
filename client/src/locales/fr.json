@@ -142,6 +142,7 @@
       },
       "pagination": {
         "rows_per_page": "Lignes par page",
+        "rows_selected": "Lignes sélectionnée(s).",
         "page": "Page",
         "of": "sur",
         "total_rows": "Total de Lignes : ",
