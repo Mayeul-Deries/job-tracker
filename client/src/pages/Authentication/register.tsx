@@ -26,9 +26,9 @@ export const Register = () => {
     .object({
       username: z
         .string()
-        .min(2, { message: t('pages.register.errors.username_min') })
+        .min(1, { message: t('pages.register.errors.username_min') })
         .max(25, { message: t('pages.register.errors.username_max') })
-        .regex(/^[^A-Z\s]+$/, {
+        .regex(/^[a-z0-9_-]+$/, {
           message: t('pages.register.errors.username_regex'),
         }),
       email: z.string().email({ message: t('pages.register.errors.email_invalid') }),

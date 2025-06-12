@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import type { JobApplication } from '@/interfaces/JobApplication';
 import type { ColumnDef } from '@tanstack/react-table';
 import { t } from 'i18next';
 
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronsUpDown, ExternalLink, FileText } from 'lucide-react';
+import { ExternalLink, FileText } from 'lucide-react';
 import {
   Dialog,
   DialogContent,

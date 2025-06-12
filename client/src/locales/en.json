@@ -49,7 +49,7 @@
       "errors": {
         "username_min": "Username must be at least 2 characters long",
         "username_max": "Username must be at most 25 characters long",
-        "username_regex": "Username must not contain leading, trailing, middle spaces or uppercase letters",
+        "username_regex": "Username must not contain spaces, uppercase letters or special characters",
         "email_invalid": "Invalid email address",
         "password_max": "Password must be at most 255 characters long",
         "password_regex": "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character",

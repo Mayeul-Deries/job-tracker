@@ -7,7 +7,7 @@ import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
 import { describe, expect, it, vi } from 'vitest';
 
-describe('JobApplications Controller', () => {
+describe('Authentication Controller', () => {
   const invalidUsernames = ['bad username', 'bad@username', 'badusername!', 'bad#username!'];
 
   const validUsernames = ['good_username', 'goodUsername', 'goodusername123', 'good.username', 'good-username'];
