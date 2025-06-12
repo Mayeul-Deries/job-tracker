@@ -150,6 +150,9 @@
         "previous": "Page précédente",
         "next": "Page suivante"
       },
+      "search": {
+        "placeholder": "Rechercher une candidature..."
+      },
       "errors": {
         "no_data": "Aucune candidature trouvée"
       }

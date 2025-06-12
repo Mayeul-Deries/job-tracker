@@ -150,6 +150,9 @@
         "previous": "Previous page",
         "next": "Next page"
       },
+      "search": {
+        "placeholder": "Search for a job application..."
+      },
       "errors": {
         "no_data": "No job applications found"
       }

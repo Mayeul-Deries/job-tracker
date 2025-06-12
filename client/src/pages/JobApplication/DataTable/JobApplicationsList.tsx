@@ -43,9 +43,9 @@ export const JobApplicationsList = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4 mx-auto px-20 py-10 max-w-[1920px]'>
+    <div className='flex flex-col mx-auto px-20 py-10 max-w-[1920px]'>
       <Link to='/create-application'>
-        <Button variant='outline' size='sm'>
+        <Button variant='outline' size='default'>
           <Plus />
           {t('pages.home.button.add_job_application')}
         </Button>
