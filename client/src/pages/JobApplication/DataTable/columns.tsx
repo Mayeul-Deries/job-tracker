@@ -3,7 +3,7 @@ import type { JobApplication } from '@/interfaces/JobApplication';
 import type { ColumnDef } from '@tanstack/react-table';
 import { t } from 'i18next';
 
-import { ArrowUpDown, ExternalLink, FileText } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronsUpDown, ExternalLink, FileText } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -17,6 +17,7 @@ import { DatePicker } from '@/components/customs/DatePicker';
 import { StatusSelect } from '@/components/customs/StatusSelect';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import { DataTableColumnHeader } from '@/components/customs/DataTableColumnHeader';
 
 export const getColumns = (
   onUpdateField: (id: string, field: string, value: any) => void
@@ -43,16 +44,7 @@ export const getColumns = (
   {
     accessorKey: 'title',
     size: 200,
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='font-bold has-[>svg]:px-0'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {t('pages.dataTable.columns.jobTitle')}
-        <ArrowUpDown className='ml-1' />
-      </Button>
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title='title' />,
     cell: ({ row }) => {
       const value = row.getValue('title') as string;
       return <div className='truncate'>{value}</div>;
@@ -61,16 +53,7 @@ export const getColumns = (
   {
     accessorKey: 'company',
     size: 150,
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='font-bold has-[>svg]:px-0'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {t('pages.dataTable.columns.companyName')}
-        <ArrowUpDown className='ml-1' />
-      </Button>
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title='company' />,
     cell: ({ row }) => {
       const value = row.getValue('company') as string;
       return <div className='truncate'>{value}</div>;
@@ -79,16 +62,7 @@ export const getColumns = (
   {
     accessorKey: 'city',
     size: 130,
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='font-bold has-[>svg]:px-0'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {t('pages.dataTable.columns.city')}
-        <ArrowUpDown className='ml-1' />
-      </Button>
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title='city' />,
     cell: ({ row }) => {
       const value = row.getValue('city') as string;
       return <div className='truncate'>{value}</div>;
@@ -97,16 +71,7 @@ export const getColumns = (
   {
     accessorKey: 'date',
     size: 170,
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='font-bold'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {t('pages.dataTable.columns.applicationDate')}
-        <ArrowUpDown className='ml-1' />
-      </Button>
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title='date' />,
     cell: ({ row }) => {
       const date = row.getValue('date') as Date;
       return (
@@ -124,16 +89,7 @@ export const getColumns = (
   {
     accessorKey: 'category',
     size: 130,
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='font-bold has-[>svg]:px-0'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {t('pages.dataTable.columns.category')}
-        <ArrowUpDown className='ml-1' />
-      </Button>
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title='category' />,
     cell: ({ row }) => {
       const category = row.getValue('category') as string;
       return t(`categories.${category}`);
@@ -142,16 +98,7 @@ export const getColumns = (
   {
     accessorKey: 'status',
     size: 175,
-    header: ({ column }) => (
-      <Button
-        variant='ghost'
-        className='font-bold has-[>svg]:px-0'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {t('pages.dataTable.columns.status')}
-        <ArrowUpDown className='ml-1' />
-      </Button>
-    ),
+    header: ({ column }) => <DataTableColumnHeader column={column} title='status' />,
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
       return (

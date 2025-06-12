@@ -125,10 +125,10 @@
     },
     "dataTable": {
       "columns": {
-        "jobTitle": "Title",
-        "companyName": "Company",
+        "title": "Title",
+        "company": "Company",
         "city": "City",
-        "applicationDate": "Date",
+        "date": "Date",
         "category": "Category",
         "status": "Status",
         "link": "Link",
