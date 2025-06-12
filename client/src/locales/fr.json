@@ -153,6 +153,17 @@
       "search": {
         "placeholder": "Rechercher une candidature..."
       },
+      "visibility": {
+        "columns": "Colonnes",
+        "title": "Poste",
+        "company": "Entreprise",
+        "city": "Ville",
+        "date": "Date",
+        "category": "Catégorie",
+        "status": "Statut",
+        "link": "Lien",
+        "notes": "Notes"
+      },
       "errors": {
         "no_data": "Aucune candidature trouvée"
       }

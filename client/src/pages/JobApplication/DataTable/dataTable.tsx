@@ -10,12 +10,20 @@ import {
   getPaginationRowModel,
   getFilteredRowModel,
   type ColumnFiltersState,
+  type VisibilityState,
 } from '@tanstack/react-table';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { DataTablePagination } from '@/components/customs/DataTablePagination';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
@@ -32,6 +40,7 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
     pageSize: 10,
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   useEffect(() => {
     fetchData(pagination.pageIndex, pagination.pageSize);
@@ -49,10 +58,12 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
     getFilteredRowModel: getFilteredRowModel(),
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
       pagination,
       columnFilters,
+      columnVisibility,
     },
   });
 
@@ -97,6 +108,29 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
           onChange={event => table.getColumn('title')?.setFilterValue(event.target.value)}
           className='max-w-sm'
         />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='ml-auto'>
+              {t('pages.dataTable.visibility.columns')}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            {table
+              .getAllColumns()
+              .filter(column => column.getCanHide())
+              .map(column => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={value => column.toggleVisibility(!!value)}
+                  >
+                    {t(`pages.dataTable.visibility.${column.id}`)}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className='rounded-md border'>
         <Table>
