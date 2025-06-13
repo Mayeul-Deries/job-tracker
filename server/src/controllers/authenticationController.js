@@ -46,7 +46,7 @@ export const login = async (req, res) => {
   try {
     const { loginName, password } = loginSchema.parse(req.body);
 
-    const isEmail = /\S+@\S+\.\S+/.test(loginName);
+    const isEmail = Constants.EMAIL_REGEX.test(loginName);
     const query = {
       [isEmail ? 'email' : 'username']: loginName.toLowerCase(),
     };

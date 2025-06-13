@@ -13,6 +13,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Regex } from '@/constants/regex';
 
 export const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -28,14 +29,14 @@ export const Register = () => {
         .string()
         .min(2, { message: t('pages.register.errors.username_min') })
         .max(25, { message: t('pages.register.errors.username_max') })
-        .regex(/^[a-z0-9_-]+$/, {
+        .regex(Regex.USERNAME, {
           message: t('pages.register.errors.username_regex'),
         }),
       email: z.string().email({ message: t('pages.register.errors.email_invalid') }),
       password: z
         .string()
         .max(255, { message: t('pages.register.errors.password_max') })
-        .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&:.]).{8,}$/, {
+        .regex(Regex.PASSWORD, {
           message: t('pages.register.errors.password_regex'),
         }),
       confirmPassword: z.string(),

@@ -13,6 +13,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Regex } from '@/constants/regex';
 
 export const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -26,7 +27,7 @@ export const Login = () => {
     loginName: z
       .string()
       .min(2, { message: t('pages.login.errors.loginName_min') })
-      .regex(/^[^A-Z\s]+$/, { message: t('pages.login.errors.loginName_no_spaces') }),
+      .regex(Regex.LOGIN_NAME, { message: t('pages.login.errors.loginName_no_spaces') }),
     password: z
       .string()
       .min(1, { message: t('pages.login.errors.password_min') })
