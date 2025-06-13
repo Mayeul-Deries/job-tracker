@@ -119,11 +119,67 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${nonExistentUserId}`)
+        .send({ username: 'johndoe' })
         .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`]);
 
       expect(res.status).toBe(404);
       expect(res.body).toMatchObject({
         error: 'User not found',
+      });
+    });
+
+    it('should return 400 when username format is invalid', async () => {
+      const user = await User.create({
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'Password123!',
+      });
+
+      const res = await request(app)
+        .put(`/api/users/${user._id}`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({ username: 'Invalid Username!' }); // Invalid username with spaces and special chars
+
+      expect(res.status).toBe(400);
+      expect(res.body).toMatchObject({
+        error: 'Username can only contain letters, numbers, and underscores, with no spaces or special characters',
+      });
+    });
+
+    it('should return 400 when email format is invalid', async () => {
+      // Create a test user first
+      const user = await User.create({
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'Password123!',
+      });
+
+      const res = await request(app)
+        .put(`/api/users/${user._id}`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({ email: 'invalid-email' });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toMatchObject({
+        error: 'Invalid email',
+      });
+    });
+
+    it('should return 400 when no fields are provided', async () => {
+      const user = await User.create({
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'Password123!',
+      });
+
+      const res = await request(app)
+        .put(`/api/users/${user._id}`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({});
+
+      expect(res.status).toBe(400);
+      expect(res.body).toMatchObject({
+        error: 'At least one field must be provided',
       });
     });
 
@@ -136,6 +192,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${userId}`)
+        .send({ username: 'johndoe' })
         .set('Cookie', [`__jt_token=${generateToken(userId)}`]);
 
       expect(res.status).toBe(500);
