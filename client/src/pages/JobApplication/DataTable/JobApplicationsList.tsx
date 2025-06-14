@@ -43,20 +43,24 @@ export const JobApplicationsList = () => {
   }
 
   return (
-    <div className='flex flex-col mx-auto px-20 py-10 max-w-[1920px]'>
-      <Link to='/create-application'>
-        <Button variant='outline' size='default'>
-          <Plus />
-          {t('pages.home.button.add_job_application')}
-        </Button>
-      </Link>
-      <DataTable
-        columns={getColumns(patchJobApplication)}
-        data={jobApplications}
-        loading={loading}
-        fetchData={fetchJobApplications}
-        dataCount={jobApplicationsCount}
-      />
+    <div className='flex flex-col mx-auto px-2 sm:px-6 md:px-8 lg:px-20 py-4 sm:py-6 lg:py-10 max-w-[1920px] min-h-screen'>
+      <div className='px-2 mb-4'>
+        <Link to='/create-application'>
+          <Button variant='outline' size='default'>
+            <Plus />
+            {t('pages.home.button.add_job_application')}
+          </Button>
+        </Link>
+      </div>
+      <div className='w-full overflow-hidden'>
+        <DataTable
+          columns={getColumns(patchJobApplication)}
+          data={jobApplications}
+          loading={loading}
+          fetchData={fetchJobApplications}
+          dataCount={jobApplicationsCount}
+        />
+      </div>
     </div>
   );
 };

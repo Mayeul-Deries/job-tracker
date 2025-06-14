@@ -96,7 +96,7 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
     );
   }
   return (
-    <div>
+    <div className='px-2'>
       <div className='py-4'>
         <DataTableViewOptions table={table} />
       </div>

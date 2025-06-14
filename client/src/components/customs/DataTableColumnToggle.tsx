@@ -24,7 +24,7 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
         placeholder={t('pages.dataTable.search.placeholder')}
         value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
         onChange={event => table.getColumn('title')?.setFilterValue(event.target.value)}
-        className='max-w-sm'
+        className='max-w-sm truncate'
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
