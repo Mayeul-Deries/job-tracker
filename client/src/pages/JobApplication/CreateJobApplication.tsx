@@ -247,9 +247,14 @@ export const CreateJobApplication = () => {
                     )}
                   />
 
-                  <Button type='submit' className='w-full' disabled={loading}>
-                    {t('pages.createJobApplication.form.button.submit')}
-                  </Button>
+                  <div className='flex flex-col gap-4'>
+                    <Button type='submit' className='w-full' disabled={loading}>
+                      {t('pages.createJobApplication.form.button.submit')}
+                    </Button>
+                    <Button type='button' variant='outline' className='w-full' onClick={() => navigate('/')}>
+                      {t('pages.createJobApplication.form.button.cancel')}
+                    </Button>
+                  </div>
                 </div>
               </form>
             </Form>
