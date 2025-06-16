@@ -5,8 +5,8 @@ import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '@/contexts/authContext';
+import { t } from 'i18next';
 import { getLoginSchema } from '@/validations/schemas/user';
 
 import { FcGoogle } from 'react-icons/fc';
@@ -20,7 +20,6 @@ export const Login = () => {
 
   const navigate = useNavigate();
 
-  const { t } = useTranslation();
   const { setAuthenticatedUser } = useAuthContext();
 
   const loginSchema = getLoginSchema(t);

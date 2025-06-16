@@ -5,9 +5,9 @@ import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { Categories } from '@/constants/categories';
 import { StatusOffer } from '@/constants/statusOffer';
+import { t } from 'i18next';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
 
 import { Button } from '@/components/ui/button';
@@ -22,8 +22,6 @@ export const CreateJobApplication = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  const { t } = useTranslation();
 
   const createJobApplicationSchema = getJobApplicationSchema(t);
 
@@ -77,7 +75,7 @@ export const CreateJobApplication = () => {
                     {t('pages.createJobApplication.form.description')}
                   </p>
                 </div>
-                <div className='grid gap-6'>
+                <div className='grid gap-5 sm:gap-6'>
                   <FormField
                     control={createJobApplicationForm.control}
                     name='title'
