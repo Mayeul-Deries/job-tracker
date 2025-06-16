@@ -109,7 +109,7 @@ export const CreateJobApplication = () => {
                     )}
                   />
 
-                  <div className='flex gap-4'>
+                  <div className='flex gap-2 sm:gap-4'>
                     <div className='w-1/2'>
                       <FormField
                         control={createJobApplicationForm.control}
@@ -147,7 +147,7 @@ export const CreateJobApplication = () => {
                     </div>
                   </div>
 
-                  <div className='flex gap-4'>
+                  <div className='flex gap-2 sm:gap-4'>
                     <div className='w-1/2'>
                       <FormField
                         control={createJobApplicationForm.control}

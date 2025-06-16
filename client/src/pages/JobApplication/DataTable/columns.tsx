@@ -3,7 +3,7 @@ import type { JobApplication } from '@/interfaces/JobApplication';
 import type { ColumnDef } from '@tanstack/react-table';
 import { t } from 'i18next';
 
-import { ExternalLink, FileText } from 'lucide-react';
+import { ExternalLink, FileText, MoreVertical, Pencil, Trash } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -18,9 +18,17 @@ import { StatusSelect } from '@/components/customs/StatusSelect';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/customs/DataTableColumnHeader';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export const getColumns = (
-  onUpdateField: (id: string, field: string, value: any) => void
+  onUpdateField: (id: string, field: string, value: any) => void,
+  handleJobApplicationAction: (action: string, data: any) => void
 ): ColumnDef<JobApplication>[] => [
   {
     id: 'select',
@@ -168,5 +176,42 @@ export const getColumns = (
         </Dialog>
       );
     },
+  },
+  {
+    accessorKey: 'actions',
+    size: 50,
+    header: () => <span className='font-bold'>{t('pages.dataTable.columns.actions.title')}</span>,
+    cell: ({ row }) => {
+      const jobApplication = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='ghost' className='h-8 w-8 p-0'>
+              <MoreVertical className='h-4 w-4' />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            <DropdownMenuLabel>{t('pages.dataTable.columns.actions.title')}</DropdownMenuLabel>
+            <DropdownMenuItem
+              className='flex gap-2'
+              onClick={() => handleJobApplicationAction('edit', jobApplication._id)}
+            >
+              <Pencil className='h-2' />
+              {t('pages.dataTable.columns.actions.edit')}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className='flex gap-2'
+              onClick={() => handleJobApplicationAction('delete', jobApplication._id)}
+            >
+              <Trash className='h-2' />
+              {t('pages.dataTable.columns.actions.delete')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
   },
 ];

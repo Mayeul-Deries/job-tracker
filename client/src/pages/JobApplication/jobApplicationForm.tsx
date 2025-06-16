@@ -1,0 +1,228 @@
+import { useState } from 'react';
+import type { JobApplication } from '@/interfaces/JobApplication';
+import { t } from 'i18next';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { toast } from 'sonner';
+import { axiosConfig } from '@/config/axiosConfig';
+import { Categories } from '@/constants/categories';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { DatePicker } from '@/components/customs/DatePicker';
+import { StatusSelect } from '@/components/customs/StatusSelect';
+import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
+
+interface JobApplicationFormProps {
+  dialog: (isOpen: boolean) => void;
+  refresh: () => void;
+  action: string;
+  jobApplication?: JobApplication;
+}
+
+export const JobApplicationForm = ({ dialog, refresh, action, jobApplication }: JobApplicationFormProps) => {
+  const [loading, setLoading] = useState(false);
+
+  const editJobApplicationSchema = getJobApplicationSchema(t);
+
+  const editJobApplicationForm = useForm<z.infer<typeof editJobApplicationSchema>>({
+    resolver: zodResolver(editJobApplicationSchema),
+    defaultValues: {
+      title: jobApplication?.title,
+      company: jobApplication?.company,
+      city: jobApplication?.city,
+      date: jobApplication?.date ? new Date(jobApplication.date) : new Date(),
+      category: jobApplication?.category,
+      status: jobApplication?.status,
+      link: jobApplication?.link,
+      notes: jobApplication?.notes,
+    },
+  });
+
+  const onEditSubmit: SubmitHandler<z.infer<typeof editJobApplicationSchema>> = async values => {
+    try {
+      setLoading(true);
+      const response = await axiosConfig.put(`/jobApplications/${jobApplication?._id}`, values);
+      toast.success(response.data.message);
+      dialog(false);
+      refresh();
+      editJobApplicationForm.reset();
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (action === 'edit') {
+    return (
+      <Form {...editJobApplicationForm}>
+        <form onSubmit={editJobApplicationForm.handleSubmit(onEditSubmit)} className='flex flex-col gap-6'>
+          <div className='grid gap-5 sm:gap-6'>
+            <FormField
+              control={editJobApplicationForm.control}
+              name='title'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.editJobApplication.form.label.jobTitle')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('pages.editJobApplication.form.placeholder.jobTitle')} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={editJobApplicationForm.control}
+              name='company'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.editJobApplication.form.label.companyName')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('pages.editJobApplication.form.placeholder.companyName')} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className='flex gap-2 sm:gap-4'>
+              <div className='w-1/2'>
+                <FormField
+                  control={editJobApplicationForm.control}
+                  name='city'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('pages.editJobApplication.form.label.city')}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={t('pages.editJobApplication.form.placeholder.city')} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className='w-1/2'>
+                <FormField
+                  control={editJobApplicationForm.control}
+                  name='date'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-col'>
+                      <FormLabel>{t('pages.editJobApplication.form.label.applicationDate')}</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          value={field.value}
+                          onChange={field.onChange}
+                          variant='outline'
+                          placeholder={t('pages.editJobApplication.form.placeholder.applicationDate')}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className='flex gap-2 sm:gap-4'>
+              <div className='w-1/2'>
+                <FormField
+                  control={editJobApplicationForm.control}
+                  name='category'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('pages.editJobApplication.form.label.category')}</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className='w-full'>
+                            <SelectValue placeholder={t('pages.editJobApplication.form.placeholder.category')}>
+                              {t(`categories.${field.value}`)}
+                            </SelectValue>
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.values(Categories).map(category => (
+                            <SelectItem key={category} value={category}>
+                              {t(`categories.${category}`)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className='w-1/2'>
+                <FormField
+                  control={editJobApplicationForm.control}
+                  name='status'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('pages.editJobApplication.form.label.status')}</FormLabel>
+                      <FormControl>
+                        <StatusSelect status={field.value} onStatusChange={field.onChange} variant='form' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <FormField
+              control={editJobApplicationForm.control}
+              name='link'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.editJobApplication.form.label.link')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('pages.editJobApplication.form.placeholder.link')} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={editJobApplicationForm.control}
+              name='notes'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.editJobApplication.form.label.notes')}</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={t('pages.editJobApplication.form.placeholder.notes')}
+                      className='min-h-[90px] resize-none'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className='flex flex-col gap-4'>
+              <Button type='submit' className='w-full' disabled={loading}>
+                {t('pages.editJobApplication.form.button.submit')}
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Form>
+    );
+  }
+
+  return (
+    <>
+      <div className='flex h-full w-full items-center justify-center'>
+        <span className='text-muted-foreground'>Forbbiden action</span>
+      </div>
+    </>
+  );
+};

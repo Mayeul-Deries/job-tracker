@@ -123,6 +123,41 @@
         }
       }
     },
+    "editJobApplication": {
+      "errors": {
+        "jobTitle_required": "L'intitulé du poste est requis",
+        "companyName_required": "Le nom de l'entreprise est requis",
+        "city_required": "La ville est requise",
+        "applicationDate_required": "La date de candidature est requise",
+        "link_invalid": "Le lien vers l'offre d'emploi doit être une URL valide"
+      },
+      "form": {
+        "title": "Modifier une candidature",
+        "label": {
+          "jobTitle": "Intitulé du poste",
+          "companyName": "Nom de l'entreprise",
+          "city": "Ville",
+          "applicationDate": "Date de candidature",
+          "category": "Catégorie",
+          "status": "Statut",
+          "link": "Lien vers l'offre d'emploi",
+          "notes": "Notes"
+        },
+        "placeholder": {
+          "jobTitle": "Alternance développeur web",
+          "companyName": "Compagnie XYZ",
+          "city": "Paris",
+          "applicationDate": "Choisir une date",
+          "category": "Sélectionnez une catégorie",
+          "status": "Sélectionnez un statut",
+          "link": "https://www.example-job.com",
+          "notes": "Informations supplémentaires"
+        },
+        "button": {
+          "submit": "Modifier la candidature"
+        }
+      }
+    },
     "dataTable": {
       "columns": {
         "title": "Poste",
@@ -138,6 +173,11 @@
           "description": "Vous pouvez modifier vos notes ici",
           "placeholder": "Ajoutez des notes...",
           "save": "Enregistrer"
+        },
+        "actions": {
+          "title": "Actions",
+          "edit": "Modifier la candidature",
+          "delete": "Supprimer la candidature"
         }
       },
       "pagination": {
