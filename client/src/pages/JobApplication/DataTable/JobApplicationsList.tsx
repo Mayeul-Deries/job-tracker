@@ -55,6 +55,11 @@ export const JobApplicationsList = () => {
         setAction('edit');
         setOpenDialog(true);
         break;
+      case 'delete':
+        setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
+        setAction('delete');
+        setOpenDialog(true);
+        break;
       default:
         break;
     }
@@ -80,7 +85,7 @@ export const JobApplicationsList = () => {
         />
         {openDialog && (
           <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
-            <DialogContent className='sm:max-w-[625px]'>
+            <DialogContent className={action === 'edit' ? 'sm:max-w-[625px]' : 'sm:max-w-[425px]'}>
               <DialogHeader className='flex flex-col items-center gap-2 text-center'>
                 <DialogTitle className='text-xl font-bold '>
                   {t(`pages.dataTable.columns.actions.${action}`)}
