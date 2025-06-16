@@ -7,13 +7,13 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '@/contexts/authContext';
+import { getLoginSchema } from '@/validations/schemas/user';
 
 import { FcGoogle } from 'react-icons/fc';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Regex } from '@/constants/regex';
 
 export const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -23,16 +23,7 @@ export const Login = () => {
   const { t } = useTranslation();
   const { setAuthenticatedUser } = useAuthContext();
 
-  const loginSchema = z.object({
-    loginName: z
-      .string()
-      .min(2, { message: t('pages.login.errors.loginName_min') })
-      .regex(Regex.LOGIN_NAME, { message: t('pages.login.errors.loginName_no_spaces') }),
-    password: z
-      .string()
-      .min(1, { message: t('pages.login.errors.password_min') })
-      .max(255, { message: t('pages.login.errors.password_max') }),
-  });
+  const loginSchema = getLoginSchema(t);
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),

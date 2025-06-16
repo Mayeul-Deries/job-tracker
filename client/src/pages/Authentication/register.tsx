@@ -7,13 +7,13 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '@/contexts/authContext';
+import { getRegisterSchema } from '@/validations/schemas/user';
 
 import { FcGoogle } from 'react-icons/fc';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Regex } from '@/constants/regex';
 
 export const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -23,28 +23,7 @@ export const Register = () => {
   const { t } = useTranslation();
   const { setAuthenticatedUser } = useAuthContext();
 
-  const registerSchema = z
-    .object({
-      username: z
-        .string()
-        .min(2, { message: t('pages.register.errors.username_min') })
-        .max(25, { message: t('pages.register.errors.username_max') })
-        .regex(Regex.USERNAME, {
-          message: t('pages.register.errors.username_regex'),
-        }),
-      email: z.string().email({ message: t('pages.register.errors.email_invalid') }),
-      password: z
-        .string()
-        .max(255, { message: t('pages.register.errors.password_max') })
-        .regex(Regex.PASSWORD, {
-          message: t('pages.register.errors.password_regex'),
-        }),
-      confirmPassword: z.string(),
-    })
-    .refine(data => data.password === data.confirmPassword, {
-      message: t('pages.register.errors.password_do_not_match'),
-      path: ['confirmPassword'],
-    });
+  const registerSchema = getRegisterSchema(t);
 
   const registerForm = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -74,7 +53,7 @@ export const Register = () => {
 
   return (
     <div className='grid min-h-svh lg:grid-cols-1'>
-      <div className='flex flex-col gap-4 p-6 md:p-10'>
+      <div className='flex flex-col p-6 md:p-10  max-h-screen overflow-y-auto'>
         <div className='flex flex-1 items-center justify-center'>
           <div className='w-full max-w-xs'>
             <Form {...registerForm}>
