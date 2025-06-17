@@ -5,6 +5,7 @@ import {
   defaultJobApplication,
   otherJobApplication,
   jobApplicationWithMissingFields,
+  otherJobApplication,
 } from '../fixtures/jobApplicationFixture.js';
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
@@ -384,6 +385,86 @@ describe('JobApplications Controller', () => {
 
         expect(res.status).toBe(500);
         expect(res.body.error).toBe('Database error');
+      });
+    });
+
+    describe('deleteJobApplicationBatch', () => {
+      it('should return 200 and delete job applications specified', async () => {
+        const user = await User.create(defaultUser);
+        const aJobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+        const anOtherJobApplication = await JobApplication.create({
+          ...otherJobApplication,
+          userId: user._id,
+        });
+
+        const ids = [aJobApplication._id.toString(), anOtherJobApplication._id.toString()];
+
+        const response = await request(app)
+          .delete('/api/jobApplications/batch')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({ ids });
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toBe('Successfully deleted 2 job applications');
+      });
+
+      it('should return 400 if ids array is empty', async () => {
+        const user = await User.create(defaultUser);
+
+        const response = await request(app)
+          .delete('/api/jobApplications/batch')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({ ids: [] });
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('Invalid ids provided');
+      });
+
+      it('should return 400 if ids is not an array', async () => {
+        const user = await User.create(defaultUser);
+
+        const response = await request(app)
+          .delete('/api/jobApplications/batch')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({ ids: 'not-an-array' });
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('Invalid ids provided');
+      });
+
+      it('should return 404 if no job applications are found', async () => {
+        const user = await User.create(defaultUser);
+        const nonExistentId = new mongoose.Types.ObjectId();
+
+        const response = await request(app)
+          .delete('/api/jobApplications/batch')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({ ids: [nonExistentId] });
+
+        expect(response.status).toBe(404);
+        expect(response.body.error).toBe('No job applications found');
+      });
+
+      it('should return 500 if an error occurs', async () => {
+        const user = await User.create(defaultUser);
+        const jobApplication = await JobApplication.create({
+          ...defaultJobApplication,
+          userId: user._id,
+        });
+
+        vi.spyOn(JobApplication, 'deleteMany').mockRejectedValue(new Error('Database error'));
+
+        const response = await request(app)
+          .delete('/api/jobApplications/batch')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({ ids: [jobApplication._id] });
+        console.log(response);
+
+        expect(response.status).toBe(500);
+        expect(response.body.error).toBe('Database error');
       });
     });
   });

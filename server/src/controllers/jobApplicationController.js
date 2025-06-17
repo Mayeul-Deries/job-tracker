@@ -101,3 +101,26 @@ export const deleteJobApplication = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const deleteJobApplicationBatch = async (req, res) => {
+  try {
+    const { ids } = req.body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ error: 'Invalid ids provided' });
+    }
+
+    const result = await jobApplicationModel.deleteMany({ _id: { $in: ids } });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: 'No job applications found' });
+    }
+
+    res.status(200).json({
+      message: `Successfully deleted ${result.deletedCount} job applications`,
+      deletedCount: result.deletedCount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
