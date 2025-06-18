@@ -22,9 +22,16 @@ interface JobApplicationFormProps {
   refresh: () => void;
   action: string;
   jobApplication?: JobApplication;
+  selectedJobApplications?: JobApplication[];
 }
 
-export const JobApplicationForm = ({ dialog, refresh, action, jobApplication }: JobApplicationFormProps) => {
+export const JobApplicationForm = ({
+  dialog,
+  refresh,
+  action,
+  jobApplication,
+  selectedJobApplications,
+}: JobApplicationFormProps) => {
   const [loading, setLoading] = useState(false);
 
   const editJobApplicationSchema = getJobApplicationSchema(t);
@@ -62,6 +69,23 @@ export const JobApplicationForm = ({ dialog, refresh, action, jobApplication }: 
     try {
       setLoading(true);
       const response = await axiosConfig.delete(`/jobApplications/${jobApplication?._id}`);
+      toast.success(response.data.message);
+      dialog(false);
+      refresh();
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onDeleteManySubmit = async () => {
+    try {
+      setLoading(true);
+      const ids = selectedJobApplications?.map(app => app._id) || [];
+      const response = await axiosConfig.delete('/jobApplications/batch', {
+        data: { ids },
+      });
       toast.success(response.data.message);
       dialog(false);
       refresh();
@@ -238,7 +262,7 @@ export const JobApplicationForm = ({ dialog, refresh, action, jobApplication }: 
         <p className='text-sm text-muted-foreground text-center'>{t('pages.deleteJobApplication.description')}</p>
 
         <div className='flex flex-col sm:flex-row gap-2 sm:gap-4'>
-          <Button className='flex-1 min-w-[120px] ' onClick={() => dialog(false)} disabled={loading}>
+          <Button className='flex-1 min-w-[120px]' onClick={() => dialog(false)} disabled={loading}>
             {t('pages.deleteJobApplication.button.cancel')}
           </Button>
           <Button
@@ -247,6 +271,27 @@ export const JobApplicationForm = ({ dialog, refresh, action, jobApplication }: 
             disabled={loading}
           >
             {t('pages.deleteJobApplication.button.confirm')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (action === 'deleteMany') {
+    return (
+      <div className='flex flex-col gap-6 px-2 py-2'>
+        <p className='text-sm text-muted-foreground text-center'>{t('pages.deleteManyJobApplications.description')}</p>
+
+        <div className='flex flex-col sm:flex-row gap-2 sm:gap-4'>
+          <Button className='flex-1 min-w-[120px]' onClick={() => dialog(false)} disabled={loading}>
+            {t('pages.deleteManyJobApplications.button.cancel')}
+          </Button>
+          <Button
+            className='bg-red-700 hover:bg-red-800 text-white flex-1 min-w-[120px]'
+            onClick={onDeleteManySubmit}
+            disabled={loading}
+          >
+            {t('pages.deleteManyJobApplications.button.confirm')}
           </Button>
         </div>
       </div>

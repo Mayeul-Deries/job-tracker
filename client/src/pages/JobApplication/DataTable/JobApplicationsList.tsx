@@ -4,6 +4,7 @@ import { t } from 'i18next';
 import { Link } from 'react-router-dom';
 import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
+import { cn } from '@/lib/utils';
 
 import { getColumns } from './columns';
 import { DataTable } from './dataTable';
@@ -19,6 +20,7 @@ export const JobApplicationsList = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [action, setAction] = useState('');
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication>();
+  const [selectedJobApplications, setSelectedJobApplications] = useState<JobApplication[]>([]);
 
   async function fetchJobApplications(page: number = 0, size: number = 10) {
     setLoading(true);
@@ -49,6 +51,7 @@ export const JobApplicationsList = () => {
 
   function handleJobApplicationAction(action: string, data: any) {
     setSelectedJobApplication(undefined);
+    setSelectedJobApplications([]);
     switch (action) {
       case 'edit':
         setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
@@ -60,6 +63,15 @@ export const JobApplicationsList = () => {
         setAction('delete');
         setOpenDialog(true);
         break;
+      case 'deleteMany':
+        if (!Array.isArray(data) || data.length === 0) {
+          throw new Error('Invalid data for deleteMany action');
+        }
+        setSelectedJobApplications(data);
+        setAction('deleteMany');
+        setOpenDialog(true);
+        break;
+
       default:
         break;
     }
@@ -82,10 +94,17 @@ export const JobApplicationsList = () => {
           loading={loading}
           fetchData={fetchJobApplications}
           dataCount={jobApplicationsCount}
+          onAction={handleJobApplicationAction}
         />
         {openDialog && (
           <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
-            <DialogContent className={action === 'edit' ? 'sm:max-w-[625px]' : 'sm:max-w-[425px]'}>
+            <DialogContent
+              className={cn(
+                action === 'edit' ? 'sm:max-w-[625px]' : 'sm:max-w-[425px]',
+                action === 'deleteMany' && 'sm:max-w-[460px]'
+              )}
+            >
+              {' '}
               <DialogHeader className='flex flex-col items-center gap-2 text-center'>
                 <DialogTitle className='text-xl font-bold '>
                   {t(`pages.dataTable.columns.actions.${action}`)}
@@ -97,6 +116,7 @@ export const JobApplicationsList = () => {
                 refresh={fetchJobApplications}
                 action={action}
                 jobApplication={selectedJobApplication}
+                selectedJobApplications={selectedJobApplications}
               />
             </DialogContent>
           </Dialog>

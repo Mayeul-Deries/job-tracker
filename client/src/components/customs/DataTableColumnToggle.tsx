@@ -1,6 +1,6 @@
 import type { Table } from '@tanstack/react-table';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Settings2 } from 'lucide-react';
+import { Settings2, Trash2 } from 'lucide-react';
 import { t } from 'i18next';
 
 import {
@@ -15,9 +15,12 @@ import { Input } from '../ui/input';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
+  onAction: (action: string, data: TData[]) => void;
 }
 
-export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
+export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOptionsProps<TData>) {
+  const selectedRows = table.getSelectedRowModel().rows;
+
   return (
     <div className='flex items-center gap-2'>
       <Input
@@ -26,6 +29,22 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
         onChange={event => table.getColumn('title')?.setFilterValue(event.target.value)}
         className='max-w-sm truncate'
       />
+
+      <Button
+        variant='destructive'
+        onClick={() => {
+          const selected = selectedRows.map(row => row.original);
+          if (selected.length > 0) {
+            onAction('deleteMany', selected);
+          }
+        }}
+        disabled={selectedRows.length === 0}
+        className='gap-2'
+      >
+        <Trash2 className='h-4 w-4' />
+        {t('pages.dataTable.columns.actions.deleteMany')} ({selectedRows.length})
+      </Button>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='outline' className='ml-auto'>

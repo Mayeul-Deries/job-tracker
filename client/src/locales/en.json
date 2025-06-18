@@ -160,7 +160,15 @@
     },
     "deleteJobApplication": {
       "title": "Delete Job Application",
-      "description": "Are you sure you want to delete this job application? This action cannot be undone.",
+      "description": "Are you sure you want to delete this job application? This action is irreversible.",
+      "button": {
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      }
+    },
+    "deleteManyJobApplications": {
+      "title": "Delete applications",
+      "description": "Are you sure you want to delete all selected applications? This action is irreversible.",
       "button": {
         "confirm": "Delete",
         "cancel": "Cancel"
@@ -185,7 +193,8 @@
         "actions": {
           "title": "Actions",
           "edit": "Edit job application",
-          "delete": "Delete job application"
+          "delete": "Delete job application",
+          "deleteMany": "Delete selected job applications"
         }
       },
       "pagination": {

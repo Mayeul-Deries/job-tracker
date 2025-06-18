@@ -24,9 +24,17 @@ interface DataTableProps<TData> {
   loading?: boolean;
   fetchData: (pageIndex: number, pageSize: number) => void;
   dataCount: number;
+  onAction: (action: string, data: TData[]) => void;
 }
 
-export function DataTable<TData>({ columns, data, loading = false, fetchData, dataCount }: DataTableProps<TData>) {
+export function DataTable<TData>({
+  columns,
+  data,
+  loading = false,
+  fetchData,
+  dataCount,
+  onAction,
+}: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -98,7 +106,7 @@ export function DataTable<TData>({ columns, data, loading = false, fetchData, da
   return (
     <div className='px-2'>
       <div className='py-4'>
-        <DataTableViewOptions table={table} />
+        <DataTableViewOptions table={table} onAction={onAction} />
       </div>
       <div className='rounded-md border'>
         <Table>
