@@ -173,6 +173,20 @@ describe('JobApplications Controller', () => {
         });
       });
 
+      it('should return 400 if the job application ID is invalid', async () => {
+        const user = await User.create(defaultUser);
+        const invalidId = 'invalid-id-format';
+
+        const res = await request(app)
+          .get(`/api/jobApplications/${invalidId}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(res.status).toBe(400);
+        expect(res.body).toMatchObject({
+          error: 'Invalid ID',
+        });
+      });
+
       it('should return 404 if the job application does not exist', async () => {
         const nonExistentUserId = new mongoose.Types.ObjectId();
 
@@ -244,6 +258,24 @@ describe('JobApplications Controller', () => {
         expect(res.body.error).toBe('Missing required fields');
       });
 
+      it('should return 400 if job application ID is invalid', async () => {
+        const user = await User.create(defaultUser);
+        const invalidId = 'invalid-id-format';
+
+        const res = await request(app)
+          .put(`/api/jobApplications/${invalidId}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            ...otherJobApplication,
+            userId: user._id,
+          });
+
+        expect(res.status).toBe(400);
+        expect(res.body).toMatchObject({
+          error: 'Invalid ID',
+        });
+      });
+
       it('should return 404 if the job application does not exist', async () => {
         const user = await User.create(defaultUser);
         const nonExistentJobApplicationId = new mongoose.Types.ObjectId();
@@ -308,6 +340,23 @@ describe('JobApplications Controller', () => {
         });
       });
 
+      it('should return 400 if the job application ID is invalid', async () => {
+        const user = await User.create(defaultUser);
+        const invalidId = 'invalid-id-format';
+
+        const res = await request(app)
+          .patch(`/api/jobApplications/${invalidId}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({
+            notes: 'Updated notes',
+          });
+
+        expect(res.status).toBe(400);
+        expect(res.body).toMatchObject({
+          error: 'Invalid ID',
+        });
+      });
+
       it('should return 404 if the job application does not exist', async () => {
         const user = await User.create(defaultUser);
         const invalidJobApplicationId = new mongoose.Types.ObjectId();
@@ -358,6 +407,20 @@ describe('JobApplications Controller', () => {
 
         expect(res.status).toBe(200);
         expect(res.body.message).toBe('Job application successfully deleted');
+      });
+
+      it('should return 400 if the job application ID is invalid', async () => {
+        const user = await User.create(defaultUser);
+        const invalidId = 'invalid-id-format';
+
+        const res = await request(app)
+          .delete(`/api/jobApplications/${invalidId}`)
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+        expect(res.status).toBe(400);
+        expect(res.body).toMatchObject({
+          error: 'Invalid ID',
+        });
       });
 
       it('should return 404 if the job application does not exist', async () => {
@@ -422,7 +485,7 @@ describe('JobApplications Controller', () => {
           .send({ ids: [] });
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe('Invalid ids provided');
+        expect(response.body.error).toBe('Invalid IDs provided');
       });
 
       it('should return 400 if ids is not an array', async () => {
@@ -434,7 +497,7 @@ describe('JobApplications Controller', () => {
           .send({ ids: 'not-an-array' });
 
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe('Invalid ids provided');
+        expect(response.body.error).toBe('Invalid IDs provided');
       });
 
       it('should return 404 if no job applications are found', async () => {

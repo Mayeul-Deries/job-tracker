@@ -1,8 +1,13 @@
 import userModel from '../models/userModel.js';
+import mongoose from 'mongoose';
 import { updateUserSchema } from '../validations/userSchemas.js';
 
 export const getUser = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid ID' });
+    }
+
     const user = await userModel.findOne({ _id: req.params.id });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -16,6 +21,10 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   try {
     const data = updateUserSchema.parse(req.body);
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid ID' });
+    }
 
     if (data.email) {
       const existingEmail = await userModel.findOne({
@@ -58,6 +67,10 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
+
   try {
     const user = await userModel.findOneAndDelete({ _id: req.params.id });
     if (!user) {

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import jobApplicationModel from '../models/jobApplicationModel.js';
 
 export const getJobApplications = async (req, res) => {
@@ -38,6 +39,10 @@ export const createJobApplication = async (req, res) => {
 
 export const getJobApplication = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid ID' });
+    }
+
     const jobApplication = await jobApplicationModel.findOne({ _id: req.params.id });
     if (!jobApplication) {
       return res.status(404).json({ error: 'Job application not found' });
@@ -54,6 +59,10 @@ export const updateJobApplication = async (req, res) => {
     if (!title || !company || !date || !status || !category || !city) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid ID' });
+    }
+
     const jobApplication = await jobApplicationModel.findOneAndUpdate(
       { _id: req.params.id },
       { ...req.body },
@@ -75,6 +84,10 @@ export const patchJobApplication = async (req, res) => {
     const { id } = req.params;
     const update = req.body;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid ID' });
+    }
+
     const jobApplication = await jobApplicationModel.findByIdAndUpdate(id, { $set: update }, { new: true });
 
     if (!jobApplication) {
@@ -92,6 +105,10 @@ export const patchJobApplication = async (req, res) => {
 
 export const deleteJobApplication = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: 'Invalid ID' });
+    }
+
     const jobApplication = await jobApplicationModel.findOneAndDelete({ _id: req.params.id });
     if (!jobApplication) {
       return res.status(404).json({ error: 'Job application not found' });
@@ -106,8 +123,8 @@ export const deleteJobApplicationBatch = async (req, res) => {
   try {
     const { ids } = req.body;
 
-    if (!Array.isArray(ids) || ids.length === 0) {
-      return res.status(400).json({ error: 'Invalid ids provided' });
+    if (!Array.isArray(ids) || ids.length === 0 || !ids.every(id => mongoose.Types.ObjectId.isValid(id))) {
+      return res.status(400).json({ error: 'Invalid IDs provided' });
     }
 
     const result = await jobApplicationModel.deleteMany({ _id: { $in: ids } });

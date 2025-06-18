@@ -39,6 +39,19 @@ describe('User Controller', () => {
       });
     });
 
+    it('should return 400 if user ID is invalid', async () => {
+      const invalidId = 'invalid-id-format';
+
+      const res = await request(app)
+        .get(`/api/users/${invalidId}`)
+        .set('Cookie', [`__jt_token=${generateToken(invalidId)}`]);
+
+      expect(res.status).toBe(400);
+      expect(res.body).toMatchObject({
+        error: 'Invalid ID',
+      });
+    });
+
     it('should return 404 when user is not found', async () => {
       const nonExistentUserId = new mongoose.Types.ObjectId();
 
@@ -90,6 +103,20 @@ describe('User Controller', () => {
       });
     });
 
+    it('should return 400 if user ID is invalid', async () => {
+      const invalidId = 'invalid-id-format';
+
+      const res = await request(app)
+        .put(`/api/users/${invalidId}`)
+        .set('Cookie', [`__jt_token=${generateToken(invalidId)}`])
+        .send({ username: 'newusername' });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toMatchObject({
+        error: 'Invalid ID',
+      });
+    });
+
     it('should return a 409 if the email already exists', async () => {
       const user = await User.create(defaultUser);
       await User.create(otherUser);
@@ -138,7 +165,7 @@ describe('User Controller', () => {
       const res = await request(app)
         .put(`/api/users/${user._id}`)
         .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
-        .send({ username: 'Invalid Username!' }); // Invalid username with spaces and special chars
+        .send({ username: 'Invalid Username!' });
 
       expect(res.status).toBe(400);
       expect(res.body).toMatchObject({
@@ -147,7 +174,6 @@ describe('User Controller', () => {
     });
 
     it('should return 400 when email format is invalid', async () => {
-      // Create a test user first
       const user = await User.create({
         username: 'testuser',
         email: 'test@example.com',
@@ -216,6 +242,18 @@ describe('User Controller', () => {
       });
     });
 
+    it('should return 400 if user ID is invalid', async () => {
+      const invalidId = 'invalid-id-format';
+
+      const res = await request(app)
+        .delete(`/api/users/${invalidId}`)
+        .set('Cookie', [`__jt_token=${generateToken(invalidId)}`]);
+
+      expect(res.status).toBe(400);
+      expect(res.body).toMatchObject({
+        error: 'Invalid ID',
+      });
+    });
     it('should return 404 when user is not found', async () => {
       const nonExistentUserId = new mongoose.Types.ObjectId();
 
