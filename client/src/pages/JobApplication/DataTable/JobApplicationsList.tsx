@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { t } from 'i18next';
 import { Link } from 'react-router-dom';
@@ -21,6 +21,8 @@ export const JobApplicationsList = () => {
   const [action, setAction] = useState('');
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication>();
   const [selectedJobApplications, setSelectedJobApplications] = useState<JobApplication[]>([]);
+
+  const resetSelectionRef = useRef<() => void>(() => {});
 
   async function fetchJobApplications(page: number = 0, size: number = 10) {
     setLoading(true);
@@ -95,6 +97,7 @@ export const JobApplicationsList = () => {
           fetchData={fetchJobApplications}
           dataCount={jobApplicationsCount}
           onAction={handleJobApplicationAction}
+          onResetSelectionRef={resetFn => (resetSelectionRef.current = resetFn)}
         />
         {openDialog && (
           <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
@@ -104,7 +107,6 @@ export const JobApplicationsList = () => {
                 action === 'deleteMany' && 'sm:max-w-[460px]'
               )}
             >
-              {' '}
               <DialogHeader className='flex flex-col items-center gap-2 text-center'>
                 <DialogTitle className='text-xl font-bold '>
                   {t(`pages.dataTable.columns.actions.${action}`)}
@@ -117,6 +119,7 @@ export const JobApplicationsList = () => {
                 action={action}
                 jobApplication={selectedJobApplication}
                 selectedJobApplications={selectedJobApplications}
+                resetSelection={resetSelectionRef.current}
               />
             </DialogContent>
           </Dialog>

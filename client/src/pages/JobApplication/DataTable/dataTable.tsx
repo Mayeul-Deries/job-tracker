@@ -25,6 +25,7 @@ interface DataTableProps<TData> {
   fetchData: (pageIndex: number, pageSize: number) => void;
   dataCount: number;
   onAction: (action: string, data: TData[]) => void;
+  onResetSelectionRef?: (resetFn: () => void) => void;
 }
 
 export function DataTable<TData>({
@@ -34,6 +35,7 @@ export function DataTable<TData>({
   fetchData,
   dataCount,
   onAction,
+  onResetSelectionRef,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
@@ -47,6 +49,12 @@ export function DataTable<TData>({
   useEffect(() => {
     fetchData(pagination.pageIndex, pagination.pageSize);
   }, [pagination.pageIndex, pagination.pageSize]);
+
+  useEffect(() => {
+    if (onResetSelectionRef) {
+      onResetSelectionRef(() => setRowSelection({})); // réinitialiser les checkbox
+    }
+  }, []);
 
   const table = useReactTable({
     data,

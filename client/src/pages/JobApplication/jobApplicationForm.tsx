@@ -23,6 +23,7 @@ interface JobApplicationFormProps {
   action: string;
   jobApplication?: JobApplication;
   selectedJobApplications?: JobApplication[];
+  resetSelection?: () => void;
 }
 
 export const JobApplicationForm = ({
@@ -31,6 +32,7 @@ export const JobApplicationForm = ({
   action,
   jobApplication,
   selectedJobApplications,
+  resetSelection,
 }: JobApplicationFormProps) => {
   const [loading, setLoading] = useState(false);
 
@@ -89,6 +91,7 @@ export const JobApplicationForm = ({
       toast.success(response.data.message);
       dialog(false);
       refresh();
+      resetSelection?.();
     } catch (error: any) {
       toast.error(error.response.data.error);
     } finally {
