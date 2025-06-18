@@ -15,6 +15,7 @@ const jobApplicationSchema = new mongoose.Schema(
       default: StatusOffer.SENT,
     },
     notes: { type: String },
+    favorite: { type: Boolean, default: false },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     category: {
       type: String,

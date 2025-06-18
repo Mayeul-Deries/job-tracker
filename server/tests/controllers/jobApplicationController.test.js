@@ -59,6 +59,7 @@ describe('JobApplications Controller', () => {
             date: expect.any(Date),
             userId: user._id.toString(),
             city: firstJobApplication.city,
+            favorite: true,
           }),
           expect.objectContaining({
             _id: secondJobApplication._id.toString(),
@@ -71,6 +72,7 @@ describe('JobApplications Controller', () => {
             date: expect.any(Date),
             userId: user._id.toString(),
             city: secondJobApplication.city,
+            favorite: true,
           }),
         ]);
         expect(res.body.jobApplications).toHaveLength(2);

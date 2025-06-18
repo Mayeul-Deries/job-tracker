@@ -7,6 +7,7 @@ export const defaultJobApplication = {
   notes: 'Some notes',
   category: 'Apprenticeship',
   city: 'Paris',
+  favorite: false,
 };
 
 export const otherJobApplication = {
@@ -18,6 +19,7 @@ export const otherJobApplication = {
   notes: 'Other notes',
   category: 'Internship',
   city: 'Lyon',
+  favorite: false,
 };
 
 export const jobApplicationWithMissingFields = {
