@@ -22,7 +22,7 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
   const selectedRows = table.getSelectedRowModel().rows;
 
   return (
-    <div className='flex items-center gap-2'>
+    <div className='flex items-center gap-2 justify-between'>
       <Input
         placeholder={t('pages.dataTable.search.placeholder')}
         value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
@@ -30,47 +30,47 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
         className='max-w-sm truncate'
       />
 
-      <Button
-        variant='destructive'
-        onClick={() => {
-          const selected = selectedRows.map(row => row.original);
-          if (selected.length > 0) {
-            onAction('deleteMany', selected);
-          }
-        }}
-        disabled={selectedRows.length === 0}
-        className='gap-2'
-      >
-        <Trash2 className='h-4 w-4' />
-        {t('pages.dataTable.columns.actions.deleteMany')} ({selectedRows.length})
-      </Button>
+      <div className='flex gap-2'>
+        <Button
+          onClick={() => {
+            const selected = selectedRows.map(row => row.original);
+            if (selected.length > 0) {
+              onAction('deleteMany', selected);
+            }
+          }}
+          disabled={selectedRows.length === 0}
+          className='gap-2 bg-red-700 hover:bg-red-800 text-white'
+        >
+          <Trash2 className='h-4 w-4' />({selectedRows.length})
+        </Button>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant='outline' className='ml-auto'>
-            <Settings2 className='mr-2 h-4 w-4' />
-            {t('pages.dataTable.visibility.columns')}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
-          <DropdownMenuLabel>{t('pages.dataTable.visibility.toggle_columns')}</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          {table
-            .getAllColumns()
-            .filter(column => column.getCanHide())
-            .map(column => {
-              return (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  checked={column.getIsVisible()}
-                  onCheckedChange={value => column.toggleVisibility(!!value)}
-                >
-                  {t(`pages.dataTable.visibility.${column.id}`)}
-                </DropdownMenuCheckboxItem>
-              );
-            })}
-        </DropdownMenuContent>
-      </DropdownMenu>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='outline' className='ml-auto'>
+              <Settings2 className='hidden sm:inline-block h-4 w-4' />
+              {t('pages.dataTable.visibility.columns')}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align='end'>
+            <DropdownMenuLabel>{t('pages.dataTable.visibility.toggle_columns')}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {table
+              .getAllColumns()
+              .filter(column => column.getCanHide())
+              .map(column => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={value => column.toggleVisibility(!!value)}
+                  >
+                    {t(`pages.dataTable.visibility.${column.id}`)}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 }
