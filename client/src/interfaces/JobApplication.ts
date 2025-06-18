@@ -11,6 +11,7 @@ export interface JobApplication {
   status: StatusType;
   link: string;
   notes: string;
+  favorite: boolean;
   createdAt: string;
   updatedAt?: string;
   __v: number;

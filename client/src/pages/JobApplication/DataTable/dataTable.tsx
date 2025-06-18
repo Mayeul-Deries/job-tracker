@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { t } from 'i18next';
 import {
   useReactTable,
@@ -46,6 +46,18 @@ export function DataTable<TData>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
+  const sortedData = useMemo(() => {
+    if (sorting.length === 0) {
+      return [...data].sort((a: any, b: any) => {
+        if (a.favorite === b.favorite) {
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        }
+        return a.favorite ? -1 : 1;
+      });
+    }
+    return data;
+  }, [data, sorting]);
+
   useEffect(() => {
     fetchData(pagination.pageIndex, pagination.pageSize);
   }, [pagination.pageIndex, pagination.pageSize]);
@@ -57,7 +69,7 @@ export function DataTable<TData>({
   }, []);
 
   const table = useReactTable({
-    data,
+    data: sortedData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,

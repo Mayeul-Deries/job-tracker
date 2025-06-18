@@ -2,8 +2,9 @@ import { useState } from 'react';
 import type { JobApplication } from '@/interfaces/JobApplication';
 import type { ColumnDef } from '@tanstack/react-table';
 import { t } from 'i18next';
+import { cn } from '@/lib/utils';
 
-import { ExternalLink, FileText, MoreVertical, Pencil, Trash } from 'lucide-react';
+import { ExternalLink, FileText, MoreVertical, Pencil, Star, Trash } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -32,9 +33,10 @@ export const getColumns = (
 ): ColumnDef<JobApplication>[] => [
   {
     id: 'select',
+    size: 50,
     header: ({ table }) => (
       <Checkbox
-        className='mx-2'
+        className='mx-2 px-auto'
         checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
         onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
@@ -42,7 +44,7 @@ export const getColumns = (
     ),
     cell: ({ row }) => (
       <Checkbox
-        className='mx-2'
+        className='mx-2 px-auto'
         checked={row.getIsSelected()}
         onCheckedChange={value => row.toggleSelected(!!value)}
         aria-label='Select row'
@@ -53,11 +55,25 @@ export const getColumns = (
   },
   {
     accessorKey: 'title',
-    size: 200,
+    size: 220,
     header: ({ column }) => <DataTableColumnHeader column={column} title='title' />,
     cell: ({ row }) => {
       const value = row.getValue('title') as string;
-      return <div className='truncate'>{value}</div>;
+      const favorite = row.original.favorite as boolean;
+
+      return (
+        <div className='flex items-center justify-between w-full pr-2'>
+          <div className='truncate mr-2'>{value}</div>
+          <Button
+            variant='ghost'
+            size='icon'
+            className={cn('size-8', favorite ? 'text-yellow-500' : 'hover:text-yellow-500')}
+            onClick={() => onUpdateField(row.original._id, 'favorite', !favorite)}
+          >
+            <Star className={cn('size-4', favorite && 'fill-yellow-500')} />
+          </Button>
+        </div>
+      );
     },
   },
   {
@@ -107,7 +123,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'status',
-    size: 175,
+    size: 150,
     header: ({ column }) => <DataTableColumnHeader column={column} title='status' />,
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
