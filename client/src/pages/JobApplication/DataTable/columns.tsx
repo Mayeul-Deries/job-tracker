@@ -14,11 +14,11 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { DatePicker } from '@/components/customs/DatePicker';
-import { StatusSelect } from '@/components/customs/StatusSelect';
+import { DatePicker } from '@/components/customs/table/DatePicker';
+import { StatusSelect } from '@/components/customs/table/StatusSelect';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DataTableColumnHeader } from '@/components/customs/DataTableColumnHeader';
+import { DataTableColumnHeader } from '@/components/customs/table/DataTableColumnHeader';
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -9,9 +9,9 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from '../ui/dropdown-menu';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
+} from '../../ui/dropdown-menu';
+import { Button } from '../../ui/button';
+import { Input } from '../../ui/input';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;

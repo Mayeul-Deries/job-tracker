@@ -13,8 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { DatePicker } from '@/components/customs/DatePicker';
-import { StatusSelect } from '@/components/customs/StatusSelect';
+import { DatePicker } from '@/components/customs/table/DatePicker';
+import { StatusSelect } from '@/components/customs/table/StatusSelect';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
 
 interface JobApplicationFormProps {

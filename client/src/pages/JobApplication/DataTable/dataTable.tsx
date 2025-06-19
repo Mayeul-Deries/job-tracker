@@ -15,8 +15,8 @@ import {
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { DataTablePagination } from '@/components/customs/DataTablePagination';
-import { DataTableViewOptions } from '@/components/customs/DataTableColumnToggle';
+import { DataTablePagination } from '@/components/customs/table/DataTablePagination';
+import { DataTableViewOptions } from '@/components/customs/table/DataTableColumnToggle';
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[];
