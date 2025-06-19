@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { JobApplicationForm } from '../jobApplicationForm';
+import { Navbar } from '@/components/customs/navbar/NavBar';
 
 export const JobApplicationsList = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -80,50 +81,53 @@ export const JobApplicationsList = () => {
   }
 
   return (
-    <div className='flex flex-col mx-auto px-2 sm:px-6 md:px-8 lg:px-20 py-4 sm:py-6 lg:py-10 max-w-[1920px] min-h-screen'>
-      <div className='px-2 mb-4'>
-        <Link to='/create-application'>
-          <Button variant='outline' size='default'>
-            <Plus />
-            {t('pages.home.button.add_job_application')}
-          </Button>
-        </Link>
-      </div>
-      <div className='w-full overflow-hidden'>
-        <DataTable
-          columns={getColumns(patchJobApplication, handleJobApplicationAction)}
-          data={jobApplications}
-          loading={loading}
-          fetchData={fetchJobApplications}
-          dataCount={jobApplicationsCount}
-          onAction={handleJobApplicationAction}
-          onResetSelectionRef={resetFn => (resetSelectionRef.current = resetFn)}
-        />
-        {openDialog && (
-          <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
-            <DialogContent
-              className={cn(
-                action === 'edit' ? 'sm:max-w-[625px]' : 'sm:max-w-[425px]',
-                action === 'deleteMany' && 'sm:max-w-[460px]'
-              )}
-            >
-              <DialogHeader className='flex flex-col items-center gap-2 text-center'>
-                <DialogTitle className='text-xl font-bold '>
-                  {t(`pages.dataTable.columns.actions.${action}`)}
-                </DialogTitle>
-                <DialogDescription className='sr-only'></DialogDescription>
-              </DialogHeader>
-              <JobApplicationForm
-                dialog={setOpenDialog}
-                refresh={fetchJobApplications}
-                action={action}
-                jobApplication={selectedJobApplication}
-                selectedJobApplications={selectedJobApplications}
-                resetSelection={resetSelectionRef.current}
-              />
-            </DialogContent>
-          </Dialog>
-        )}
+    <div>
+      <Navbar />
+      <div className='flex flex-col mx-auto px-2 sm:px-6 md:px-8 lg:px-20 pt-26 pb-4 sm:pb-6 lg:pb-10 max-w-[1920px] min-h-screen'>
+        <div className='px-2 mb-4'>
+          <Link to='/create-application'>
+            <Button variant='outline' size='default'>
+              <Plus />
+              {t('pages.home.button.add_job_application')}
+            </Button>
+          </Link>
+        </div>
+        <div className='w-full overflow-hidden'>
+          <DataTable
+            columns={getColumns(patchJobApplication, handleJobApplicationAction)}
+            data={jobApplications}
+            loading={loading}
+            fetchData={fetchJobApplications}
+            dataCount={jobApplicationsCount}
+            onAction={handleJobApplicationAction}
+            onResetSelectionRef={resetFn => (resetSelectionRef.current = resetFn)}
+          />
+          {openDialog && (
+            <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
+              <DialogContent
+                className={cn(
+                  action === 'edit' ? 'sm:max-w-[625px]' : 'sm:max-w-[425px]',
+                  action === 'deleteMany' && 'sm:max-w-[460px]'
+                )}
+              >
+                <DialogHeader className='flex flex-col items-center gap-2 text-center'>
+                  <DialogTitle className='text-xl font-bold '>
+                    {t(`pages.dataTable.columns.actions.${action}`)}
+                  </DialogTitle>
+                  <DialogDescription className='sr-only'></DialogDescription>
+                </DialogHeader>
+                <JobApplicationForm
+                  dialog={setOpenDialog}
+                  refresh={fetchJobApplications}
+                  action={action}
+                  jobApplication={selectedJobApplication}
+                  selectedJobApplications={selectedJobApplications}
+                  resetSelection={resetSelectionRef.current}
+                />
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
       </div>
     </div>
   );
