@@ -6,7 +6,7 @@ import { axiosConfig } from '@/config/axiosConfig';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/contexts/authContext';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { getRegisterSchema } from '@/validations/schemas/user';
 
 import { FcGoogle } from 'react-icons/fc';
@@ -16,6 +16,8 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
 export const Register = () => {
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();

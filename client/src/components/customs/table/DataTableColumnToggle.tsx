@@ -1,7 +1,7 @@
 import type { Table } from '@tanstack/react-table';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Settings2, Trash2 } from 'lucide-react';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 import {
   DropdownMenu,
@@ -19,6 +19,8 @@ interface DataTableViewOptionsProps<TData> {
 }
 
 export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOptionsProps<TData>) {
+  const { t } = useTranslation();
+
   const selectedRows = table.getSelectedRowModel().rows;
 
   return (

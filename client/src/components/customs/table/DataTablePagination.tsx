@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-r
 
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
@@ -11,6 +11,8 @@ interface DataTablePaginationProps<TData> {
 }
 
 export function DataTablePagination<TData>({ table, dataCount }: DataTablePaginationProps<TData>) {
+  const { t } = useTranslation();
+
   return (
     <div className='flex flex-col sm:flex-row w-full items-center justify-between'>
       <div className='hidden sm:block text-muted-foreground text-sm'>

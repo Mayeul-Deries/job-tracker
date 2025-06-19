@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { JobApplication } from '@/interfaces/JobApplication';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
@@ -34,6 +34,8 @@ export const JobApplicationForm = ({
   selectedJobApplications,
   resetSelection,
 }: JobApplicationFormProps) => {
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState(false);
 
   const editJobApplicationSchema = getJobApplicationSchema(t);

@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Categories } from '@/constants/categories';
 import { StatusOffer } from '@/constants/statusOffer';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
 
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,8 @@ import { DatePicker } from '@/components/customs/table/DatePicker';
 import { StatusSelect } from '@/components/customs/table/StatusSelect';
 
 export const CreateJobApplication = () => {
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();

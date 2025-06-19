@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Plus } from 'lucide-react';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
@@ -15,6 +15,8 @@ import { JobApplicationForm } from '../jobApplicationForm';
 import { Navbar } from '@/components/customs/navbar/NavBar';
 
 export const JobApplicationsList = () => {
+  const { t } = useTranslation();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
   const [jobApplicationsCount, setJobApplicationsCount] = useState<number>(0);
@@ -94,7 +96,7 @@ export const JobApplicationsList = () => {
         </div>
         <div className='w-full overflow-hidden'>
           <DataTable
-            columns={getColumns(patchJobApplication, handleJobApplicationAction)}
+            columns={getColumns(t, patchJobApplication, handleJobApplicationAction)}
             data={jobApplications}
             loading={loading}
             fetchData={fetchJobApplications}

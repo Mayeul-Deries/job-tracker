@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { StatusOffer } from '@/constants/statusOffer';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -27,6 +27,8 @@ const statusOptions = [
 ];
 
 export const StatusSelect = ({ status, onStatusChange, variant = 'form' }: StatusSelectProps) => {
+  const { t } = useTranslation();
+
   const currentStatus = statusOptions.find(opt => opt.value === status);
 
   return (

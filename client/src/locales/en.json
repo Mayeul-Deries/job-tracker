@@ -15,6 +15,12 @@
     "Contract": "Contract",
     "Seasonal": "Seasonal"
   },
+  "navbar": {
+    "locale_changer": {
+      "language": "Language",
+      "locale_changed": "Locale successfully changed"
+    }
+  },
   "pages": {
     "login": {
       "errors": {

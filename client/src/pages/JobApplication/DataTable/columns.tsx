@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { JobApplication } from '@/interfaces/JobApplication';
 import type { ColumnDef } from '@tanstack/react-table';
-import { t } from 'i18next';
+import type { TFunction } from 'i18next';
 import { cn } from '@/lib/utils';
 
 import { ExternalLink, FileText, MoreVertical, Pencil, Star, Trash } from 'lucide-react';
@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export const getColumns = (
+  t: TFunction,
   onUpdateField: (id: string, field: string, value: any) => void,
   handleJobApplicationAction: (action: string, data: any) => void
 ): ColumnDef<JobApplication>[] => [

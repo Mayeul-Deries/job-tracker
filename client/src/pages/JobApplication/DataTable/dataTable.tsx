@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import {
   useReactTable,
   type ColumnDef,
@@ -37,6 +37,8 @@ export function DataTable<TData>({
   onAction,
   onResetSelectionRef,
 }: DataTableProps<TData>) {
+  const { t } = useTranslation();
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
