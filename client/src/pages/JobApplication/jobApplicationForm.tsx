@@ -82,7 +82,7 @@ export const JobApplicationForm = ({
       toast.success(response.data.message);
       dialog(false);
       refresh();
-      // createJobApplicationForm.reset();
+      createJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(error.response.data.error);
     } finally {

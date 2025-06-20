@@ -19,6 +19,11 @@
     "locale_changer": {
       "language": "Language",
       "locale_changed": "Locale successfully changed"
+    },
+    "avatar": {
+      "my_account": "My account",
+      "profile": "Profile",
+      "logout": "Logout"
     }
   },
   "pages": {
