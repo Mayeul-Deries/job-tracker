@@ -17,6 +17,7 @@
   },
   "navbar": {
     "locale_changer": {
+      "title": "Change application language",
       "language": "Language",
       "locale_changed": "Locale successfully changed"
     },

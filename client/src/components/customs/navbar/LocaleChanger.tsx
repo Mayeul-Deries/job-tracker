@@ -28,7 +28,7 @@ export const LocaleChanger = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild className='cursor-pointer text-primary'>
-        <Button variant='outline' size='sm'>
+        <Button title={t('navbar.locale_changer.title')} variant='ghost' size='sm'>
           <Globe className='w-5 h-5' />
         </Button>
       </DropdownMenuTrigger>
