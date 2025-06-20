@@ -198,6 +198,7 @@
         },
         "actions": {
           "title": "Actions",
+          "create": "Ajouter une candidature",
           "edit": "Modifier la candidature",
           "delete": "Supprimer la candidature",
           "deleteMany": "Supprimer les candidatures sélectionnées"

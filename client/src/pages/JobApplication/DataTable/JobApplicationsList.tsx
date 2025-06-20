@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
 import { cn } from '@/lib/utils';
@@ -54,10 +53,14 @@ export const JobApplicationsList = () => {
     }
   }
 
-  function handleJobApplicationAction(action: string, data: any) {
+  function handleJobApplicationAction(action: string, data?: any) {
     setSelectedJobApplication(undefined);
     setSelectedJobApplications([]);
     switch (action) {
+      case 'create':
+        setAction('create');
+        setOpenDialog(true);
+        break;
       case 'edit':
         setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
         setAction('edit');
@@ -87,12 +90,10 @@ export const JobApplicationsList = () => {
       <Navbar />
       <div className='flex flex-col mx-auto px-2 sm:px-6 md:px-8 lg:px-20 pt-26 pb-4 sm:pb-6 lg:pb-10 max-w-[1920px] min-h-screen'>
         <div className='px-2 mb-4'>
-          <Link to='/create-application'>
-            <Button variant='outline' size='default'>
-              <Plus />
-              {t('pages.home.button.add_job_application')}
-            </Button>
-          </Link>
+          <Button variant='outline' size='default' onClick={() => handleJobApplicationAction('create')}>
+            <Plus />
+            {t('pages.home.button.add_job_application')}
+          </Button>
         </div>
         <div className='w-full overflow-hidden'>
           <DataTable
@@ -108,7 +109,9 @@ export const JobApplicationsList = () => {
             <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
               <DialogContent
                 className={cn(
-                  action === 'edit' ? 'sm:max-w-[625px]' : 'sm:max-w-[425px]',
+                  action === 'create' && 'sm:max-w-[625px]',
+                  action === 'edit' && 'sm:max-w-[625px]',
+                  action === 'delete' && 'sm:max-w-[425px]',
                   action === 'deleteMany' && 'sm:max-w-[460px]'
                 )}
               >

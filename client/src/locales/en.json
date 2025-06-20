@@ -198,6 +198,7 @@
         },
         "actions": {
           "title": "Actions",
+          "create": "Add a job application",
           "edit": "Edit job application",
           "delete": "Delete job application",
           "deleteMany": "Delete selected job applications"

@@ -30,7 +30,7 @@ import {
 export const getColumns = (
   t: TFunction,
   onUpdateField: (id: string, field: string, value: any) => void,
-  handleJobApplicationAction: (action: string, data: any) => void
+  handleJobApplicationAction: (action: string, data?: any) => void
 ): ColumnDef<JobApplication>[] => [
   {
     id: 'select',
@@ -181,7 +181,7 @@ export const getColumns = (
             <div className='space-y-4'>
               <Textarea
                 value={notes}
-                className='min-h-[200px] max-w-[375px] resize-none'
+                className='h-[200px] max-w-[375px] resize-none'
                 onChange={e => setNotes(e.target.value)}
                 placeholder={t('pages.dataTable.columns.notes_dialog.placeholder')}
               />

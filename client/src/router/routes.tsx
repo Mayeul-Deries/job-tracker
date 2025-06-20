@@ -1,6 +1,5 @@
 import { Login } from '@/pages/Authentication/login';
 import { Register } from '@/pages/Authentication/register';
-import { CreateJobApplication } from '@/pages/JobApplication/CreateJobApplication';
 import { JobApplicationsList } from '@/pages/JobApplication/DataTable/JobApplicationsList';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -38,15 +37,6 @@ export const Router = () => {
           element={
             <ProtectedRoute authRequired={true}>
               <JobApplicationsList />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path='/create-application'
-          element={
-            <ProtectedRoute authRequired={true}>
-              <CreateJobApplication />
             </ProtectedRoute>
           }
         />
