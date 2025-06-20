@@ -15,6 +15,86 @@
     "Contract": "Contrat",
     "Seasonal": "Saisonnier"
   },
+  "toast": {
+    "internal_server_error": "Une erreur inattendue est survenue",
+    "auth": {
+      "success": {
+        "register": "Utilisateur créé avec succès",
+        "login": "L'utilisateur s'est connecté avec succès",
+        "logout": "L'utilisateur s'est déconnecté avec succès"
+      },
+      "error": {
+        "register": {
+          "existing_email": "Un compte existe déjà pour cet e-mail",
+          "existing_username": "Un compte existe déjà pour ce nom d'utilisateur"
+        },
+        "login": {
+          "not_found": "Utilisateur introuvable",
+          "invalid_credentials": "Identifiants invalides"
+        }
+      }
+    },
+    "user": {
+      "success": {
+        "user_recovered": "Utilisateur récupéré avec succès",
+        "user_updated": "Utilisateur mis à jour avec succès",
+        "user_deleted": "Utilisateur supprimé avec succès"
+      },
+      "error": {
+        "getUser": {
+          "invalid_id": "ID invalide",
+          "not_found": "Utilisateur introuvable"
+        },
+        "updateUser": {
+          "invalid_id": "ID invalide",
+          "existing_email": "Cet e-mail est déjà associé à un autre compte",
+          "existing_username": "Ce nom d'utilisateur est déjà associé à un autre compte",
+          "not_found": "Utilisateur introuvable"
+        },
+        "deleteUser": {
+          "invalid_id": "ID invalide",
+          "not_found": "Utilisateur introuvable"
+        }
+      }
+    },
+    "jobApplication": {
+      "success": {
+        "jobApplications_recovered": "Candidatures récupérées avec succès",
+        "jobApplication_created": "Candidature créée avec succès",
+        "jobApplication_recovered": "Candidature récupérée avec succès",
+        "jobApplication_updated": "Candidature mise à jour avec succès",
+        "jobApplication_patched": "Champ de la candidature mis à jour avec succès",
+        "jobApplication_deleted": "Candidature supprimée avec succès",
+        "jobApplication_delete_batch": "candidatures supprimées avec succès"
+      },
+      "error": {
+        "createJobApplication": {
+          "missing_fields": "Champs obligatoires manquants"
+        },
+        "getJobApplication": {
+          "invalid_id": "ID invalide",
+          "not_found": "Candidature non trouvée dans la base de données"
+        },
+        "updateJobApplication": {
+          "missing_fields": "Champs obligatoires manquants",
+          "invalid_id": "ID invalide",
+          "not_found": "Candidature non trouvée dans la base de données"
+        },
+        "patchJobApplication": {
+          "invalid_id": "ID invalide",
+          "not_found": "Candidature non trouvée dans la base de données"
+        },
+        "deleteJobApplication": {
+          "invalid_id": "ID invalide",
+          "not_found": "Candidature non trouvée dans la base de données"
+        },
+        "deleteJobApplicationBatch": {
+          "invalid_ids": "IDs invalides",
+          "not_found": "Aucune candidature trouvée dans la base de données"
+        }
+      }
+    }
+  },
   "navbar": {
     "locale_changer": {
       "title": "Changer la langue de l'application",
@@ -72,7 +152,7 @@
         "description": "Créez un compte en remplissant le formulaire",
         "label": {
           "username": "Nom d'utilisateur",
-          "email": "Email",
+          "email": "E-mail",
           "password": "Mot de passe",
           "confirmPassword": "Confirmez le mot de passe"
         },

@@ -79,12 +79,12 @@ export const JobApplicationForm = ({
         withCreadentials: true,
       };
       const response = await axiosConfig.post('jobApplications', data);
-      toast.success(response.data.message);
+      toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
       refresh();
       createJobApplicationForm.reset();
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setLoading(false);
     }
@@ -94,12 +94,12 @@ export const JobApplicationForm = ({
     try {
       setLoading(true);
       const response = await axiosConfig.put(`/jobApplications/${jobApplication?._id}`, values);
-      toast.success(response.data.message);
+      toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
       refresh();
       editJobApplicationForm.reset();
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setLoading(false);
     }
@@ -109,11 +109,11 @@ export const JobApplicationForm = ({
     try {
       setLoading(true);
       const response = await axiosConfig.delete(`/jobApplications/${jobApplication?._id}`);
-      toast.success(response.data.message);
+      toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
       refresh();
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setLoading(false);
     }
@@ -126,12 +126,12 @@ export const JobApplicationForm = ({
       const response = await axiosConfig.delete('/jobApplications/batch', {
         data: { ids },
       });
-      toast.success(response.data.message);
+      toast.success(response.data.deletedCount + ' ' + t(`toast.${response.data.translationKey}`));
       dialog(false);
       refresh();
       resetSelection?.();
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setLoading(false);
     }

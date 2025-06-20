@@ -15,9 +15,14 @@ export const getJobApplications = async (req, res) => {
 
     const count = await jobApplicationModel.countDocuments({ userId });
 
-    res.status(200).json({ message: 'Job applications successfully recovered', jobApplications, count });
+    res.status(200).json({
+      message: 'Job applications successfully recovered',
+      jobApplications,
+      count,
+      translationKey: 'jobApplication.success.jobApplications_recovered',
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
@@ -27,29 +32,45 @@ export const createJobApplication = async (req, res) => {
   const { title, company, link, date, status, notes, category, city, favorite } = req.body;
   try {
     if (!title || !company || !date || !status || !category || !city) {
-      return res.status(400).json({ error: 'Missing required fields' });
+      return res.status(400).json({
+        error: 'Missing required fields',
+        translationKey: 'jobApplication.error.createJobApplication.missing_fields',
+      });
     }
     const jobApplication = await jobApplicationModel.create({ ...req.body, userId });
 
-    res.status(201).json({ message: 'Job application successfully created', jobApplication });
+    res.status(201).json({
+      message: 'Job application successfully created',
+      jobApplication,
+      translationKey: 'jobApplication.success.jobApplication_created',
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
 export const getJobApplication = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ error: 'Invalid ID' });
+      return res
+        .status(400)
+        .json({ error: 'Invalid ID', translationKey: 'jobApplication.error.getJobApplication.invalid_id' });
     }
 
     const jobApplication = await jobApplicationModel.findOne({ _id: req.params.id });
     if (!jobApplication) {
-      return res.status(404).json({ error: 'Job application not found' });
+      return res.status(404).json({
+        error: 'Job application not found',
+        translationKey: 'jobApplication.error.getJobApplication.not_found',
+      });
     }
-    res.status(200).json({ message: 'Job application successfully recovered', jobApplication });
+    res.status(200).json({
+      message: 'Job application successfully recovered',
+      jobApplication,
+      translationKey: 'jobApplication.success.jobApplication_recovered',
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
@@ -57,10 +78,15 @@ export const updateJobApplication = async (req, res) => {
   const { title, company, link, date, status, notes, category, city, favorite } = req.body;
   try {
     if (!title || !company || !date || !status || !category || !city) {
-      return res.status(400).json({ error: 'Missing required fields' });
+      return res.status(400).json({
+        error: 'Missing required fields',
+        translationKey: 'jobApplication.error.updateJobApplication.missing_fields',
+      });
     }
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ error: 'Invalid ID' });
+      return res
+        .status(400)
+        .json({ error: 'Invalid ID', translationKey: 'jobApplication.error.updateJobApplication.invalid_id' });
     }
 
     const jobApplication = await jobApplicationModel.findOneAndUpdate(
@@ -70,12 +96,19 @@ export const updateJobApplication = async (req, res) => {
     );
 
     if (!jobApplication) {
-      return res.status(404).json({ error: 'Job application not found' });
+      return res.status(404).json({
+        error: 'Job application not found',
+        translationKey: 'jobApplication.error.updateJobApplication.not_found',
+      });
     }
 
-    res.status(200).json({ message: 'Job application successfully updated', jobApplication });
+    res.status(200).json({
+      message: 'Job application successfully updated',
+      jobApplication,
+      translationKey: 'jobApplication.success.jobApplication_updated',
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
@@ -85,37 +118,52 @@ export const patchJobApplication = async (req, res) => {
     const update = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ error: 'Invalid ID' });
+      return res
+        .status(400)
+        .json({ error: 'Invalid ID', translationKey: 'jobApplication.error.patchJobApplication.not_found' });
     }
 
     const jobApplication = await jobApplicationModel.findByIdAndUpdate(id, { $set: update }, { new: true });
 
     if (!jobApplication) {
-      return res.status(404).json({ error: 'Job application not found' });
+      return res.status(404).json({
+        error: 'Job application not found',
+        translationKey: 'jobApplication.error.patchJobApplication.not_found',
+      });
     }
 
     res.status(200).json({
       message: 'Job application field updated successfully',
       jobApplication,
+      translationKey: 'jobApplication.success.jobApplication_patched',
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
 export const deleteJobApplication = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ error: 'Invalid ID' });
+      return res
+        .status(400)
+        .json({ error: 'Invalid ID', translationKey: 'jobApplication.error.deleteJobApplication.invalid_id' });
     }
 
     const jobApplication = await jobApplicationModel.findOneAndDelete({ _id: req.params.id });
     if (!jobApplication) {
-      return res.status(404).json({ error: 'Job application not found' });
+      return res.status(404).json({
+        error: 'Job application not found',
+        translationKey: 'jobApplication.error.deleteJobApplication.not_found',
+      });
     }
-    res.status(200).json({ message: 'Job application successfully deleted', jobApplication });
+    res.status(200).json({
+      message: 'Job application successfully deleted',
+      jobApplication,
+      translationKey: 'jobApplication.success.jobApplication_deleted',
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
@@ -124,20 +172,27 @@ export const deleteJobApplicationBatch = async (req, res) => {
     const { ids } = req.body;
 
     if (!Array.isArray(ids) || ids.length === 0 || !ids.every(id => mongoose.Types.ObjectId.isValid(id))) {
-      return res.status(400).json({ error: 'Invalid IDs provided' });
+      return res.status(400).json({
+        error: 'Invalid IDs provided',
+        translationKey: 'jobApplication.error.deleteJobApplicationBatch.invalid_ids',
+      });
     }
 
     const result = await jobApplicationModel.deleteMany({ _id: { $in: ids } });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ error: 'No job applications found' });
+      return res.status(404).json({
+        error: 'No job applications found',
+        translationKey: 'jobApplication.error.deleteJobApplicationBatch.not_found',
+      });
     }
 
     res.status(200).json({
       message: `Successfully deleted ${result.deletedCount} job applications`,
       deletedCount: result.deletedCount,
+      translationKey: 'jobApplication.success.jobApplication_delete_batch',
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };

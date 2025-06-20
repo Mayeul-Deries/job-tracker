@@ -33,7 +33,7 @@ export const JobApplicationsList = () => {
       setJobApplications(response.data.jobApplications);
       setJobApplicationsCount(response.data.count);
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setLoading(false);
     }
@@ -46,9 +46,9 @@ export const JobApplicationsList = () => {
       });
 
       setJobApplications(prev => prev.map(app => (app._id === id ? { ...app, [field]: value } : app)));
-      toast.success(response.data.message);
+      toast.success(t(`toast.${response.data.translationKey}`));
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
     }
   }

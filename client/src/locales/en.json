@@ -15,6 +15,86 @@
     "Contract": "Contract",
     "Seasonal": "Seasonal"
   },
+  "toast": {
+    "internal_server_error": "An unexpected error has occurred",
+    "auth": {
+      "success": {
+        "register": "User successfully created",
+        "login": "User successfully logged in",
+        "logout": "User successfully logged out"
+      },
+      "error": {
+        "register": {
+          "existing_email": "An account already exists for this email",
+          "existing_username": "An account already exists for this username"
+        },
+        "login": {
+          "not_found": "User not found",
+          "invalid_credentials": "Invalid credentials"
+        }
+      }
+    },
+    "user": {
+      "success": {
+        "user_recovered": "User successfully recovered",
+        "user_updated": "User successfully updated",
+        "user_deleted": "User successfully deleted"
+      },
+      "error": {
+        "getUser": {
+          "invalid_id": "Invalid ID",
+          "not_found": "User not found"
+        },
+        "updateUser": {
+          "invalid_id": "Invalid ID",
+          "existing_email": "This email is already associated with another account",
+          "existing_username": "This username is already associated with another account",
+          "not_found": "User not found"
+        },
+        "deleteUser": {
+          "invalid_id": "Invalid ID",
+          "not_found": "User not found"
+        }
+      }
+    },
+    "jobApplication": {
+      "success": {
+        "jobApplications_recovered": "Job applications successfully recovered",
+        "jobApplication_created": "Job application successfully created",
+        "jobApplication_recovered": "Job application successfully recovered",
+        "jobApplication_updated": "Job application successfully updated",
+        "jobApplication_patched": "Job application field updated successfull",
+        "jobApplication_deleted": "Job application successfully deleted",
+        "jobApplication_delete_batch": "job applications successfully deleted"
+      },
+      "error": {
+        "createJobApplication": {
+          "missing_fields": "Missing required fields"
+        },
+        "getJobApplication": {
+          "invalid_id": "Invalid ID",
+          "not_found": "Job application not found in database"
+        },
+        "updateJobApplication": {
+          "missing_fields": "Missing required fields",
+          "invalid_id": "Invalid ID",
+          "not_found": "Job application not found in database"
+        },
+        "patchJobApplication": {
+          "invalid_id": "Invalid ID",
+          "not_found": "Job application not found in database"
+        },
+        "deleteJobApplication": {
+          "invalid_id": "Invalid ID",
+          "not_found": "Job application not found in database"
+        },
+        "deleteJobApplicationBatch": {
+          "invalid_ids": "Invalid IDs",
+          "not_found": "No job applications found in database"
+        }
+      }
+    }
+  },
   "navbar": {
     "locale_changer": {
       "title": "Change application language",

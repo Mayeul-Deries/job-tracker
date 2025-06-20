@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { axiosConfig } from '../config/axiosConfig';
 import { useAuthContext } from '../contexts/authContext';
 import { toast } from 'sonner';
@@ -8,17 +9,18 @@ export const useLogout = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setAuthenticatedUser } = useAuthContext();
+  const { t } = useTranslation();
 
   const logout = async () => {
     setLoading(true);
     try {
       const response = await axiosConfig.get('/auth/logout');
 
-      toast.success(response.data.message);
+      toast.success(t(`toast.${response.data.translationKey}`));
       setAuthenticatedUser(null);
       navigate('/login');
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setLoading(false);
     }

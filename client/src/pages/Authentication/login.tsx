@@ -44,11 +44,11 @@ export const Login = () => {
       };
       const response = await axiosConfig.post('/auth/login', data);
 
-      toast.success(response.data.message);
+      toast.success(t(`toast.${response.data.translationKey}`));
       setAuthenticatedUser(response.data.user);
       navigate('/');
     } catch (error: any) {
-      toast.error(error.response.data.error);
+      toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setLoading(false);
     }

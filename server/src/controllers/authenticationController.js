@@ -10,12 +10,16 @@ export const register = async (req, res) => {
 
     const existingEmail = await userModel.findOne({ email: email.toLowerCase() });
     if (existingEmail) {
-      return res.status(409).json({ error: 'Email already exists' });
+      return res
+        .status(409)
+        .json({ error: 'Email already exists', translationKey: 'auth.error.register.existing_email' });
     }
 
     const existingUsername = await userModel.findOne({ username: username.toLowerCase() });
     if (existingUsername) {
-      return res.status(409).json({ error: 'Username already exists' });
+      return res
+        .status(409)
+        .json({ error: 'Username already exists', translationKey: 'auth.error.register.existing_username' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -33,12 +37,16 @@ export const register = async (req, res) => {
 
     const { password: userPassword, ...userWithoutPassword } = user._doc;
 
-    res.status(201).json({ message: 'User successfully created', user: userWithoutPassword });
+    res.status(201).json({
+      message: 'User successfully created',
+      user: userWithoutPassword,
+      translationKey: 'auth.success.register',
+    });
   } catch (error) {
     if (error.name === 'ZodError') {
       return res.status(400).json({ error: error.errors[0].message });
     }
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
@@ -53,12 +61,14 @@ export const login = async (req, res) => {
 
     const user = await userModel.findOne(query).select('+password');
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'User not found', translationKey: 'auth.error.login.not_found' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res
+        .status(401)
+        .json({ error: 'Invalid credentials', translationKey: 'auth.error.login.invalid_credentials' });
     }
 
     const token = generateToken(user._id);
@@ -69,21 +79,25 @@ export const login = async (req, res) => {
 
     const { password: userPassword, ...userWithoutPassword } = user._doc;
 
-    res.status(200).json({ message: 'User successfully logged in', user: userWithoutPassword });
+    res.status(200).json({
+      message: 'User successfully logged in',
+      user: userWithoutPassword,
+      translationKey: 'auth.success.login',
+    });
   } catch (error) {
     if (error.name === 'ZodError') {
       return res.status(400).json({ error: error.errors[0].message });
     }
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
 export const logout = async (req, res) => {
   try {
     res.clearCookie('__jt_token');
-    res.status(200).json({ message: 'User successfully logged out' });
+    res.status(200).json({ message: 'User successfully logged out', translationKey: 'auth.success.logout' });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
@@ -92,6 +106,6 @@ export const getConnectedUser = async (req, res) => {
     const user = await userModel.findById(req.userId);
     res.status(200).json({ user });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
