@@ -108,6 +108,12 @@
     }
   },
   "pages": {
+    "not_found": {
+      "title": "Oops! This page does not exist.",
+      "button": {
+        "back_to_home": "Back to home page"
+      }
+    },
     "login": {
       "errors": {
         "loginName_min": "Email address or username is required",

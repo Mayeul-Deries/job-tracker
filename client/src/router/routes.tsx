@@ -1,18 +1,16 @@
-import { Login } from '@/pages/Authentication/login';
-import { Register } from '@/pages/Authentication/register';
-import { JobApplicationsList } from '@/pages/JobApplication/DataTable/JobApplicationsList';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ProtectedRoute } from '@/router/protectedRoute';
 
-function NotFound() {
-  return <h1>Page not found</h1>;
-}
+import { Login } from '@/pages/Authentication/login';
+import { Register } from '@/pages/Authentication/register';
+import { JobApplicationsList } from '@/pages/JobApplication/DataTable/JobApplicationsList';
+import { NotFound } from '@/pages/NotFound';
 
 export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/*' element={<NotFound />} />
         <Route
           path='/auth/login'
           element={
@@ -29,8 +27,6 @@ export const Router = () => {
             </ProtectedRoute>
           }
         />
-
-        <Route path='/*' element={<NotFound />} />
 
         <Route
           path='/'
