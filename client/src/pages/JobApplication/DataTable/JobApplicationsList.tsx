@@ -10,7 +10,7 @@ import { DataTable } from './dataTable';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { JobApplicationForm } from '../jobApplicationForm';
+import { JobApplicationForm } from '../../Forms/jobApplicationForm';
 import { Navbar } from '@/components/customs/navbar/NavBar';
 
 export const JobApplicationsList = () => {
