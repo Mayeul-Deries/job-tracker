@@ -1,6 +1,9 @@
+import fs from 'fs';
+import path from 'path';
 import userModel from '../models/userModel.js';
 import mongoose from 'mongoose';
 import { updateUserSchema } from '../validations/userSchemas.js';
+import { Constants } from '../utils/constants/constants.js';
 
 export const getUser = async (req, res) => {
   try {
@@ -69,6 +72,57 @@ export const updateUser = async (req, res) => {
       return res.status(400).json({ error: error.errors[0].message });
     }
     res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
+  }
+};
+
+export const updateAvatar = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.updateAvatar.invalid_id' });
+    }
+
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found', translationKey: 'user.error.updateAvatar.not_found' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded', translationKey: 'user.error.updateAvatar.no_file' });
+    }
+
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
+    if (!ALLOWED_TYPES.includes(req.file.mimetype)) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid file type', translationKey: 'user.error.updateAvatar.invalid_type' });
+    }
+
+    if (req.file.size > Constants.AVATAR_MAX_SIZE) {
+      return res.status(400).json({ error: 'File too large', translationKey: 'user.error.updateAvatar.too_large' });
+    }
+
+    if (user.avatar) {
+      const oldAvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', path.basename(user.avatar));
+      if (fs.existsSync(oldAvatarPath)) {
+        fs.unlinkSync(oldAvatarPath);
+      }
+    }
+
+    const newAvatarUrl = `${req.protocol}://${req.get('host')}/uploads/users/avatars/${req.file.filename}`;
+
+    user.avatar = newAvatarUrl;
+    await user.save();
+
+    return res.status(200).json({
+      message: 'Avatar updated successfully',
+      translationKey: 'user.success.avatar_updated',
+      user,
+    });
+  } catch (err) {
+    console.error('[updateAvatar] error:', err);
+    return res.status(500).json({ error: 'Unexpected error', translationKey: 'internal_server_error' });
   }
 };
 
