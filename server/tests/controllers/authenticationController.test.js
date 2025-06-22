@@ -276,7 +276,7 @@ describe('Authentication Controller', () => {
         await logout({}, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith({ error: error.message });
+        expect(res.json).toHaveBeenCalledWith({ error: error.message, translationKey: 'internal_server_error' });
       });
     });
 
@@ -289,10 +289,8 @@ describe('Authentication Controller', () => {
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
 
         expect(response.status).toBe(200);
-        expect(response.body.user).toMatchObject({
-          email: defaultUser.email,
-          username: defaultUser.username,
-        });
+        expect(response.body.username).toBe(defaultUser.username);
+        expect(response.body.email).toBe(defaultUser.email);
       });
 
       it('should return a 500 error if user is not connected', async () => {

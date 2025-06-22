@@ -47,4 +47,4 @@ docker-compose.dev.yml
 docker-compose.dev.yaml
 
 # uploads
-/uploads
+/server/uploads
