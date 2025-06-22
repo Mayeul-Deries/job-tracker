@@ -37,3 +37,15 @@ export const getRegisterSchema = (t: TFunction) =>
       message: t('pages.register.errors.password_do_not_match'),
       path: ['confirmPassword'],
     });
+
+export const getUpdateUserSchema = (t: TFunction) =>
+  z.object({
+    username: z
+      .string()
+      .min(2, { message: t('pages.register.errors.username_min') })
+      .max(25, { message: t('pages.register.errors.username_max') })
+      .regex(Regex.USERNAME, {
+        message: t('pages.register.errors.username_regex'),
+      }),
+    email: z.string().email({ message: t('pages.register.errors.email_invalid') }),
+  });

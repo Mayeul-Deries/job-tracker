@@ -104,7 +104,7 @@ export const logout = async (req, res) => {
 export const getConnectedUser = async (req, res) => {
   try {
     const user = await userModel.findById(req.userId);
-    res.status(200).json({ user });
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }

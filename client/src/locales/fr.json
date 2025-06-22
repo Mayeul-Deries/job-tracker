@@ -114,6 +114,22 @@
         "back_to_home": "Retour à l'accueil"
       }
     },
+    "profile": {
+      "form": {
+        "description": "Mettre à jour mon profil",
+        "label": {
+          "username": "Nom d'utilisateur",
+          "email": "E-mail"
+        },
+        "placeholder": {
+          "username": "exemple",
+          "email": "exemple@email.com"
+        },
+        "button": {
+          "confirm": "Enregistrer les modifications"
+        }
+      }
+    },
     "login": {
       "errors": {
         "loginName_min": "Adresse e-mail ou nom d'utilisateur requis",

@@ -114,6 +114,22 @@
         "back_to_home": "Back to home page"
       }
     },
+    "profile": {
+      "form": {
+        "description": "Update my profile",
+        "label": {
+          "username": "Username",
+          "email": "Email"
+        },
+        "placeholder": {
+          "username": "example",
+          "email": "example@email.com"
+        },
+        "button": {
+          "confirm": "Save changes"
+        }
+      }
+    },
     "login": {
       "errors": {
         "loginName_min": "Email address or username is required",

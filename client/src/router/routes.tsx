@@ -4,6 +4,7 @@ import { ProtectedRoute } from '@/router/protectedRoute';
 import { Login } from '@/pages/Authentication/login';
 import { Register } from '@/pages/Authentication/register';
 import { JobApplicationsList } from '@/pages/JobApplication/DataTable/JobApplicationsList';
+import { Profile } from '@/pages/Profil/Profile';
 import { NotFound } from '@/pages/NotFound';
 
 export const Router = () => {
@@ -27,12 +28,19 @@ export const Router = () => {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/'
           element={
             <ProtectedRoute authRequired={true}>
               <JobApplicationsList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/profile'
+          element={
+            <ProtectedRoute authRequired={true}>
+              <Profile />
             </ProtectedRoute>
           }
         />
