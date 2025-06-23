@@ -142,6 +142,14 @@ export const deleteUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.deleteUser.not_found' });
     }
+
+    if (user.avatar) {
+      const AvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', path.basename(user.avatar));
+      if (fs.existsSync(AvatarPath)) {
+        fs.unlinkSync(AvatarPath);
+      }
+    }
+
     res.clearCookie('__jt_token');
 
     res.status(200).json({ message: 'User successfully deleted', translationKey: 'user.success.user_deleted' });

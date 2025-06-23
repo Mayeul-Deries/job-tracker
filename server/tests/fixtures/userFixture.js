@@ -20,7 +20,6 @@ export const userRegistration = {
 };
 
 export const pathExistingAvatar = './uploads/users/avatars/test-avatar.png';
-fs.writeFileSync(pathExistingAvatar, 'test-avatar');
 
 export const userWithAvatar = {
   username: 'test',
