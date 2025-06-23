@@ -16,6 +16,8 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
 import { AvatarInput } from '@/components/customs/profile/AvatarInput';
+import { Dialog } from '@/components/ui/dialog';
+import { UpdatePasswordForm } from '@/components/customs/profile/UpdatePasswordForm';
 
 export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -135,6 +137,25 @@ export const Profile = () => {
                     )}
                   />
 
+                  <FormItem>
+                    <div className='flex flex-col w-full gap-2'>
+                      <FormLabel>{t('pages.profile.form.label.current_password')}</FormLabel>
+                      <div className='flex items-center justify-between gap-2'>
+                        <FormControl>
+                          <Input type='password' placeholder={t('pages.profile.form.placeholder.password')} disabled />
+                        </FormControl>
+                        <Button
+                          type='button'
+                          variant='outline'
+                          onClick={() => setOpenUpdatePasswordDialog(true)}
+                          disabled={loading}
+                        >
+                          {t('pages.profile.form.button.edit_password')}
+                        </Button>
+                      </div>
+                    </div>
+                  </FormItem>
+
                   <Button type='submit' className='w-full' disabled={loading}>
                     {t('pages.profile.form.button.confirm')}
                   </Button>
@@ -143,9 +164,9 @@ export const Profile = () => {
             </Form>
             <div className='flex flex-col mt-6 gap-6'>
               <Separator />
-              {/* <Dialog open={openUpdatePasswordDialog} onOpenChange={setOpenUpdatePasswordDialog}> */}
-              {/* <UpdatePasswordForm setOpen={setOpenUpdatePasswordDialog} /> */}
-              {/* </Dialog> */}
+              <Dialog open={openUpdatePasswordDialog} onOpenChange={setOpenUpdatePasswordDialog}>
+                <UpdatePasswordForm setOpen={setOpenUpdatePasswordDialog} />
+              </Dialog>
               {/* <Dialog open={openDeleteAccountDialog} onOpenChange={setOpenDeleteAccountDialog}> */}
               {/* <DeleteAccountForm setOpen={setOpenDeleteAccountDialog} /> */}
               {/* </Dialog> */}

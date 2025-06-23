@@ -39,6 +39,7 @@
         "user_recovered": "Utilisateur récupéré avec succès",
         "user_updated": "Utilisateur mis à jour avec succès",
         "avatar_updated": "Avatar mis à jour avec succès",
+        "password_updated": "Mot de passe mis à jour avec succès",
         "user_deleted": "Utilisateur supprimé avec succès"
       },
       "error": {
@@ -58,6 +59,12 @@
           "no_file": "Aucun fichier n'a été téléchargé",
           "invalid_type": "Type de fichier non valide",
           "too_large": "Fichier trop volumineux"
+        },
+        "updatePassword": {
+          "invalid_id": "ID invalide",
+          "not_found": "Utilisateur introuvable",
+          "wrong_password": "Le mot de passe actuel est incorrect",
+          "same_password": "Le nouveau mot de passe doit être différent du mot de passe actuel"
         },
         "deleteUser": {
           "invalid_id": "ID invalide",
@@ -123,6 +130,29 @@
       }
     },
     "profile": {
+      "password_changer": {
+        "errors": {
+          "password_max": "Le mot de passe doit contenir au maximum 255 caractères",
+          "password_regex": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
+          "passwords_do_not_match": "Les mots de passe ne correspondent pas"
+        },
+        "title": "Modifiez votre mot de passe",
+        "description": "Modifiez votre mot de passe en complétant le formulaire ci-dessous.",
+        "label": {
+          "current_password": "Mot de passe actuel",
+          "new_password": "Nouveau mot de passe",
+          "new_password_confirm": "Confirmez votre nouveau mot de passe"
+        },
+        "placeholder": {
+          "current_password": "*******",
+          "new_password": "*******",
+          "new_password_confirm": "*******"
+        },
+        "button": {
+          "save": "Enregistrer votre nouveau mot de passe",
+          "cancel": "Annuler"
+        }
+      },
       "avatar_changer": {
         "title": "Cliquez pour modifier votre avatar"
       },
@@ -130,16 +160,19 @@
         "back_to_home": "Retour à l'accueil"
       },
       "form": {
-        "description": "Mettre à jour mon profil",
+        "description": "Mettre à jour votre profil",
         "label": {
           "username": "Nom d'utilisateur",
-          "email": "E-mail"
+          "email": "E-mail",
+          "current_password": "Mot de passe actuel"
         },
         "placeholder": {
           "username": "exemple",
-          "email": "exemple@email.com"
+          "email": "exemple@email.com",
+          "password": "*******"
         },
         "button": {
+          "edit_password": "Modifiez votre mot de passe",
           "confirm": "Enregistrer les modifications"
         }
       }
@@ -338,7 +371,7 @@
         "next": "Page suivante"
       },
       "search": {
-        "placeholder": "Rechercher une candidature..."
+        "placeholder": "Rechercher une candidature"
       },
       "visibility": {
         "toggle_columns": "Afficher les colonnes",

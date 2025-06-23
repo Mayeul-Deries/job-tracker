@@ -49,3 +49,25 @@ export const getUpdateUserSchema = (t: TFunction) =>
       }),
     email: z.string().email({ message: t('pages.register.errors.email_invalid') }),
   });
+
+export const getUpdatePasswordSchema = (t: TFunction) =>
+  z
+    .object({
+      currentPassword: z
+        .string()
+        .max(255, { message: t('pages.profile.password_changer.errors.password_max') })
+        .regex(Regex.PASSWORD, {
+          message: t('pages.profile.password_changer.errors.password_regex'),
+        }),
+      newPassword: z
+        .string()
+        .max(255, { message: t('pages.profile.password_changer.errors.password_max') })
+        .regex(Regex.PASSWORD, {
+          message: t('pages.profile.password_changer.errors.password_regex'),
+        }),
+      newPasswordConfirm: z.string(),
+    })
+    .refine(data => data.newPassword === data.newPasswordConfirm, {
+      message: t('pages.profile.password_changer.errors.passwords_do_not_match'),
+      path: ['newPasswordConfirm'],
+    });

@@ -39,6 +39,7 @@
         "user_recovered": "User successfully recovered",
         "user_updated": "User successfully updated",
         "avatar_updated": "Avatar updated successfully",
+        "password_updated": "Password updated successfully",
         "user_deleted": "User successfully deleted"
       },
       "error": {
@@ -58,6 +59,12 @@
           "no_file": "No file uploaded",
           "invalid_type": "Invalid file type",
           "too_large": "File too large"
+        },
+        "updatePassword": {
+          "invalid_id": "Invalid ID",
+          "not_found": "User not found",
+          "wrong_password": "Current password is incorrect",
+          "same_password": "New password must differ from current"
         },
         "deleteUser": {
           "invalid_id": "Invalid ID",
@@ -123,6 +130,29 @@
       }
     },
     "profile": {
+      "password_changer": {
+        "errors": {
+          "password_max": "Password must be at most 255 characters long",
+          "password_regex": "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+          "passwords_do_not_match": "Passwords don't match"
+        },
+        "title": "Change your password",
+        "description": "Change your password by completing the form below",
+        "label": {
+          "current_password": "Current password",
+          "new_password": "New password",
+          "new_password_confirm": "Confirm your new password"
+        },
+        "placeholder": {
+          "current_password": "*******",
+          "new_password": "*******",
+          "new_password_confirm": "*******"
+        },
+        "button": {
+          "save": "Save your new password",
+          "cancel": "Cancel"
+        }
+      },
       "avatar_changer": {
         "title": "Click to change your avatar"
       },
@@ -130,16 +160,19 @@
         "back_to_home": "Retour à l'accueil"
       },
       "form": {
-        "description": "Update my profile",
+        "description": "Update your profile",
         "label": {
           "username": "Username",
-          "email": "Email"
+          "email": "Email",
+          "current_password": "Current password"
         },
         "placeholder": {
           "username": "example",
-          "email": "example@email.com"
+          "email": "example@email.com",
+          "password": "*******"
         },
         "button": {
+          "edit_password": "Change your password",
           "confirm": "Save changes"
         }
       }
@@ -350,7 +383,7 @@
         "notes": "Notes"
       },
       "search": {
-        "placeholder": "Search for a job application..."
+        "placeholder": "Search for a job application"
       },
       "errors": {
         "no_data": "No job applications found"
