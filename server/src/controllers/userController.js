@@ -2,7 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import userModel from '../models/userModel.js';
 import mongoose from 'mongoose';
-import { updateUserSchema } from '../validations/userSchemas.js';
+import bcrypt from 'bcryptjs';
+import { updateUserSchema, updatePasswordSchema } from '../validations/userSchemas.js';
 import { Constants } from '../../src/utils/constants/constants.js';
 
 export const getUser = async (req, res) => {
@@ -129,6 +130,50 @@ export const updateAvatar = async (req, res) => {
       fs.unlinkSync(req.file.path);
     }
     return res.status(500).json({ error: 'Unexpected error', translationKey: 'internal_server_error' });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = updatePasswordSchema.parse(req.body);
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.updatePassword.invalid_id' });
+    }
+
+    const user = await userModel.findById(id).select('+password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found', translationKey: 'user.error.updatePassword.not_found' });
+    }
+
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res
+        .status(401)
+        .json({ error: 'Current password is incorrect', translationKey: 'user.error.updatePassword.wrong_password' });
+    }
+
+    const sameAsOld = await bcrypt.compare(newPassword, user.password);
+    if (sameAsOld) {
+      return res.status(400).json({
+        error: 'New password must differ from current',
+        translationKey: 'user.error.updatePassword.same_password',
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res
+      .status(200)
+      .json({ message: 'Password updated successfully', translationKey: 'user.success.password_updated' });
+  } catch (error) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
+    return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 

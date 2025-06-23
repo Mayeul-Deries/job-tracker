@@ -7,6 +7,7 @@ import { defaultUser, otherUser, userWithAvatar, pathExistingAvatar } from '../f
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
+import bcrypt from 'bcryptjs';
 import { describe, expect, vi } from 'vitest';
 import { Constants } from '../../src/utils/constants/constants.js';
 
@@ -229,6 +230,163 @@ describe('User Controller', () => {
       expect(res.body).toMatchObject({
         error: 'Server error',
       });
+    });
+  });
+
+  describe('updatePassword', () => {
+    let user;
+    const currentPassword = 'Johndoe123*';
+    const newPassword = 'NewPassword1!';
+
+    beforeEach(async () => {
+      const hashedPassword = await bcrypt.hash(currentPassword, 10);
+      user = await User.create({
+        ...defaultUser,
+        password: hashedPassword,
+      });
+    });
+
+    afterEach(async () => {
+      await User.deleteMany({});
+    });
+
+    it('should update the password and return 200', async () => {
+      const res = await request(app)
+        .put(`/api/users/${user._id}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          currentPassword,
+          newPassword,
+          newPasswordConfirm: newPassword,
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject({
+        message: 'Password updated successfully',
+      });
+
+      const updatedUser = await User.findById(user._id).select('+password');
+      const passwordMatches = await bcrypt.compare(newPassword, updatedUser.password);
+      expect(passwordMatches).toBe(true);
+    });
+
+    it('should return 400 for invalid user ID', async () => {
+      const res = await request(app)
+        .put(`/api/users/invalid-id/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          currentPassword,
+          newPassword,
+          newPasswordConfirm: newPassword,
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('Invalid ID');
+    });
+
+    it('should return 404 if user is not found', async () => {
+      const fakeId = new mongoose.Types.ObjectId();
+
+      const res = await request(app)
+        .put(`/api/users/${fakeId}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(fakeId)}`])
+        .send({
+          currentPassword,
+          newPassword,
+          newPasswordConfirm: newPassword,
+        });
+
+      expect(res.status).toBe(404);
+      expect(res.body.error).toBe('User not found');
+    });
+
+    it('should return 401 if current password is incorrect', async () => {
+      const res = await request(app)
+        .put(`/api/users/${user._id}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          currentPassword: 'WrongPassword1!',
+          newPassword,
+          newPasswordConfirm: newPassword,
+        });
+
+      expect(res.status).toBe(401);
+      expect(res.body.error).toBe('Current password is incorrect');
+    });
+
+    it('should return 400 if new password is the same as old password', async () => {
+      const res = await request(app)
+        .put(`/api/users/${user._id}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          currentPassword,
+          newPassword: currentPassword,
+          newPasswordConfirm: currentPassword,
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('New password must differ from current');
+    });
+
+    it("should return 400 if new password doesn't match regex", async () => {
+      const res = await request(app)
+        .put(`/api/users/${user._id}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          currentPassword,
+          newPassword: 'weakpass',
+          newPasswordConfirm: 'weakpass',
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe(
+        'Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+      );
+    });
+
+    it('should return 400 if new passwords do not match', async () => {
+      const res = await request(app)
+        .put(`/api/users/${user._id}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          currentPassword,
+          newPassword,
+          newPasswordConfirm: 'DifferentPassword1!',
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe("Passwords don't match");
+    });
+
+    it('should return 400 if validation fails (missing fields)', async () => {
+      const res = await request(app)
+        .put(`/api/users/${user._id}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          newPassword,
+          newPasswordConfirm: newPassword,
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('Required');
+    });
+
+    it('should return 500 if server error occurs', async () => {
+      vi.spyOn(User, 'findById').mockImplementationOnce(() => {
+        throw new Error('Server error');
+      });
+
+      const res = await request(app)
+        .put(`/api/users/${user._id}/password`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send({
+          currentPassword,
+          newPassword,
+          newPasswordConfirm: newPassword,
+        });
+
+      expect(res.status).toBe(500);
+      expect(res.body).toMatchObject({ error: 'Server error' });
     });
   });
 

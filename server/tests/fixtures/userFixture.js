@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 export const defaultUser = {
   username: 'johndoe',
   email: 'john@example.com',
