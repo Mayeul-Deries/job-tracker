@@ -26,7 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api', router);
+app.use(router);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });

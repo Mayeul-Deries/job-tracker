@@ -38,6 +38,7 @@
       "success": {
         "user_recovered": "Utilisateur récupéré avec succès",
         "user_updated": "Utilisateur mis à jour avec succès",
+        "avatar_updated": "Avatar mis à jour avec succès",
         "user_deleted": "Utilisateur supprimé avec succès"
       },
       "error": {
@@ -50,6 +51,13 @@
           "existing_email": "Cet e-mail est déjà associé à un autre compte",
           "existing_username": "Ce nom d'utilisateur est déjà associé à un autre compte",
           "not_found": "Utilisateur introuvable"
+        },
+        "updateAvatar": {
+          "invalid_id": "ID invalide",
+          "not_found": "Utilisateur introuvable",
+          "no_file": "Aucun fichier n'a été téléchargé",
+          "invalid_type": "Type de fichier non valide",
+          "too_large": "Fichier trop volumineux"
         },
         "deleteUser": {
           "invalid_id": "ID invalide",
@@ -115,6 +123,9 @@
       }
     },
     "profile": {
+      "avatar_changer": {
+        "title": "Cliquez pour modifier votre avatar"
+      },
       "form": {
         "description": "Mettre à jour mon profil",
         "label": {

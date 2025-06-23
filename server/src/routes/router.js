@@ -10,9 +10,9 @@ const __dirname = path.dirname(__filename);
 
 const router = express.Router();
 
-router.use('/users', userRouter);
-router.use('/jobApplications', jobApplicationRouter);
-router.use('/auth', authenticationRouter);
+router.use('/api/users', userRouter);
+router.use('/api/jobApplications', jobApplicationRouter);
+router.use('/api/auth', authenticationRouter);
 
 router.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 

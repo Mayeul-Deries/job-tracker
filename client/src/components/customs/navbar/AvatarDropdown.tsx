@@ -2,6 +2,7 @@ import avatarfallback from '@/assets/avatarfallback.png';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useLogout } from '@/hooks/useLogout';
+import { useAuthContext } from '@/contexts/authContext';
 
 import {
   DropdownMenu,
@@ -19,14 +20,16 @@ export function AvatarDropdown() {
 
   const { t } = useTranslation();
 
+  const { authenticatedUser } = useAuthContext();
+
   const navigate = useNavigate();
 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant='ghost' size='icon' className='rounded-full'>
-          <Avatar className='h-8 w-8'>
-            {/* <AvatarImage src={user.avatar } /> */}
+          <Avatar className='h-8 w-8 cursor-pointer'>
+            <AvatarImage src={authenticatedUser?.avatar} />
             <AvatarFallback>
               <img src={avatarfallback} className='w-full h-full object-cover rounded-full' />
             </AvatarFallback>
