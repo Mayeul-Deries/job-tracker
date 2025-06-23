@@ -5,6 +5,8 @@ import { toast } from 'sonner';
 import avatarfallback from '@/assets/avatarfallback.png';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { useAuthContext } from '@/contexts/authContext';
 import { useTranslation } from 'react-i18next';
 import { getUpdateUserSchema } from '@/validations/schemas/user';
@@ -19,6 +21,11 @@ export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { authenticatedUser, setAuthenticatedUser } = useAuthContext();
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
+
+  const [openUpdatePasswordDialog, setOpenUpdatePasswordDialog] = useState(false);
+  const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false);
 
   const updateUserSchema = getUpdateUserSchema(t);
 
@@ -73,6 +80,11 @@ export const Profile = () => {
 
   return (
     <div className='grid min-h-svh lg:grid-cols-1'>
+      <div className='absolute top-6 left-6'>
+        <Button variant='link' className='cursor-pointer' onClick={() => navigate(-1)}>
+          <ArrowLeft /> {t('pages.profile.button.back_to_home')}
+        </Button>
+      </div>
       <div className='flex flex-col p-6 md:p-10  max-h-screen overflow-y-auto'>
         <div className='flex flex-1 items-center justify-center'>
           <div className='w-full max-w-xs'>
@@ -129,6 +141,15 @@ export const Profile = () => {
                 </div>
               </form>
             </Form>
+            <div className='flex flex-col mt-6 gap-6'>
+              <Separator />
+              {/* <Dialog open={openUpdatePasswordDialog} onOpenChange={setOpenUpdatePasswordDialog}> */}
+              {/* <UpdatePasswordForm setOpen={setOpenUpdatePasswordDialog} /> */}
+              {/* </Dialog> */}
+              {/* <Dialog open={openDeleteAccountDialog} onOpenChange={setOpenDeleteAccountDialog}> */}
+              {/* <DeleteAccountForm setOpen={setOpenDeleteAccountDialog} /> */}
+              {/* </Dialog> */}
+            </div>
           </div>
         </div>
       </div>

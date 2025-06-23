@@ -126,6 +126,9 @@
       "avatar_changer": {
         "title": "Cliquez pour modifier votre avatar"
       },
+      "button": {
+        "back_to_home": "Retour à l'accueil"
+      },
       "form": {
         "description": "Mettre à jour mon profil",
         "label": {
