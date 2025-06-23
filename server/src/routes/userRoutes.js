@@ -7,7 +7,7 @@ const userRouter = express.Router();
 
 userRouter.get('/:id', verifyToken, getUser);
 userRouter.put('/:id', verifyToken, updateUser);
-userRouter.put('/:id/avatar', uploadAvatar.single('avatar'), updateAvatar);
+userRouter.put('/:id/avatar', verifyToken, uploadAvatar.single('avatar'), updateAvatar);
 userRouter.delete('/:id', verifyToken, deleteUser);
 
 export default userRouter;

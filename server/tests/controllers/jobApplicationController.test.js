@@ -526,7 +526,6 @@ describe('JobApplications Controller', () => {
           .delete('/api/jobApplications/batch')
           .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
           .send({ ids: [jobApplication._id] });
-        console.log(response);
 
         expect(response.status).toBe(500);
         expect(response.body.error).toBe('Database error');

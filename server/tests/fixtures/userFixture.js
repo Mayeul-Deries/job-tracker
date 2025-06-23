@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 export const defaultUser = {
   username: 'johndoe',
   email: 'john@example.com',
@@ -15,4 +17,14 @@ export const userRegistration = {
   email: 'john.register@example.com',
   password: 'Johnregister123*',
   confirmPassword: 'Johnregister123*',
+};
+
+export const pathExistingAvatar = './uploads/users/avatars/test-avatar.png';
+fs.writeFileSync(pathExistingAvatar, 'test-avatar');
+
+export const userWithAvatar = {
+  username: 'test',
+  email: 'test@example.com',
+  password: 'Test123*',
+  avatar: pathExistingAvatar,
 };

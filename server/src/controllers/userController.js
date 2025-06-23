@@ -3,7 +3,7 @@ import path from 'path';
 import userModel from '../models/userModel.js';
 import mongoose from 'mongoose';
 import { updateUserSchema } from '../validations/userSchemas.js';
-import { Constants } from '../utils/constants/constants.js';
+import { Constants } from '../../src/utils/constants/constants.js';
 
 export const getUser = async (req, res) => {
   try {
@@ -80,11 +80,13 @@ export const updateAvatar = async (req, res) => {
     const userId = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
+      if (req.file) fs.unlinkSync(req.file.path);
       return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.updateAvatar.invalid_id' });
     }
 
     const user = await userModel.findById(userId);
     if (!user) {
+      if (req.file) fs.unlinkSync(req.file.path);
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.updateAvatar.not_found' });
     }
 
@@ -94,12 +96,14 @@ export const updateAvatar = async (req, res) => {
 
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
     if (!ALLOWED_TYPES.includes(req.file.mimetype)) {
+      fs.unlinkSync(req.file.path);
       return res
         .status(400)
         .json({ error: 'Invalid file type', translationKey: 'user.error.updateAvatar.invalid_type' });
     }
 
     if (req.file.size > Constants.AVATAR_MAX_SIZE) {
+      fs.unlinkSync(req.file.path);
       return res.status(400).json({ error: 'File too large', translationKey: 'user.error.updateAvatar.too_large' });
     }
 
@@ -121,7 +125,9 @@ export const updateAvatar = async (req, res) => {
       user,
     });
   } catch (err) {
-    console.error('[updateAvatar] error:', err);
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
     return res.status(500).json({ error: 'Unexpected error', translationKey: 'internal_server_error' });
   }
 };

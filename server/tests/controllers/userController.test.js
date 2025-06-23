@@ -1,10 +1,13 @@
 import request from 'supertest';
 import app from '../../src/app.js';
-import { defaultUser, otherUser } from '../fixtures/userFixture.js';
+import fs from 'fs';
+import path from 'path';
+import { defaultUser, otherUser, userWithAvatar, pathExistingAvatar } from '../fixtures/userFixture.js';
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
 import { describe, vi } from 'vitest';
+import { Constants } from '../../src/utils/constants/constants.js';
 
 describe('User Controller', () => {
   beforeAll(async () => {
@@ -225,6 +228,122 @@ describe('User Controller', () => {
       expect(res.body).toMatchObject({
         error: 'Server error',
       });
+    });
+  });
+
+  describe('updateAvatar', () => {
+    afterEach(() => {
+      const existingAvatar = path.join(process.cwd(), 'uploads', 'users', 'avatars', 'test-avatar.png');
+      if (fs.existsSync(existingAvatar)) {
+        fs.unlinkSync(existingAvatar);
+      }
+    });
+
+    it('should delete old profilePic if there is one and update the current', async () => {
+      const user = await User.create(userWithAvatar);
+
+      const pathNewAvatar = './tests/controllers/test-new-avatar.png';
+      fs.writeFileSync(pathNewAvatar, 'test-new-avatar');
+
+      const response = await request(app)
+        .put(`/api/users/${user._id}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .attach('avatar', pathNewAvatar, 'test-new-avatar.png');
+
+      // Vérifie si l'ancien avatar a bien été supprimé
+      expect(fs.existsSync(pathExistingAvatar)).toBe(false);
+      expect(fs.existsSync(pathNewAvatar)).toBe(true);
+      expect(response.body.message).toBe('Avatar updated successfully');
+      expect(response.statusCode).toBe(200);
+
+      const uploadedAvatarUrl = response.body.user.avatar;
+      const uploadedAvatarFilename = path.basename(uploadedAvatarUrl);
+      const uploadedAvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', uploadedAvatarFilename);
+
+      // Nettoyage des fichiers temporaires
+      if (fs.existsSync(pathNewAvatar)) {
+        fs.unlinkSync(pathNewAvatar);
+      }
+
+      if (fs.existsSync(uploadedAvatarPath)) {
+        fs.unlinkSync(uploadedAvatarPath);
+      }
+    });
+
+    it('should return 400 if ID is invalid', async () => {
+      const response = await request(app)
+        .put('/api/users/invalid-id/avatar')
+        .set('Cookie', [`__jt_token=${generateToken('fakeId')}`]);
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.error).toBe('Invalid ID');
+    });
+
+    it('should return 404 if user does not exist', async () => {
+      const nonExistentId = new mongoose.Types.ObjectId();
+      const pathNewAvatar = './tests/controllers/test-non-existent-user.png';
+
+      fs.writeFileSync(pathNewAvatar, 'dummy-avatar');
+
+      const response = await request(app)
+        .put(`/api/users/${nonExistentId}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(nonExistentId)}`])
+        .attach('avatar', pathNewAvatar);
+
+      expect(response.statusCode).toBe(404);
+      expect(response.body.error).toBe('User not found');
+
+      if (fs.existsSync(pathNewAvatar)) {
+        fs.unlinkSync(pathNewAvatar);
+      }
+    });
+
+    it('should return 400 if no file is uploaded', async () => {
+      const user = await User.create(defaultUser);
+
+      const response = await request(app)
+        .put(`/api/users/${user._id}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.error).toBe('No file uploaded');
+    });
+
+    it('should return 400 for invalid file type', async () => {
+      const user = await User.create(userWithAvatar);
+      const pathFakeTxt = './tests/controllers/test-invalid.txt';
+      fs.writeFileSync(pathFakeTxt, 'dummy-avatar');
+
+      const response = await request(app)
+        .put(`/api/users/${user._id}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .attach('avatar', pathFakeTxt, { contentType: 'text/plain' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.error).toBe('Invalid file type');
+
+      if (fs.existsSync(pathFakeTxt)) {
+        fs.unlinkSync(pathFakeTxt);
+      }
+    });
+
+    it('should return 400 for file too large', async () => {
+      const user = await User.create(userWithAvatar);
+      const largeFile = './tests/controllers/test-large.png';
+      const bigContent = Buffer.alloc(Constants.AVATAR_MAX_SIZE + 1); // simulate big file
+      fs.writeFileSync(largeFile, bigContent);
+
+      const response = await request(app)
+        .put(`/api/users/${user._id}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .attach('avatar', largeFile, { contentType: 'image/png' });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.error).toBe('File too large');
+
+      if (fs.existsSync(largeFile)) {
+        fs.unlinkSync(largeFile);
+      }
     });
   });
 
