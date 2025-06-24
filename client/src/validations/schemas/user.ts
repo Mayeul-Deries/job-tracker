@@ -71,3 +71,10 @@ export const getUpdatePasswordSchema = (t: TFunction) =>
       message: t('pages.profile.password_changer.errors.passwords_do_not_match'),
       path: ['newPasswordConfirm'],
     });
+
+export const getDeleteUserSchema = (t: TFunction) =>
+  z.object({
+    checkApproval: z.boolean().refine(val => val === true, {
+      message: t('pages.profile.delete_account.errors.check_approval'),
+    }),
+  });

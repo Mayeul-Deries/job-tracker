@@ -175,6 +175,18 @@
           "edit_password": "Modifiez votre mot de passe",
           "confirm": "Enregistrer les modifications"
         }
+      },
+      "delete_account": {
+        "errors": {
+          "check_approval": "Veuillez cocher la case pour confirmer la suppression de votre compte"
+        },
+        "title": "Supprimer votre compte",
+        "description": "Cette boîte de dialogue permet de supprimer votre compte utilisateur",
+        "checkbox": "En cochant cette case, je comprends que la suppression de mon compte est définitive. Toutes mes données personnelles, ainsi que mes candidatures associées, seront supprimées de façon irréversible.",
+        "button": {
+          "confirm": "Confirmer",
+          "cancel": "Annuler"
+        }
       }
     },
     "login": {

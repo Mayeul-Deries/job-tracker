@@ -3,12 +3,15 @@ import request from 'supertest';
 import app from '../../src/app.js';
 import fs from 'fs';
 import path from 'path';
-import { defaultUser, otherUser, userWithAvatar, pathExistingAvatar } from '../fixtures/userFixture.js';
+import { defaultUser, otherUser, userWithAvatar } from '../fixtures/userFixture.js';
+import { defaultJobApplication, otherJobApplication } from '../fixtures/jobApplicationFixture.js';
+
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
+import JobApplication from '../../src/models/jobApplicationModel.js';
 import bcrypt from 'bcryptjs';
-import { describe, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { Constants } from '../../src/utils/constants/constants.js';
 
 describe('User Controller', () => {
@@ -537,6 +540,28 @@ describe('User Controller', () => {
       });
     });
 
+    it('should return delete the user and all job applications associated', async () => {
+      const user = await User.create(defaultUser);
+      const jobApplication = await JobApplication.create({
+        ...defaultJobApplication,
+        userId: user._id,
+      });
+      const anOtherJobApplication = await JobApplication.create({
+        ...otherJobApplication,
+        userId: user._id,
+      });
+
+      const res = await request(app)
+        .delete(`/api/users/${user._id}`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject({
+        message: 'User successfully deleted',
+      });
+      expect(res.body.deletedJobApplicationsCount).toBe(2);
+    });
+
     it('should return 200 and delete user avatar when user has an avatar', async () => {
       const user = await User.create(userWithAvatar);
 
@@ -581,6 +606,23 @@ describe('User Controller', () => {
       expect(res.status).toBe(404);
       expect(res.body).toMatchObject({
         error: 'User not found',
+      });
+    });
+
+    it('should return 500 if a server error occurs when deleting job applications associated to the user', async () => {
+      const user = await User.create(defaultUser);
+
+      vi.spyOn(JobApplication, 'deleteMany').mockImplementationOnce(() => {
+        throw new Error('Server error');
+      });
+
+      const res = await request(app)
+        .delete(`/api/users/${user.id}`)
+        .set('Cookie', [`__jt_token=${generateToken(user.id)}`]);
+
+      expect(res.status).toBe(500);
+      expect(res.body).toMatchObject({
+        error: 'Server error',
       });
     });
 

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import userModel from '../models/userModel.js';
+import jobApplicationModel from '../models/jobApplicationModel.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { updateUserSchema, updatePasswordSchema } from '../validations/userSchemas.js';
@@ -188,6 +189,14 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.deleteUser.not_found' });
     }
 
+    let deletedApplicationsResult = null;
+
+    try {
+      deletedApplicationsResult = await jobApplicationModel.deleteMany({ userId: req.params.id });
+    } catch (error) {
+      return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
+    }
+
     if (user.avatar) {
       const AvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', path.basename(user.avatar));
       if (fs.existsSync(AvatarPath)) {
@@ -197,7 +206,11 @@ export const deleteUser = async (req, res) => {
 
     res.clearCookie('__jt_token');
 
-    res.status(200).json({ message: 'User successfully deleted', translationKey: 'user.success.user_deleted' });
+    res.status(200).json({
+      message: 'User successfully deleted',
+      translationKey: 'user.success.user_deleted',
+      deletedJobApplicationsCount: deletedApplicationsResult?.deletedCount || 0,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }

@@ -18,6 +18,7 @@ import { Separator } from '@/components/ui/separator';
 import { AvatarInput } from '@/components/customs/profile/AvatarInput';
 import { Dialog } from '@/components/ui/dialog';
 import { UpdatePasswordForm } from '@/components/customs/profile/UpdatePasswordForm';
+import { DeleteAccountForm } from '@/components/customs/profile/DeleteAccountForm';
 
 export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -162,14 +163,19 @@ export const Profile = () => {
                 </div>
               </form>
             </Form>
-            <div className='flex flex-col mt-6 gap-6'>
+            <div className='flex flex-col mt-8'>
               <Separator />
+              <Button
+                variant='link'
+                className='cursor-pointer text-destructive mt-4'
+                onClick={() => setOpenDeleteAccountDialog(true)}
+              >
+                {t('pages.profile.delete_account.title')}
+              </Button>
               <Dialog open={openUpdatePasswordDialog} onOpenChange={setOpenUpdatePasswordDialog}>
                 <UpdatePasswordForm setOpen={setOpenUpdatePasswordDialog} />
               </Dialog>
-              {/* <Dialog open={openDeleteAccountDialog} onOpenChange={setOpenDeleteAccountDialog}> */}
-              {/* <DeleteAccountForm setOpen={setOpenDeleteAccountDialog} /> */}
-              {/* </Dialog> */}
+              <DeleteAccountForm open={openDeleteAccountDialog} setOpen={setOpenDeleteAccountDialog} />
             </div>
           </div>
         </div>

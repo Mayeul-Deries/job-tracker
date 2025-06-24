@@ -175,6 +175,18 @@
           "edit_password": "Change your password",
           "confirm": "Save changes"
         }
+      },
+      "delete_account": {
+        "errors": {
+          "check_approval": "Please check the box to confirm the deletion of your account"
+        },
+        "title": "Delete your account",
+        "description": "This dialog allows you to delete your user account",
+        "checkbox": "By checking this box, I understand that the deletion of my account is definitive. All my personal data and associated job applications will be irreversibly deleted.",
+        "button": {
+          "confirm": "Confirm",
+          "cancel": "Cancel"
+        }
       }
     },
     "login": {
