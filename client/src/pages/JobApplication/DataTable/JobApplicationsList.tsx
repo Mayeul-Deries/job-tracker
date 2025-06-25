@@ -5,8 +5,8 @@ import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
 import { cn } from '@/lib/utils';
 
-import { getColumns } from './columns';
-import { DataTable } from './dataTable';
+import { getColumns } from './Columns';
+import { DataTable } from './DataTable';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
