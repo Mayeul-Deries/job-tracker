@@ -161,6 +161,9 @@
       },
       "form": {
         "description": "Update your profile",
+        "tooltip": {
+          "preferred_category": "Selects the default category when creating an application."
+        },
         "label": {
           "change_picture": "Change picture",
           "username": "Username",
@@ -172,7 +175,7 @@
           "username": "example",
           "email": "example@email.com",
           "password": "*******",
-          "preferred_category": "no category selected"
+          "preferred_category": "No category selected"
         },
         "button": {
           "actions": {

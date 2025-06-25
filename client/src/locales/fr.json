@@ -161,6 +161,9 @@
       },
       "form": {
         "description": "Mettre à jour votre profil",
+        "tooltip": {
+          "preferred_category": "Permet de choisir la catégorie sélectionnée par défaut lors de la création d'une candidature."
+        },
         "label": {
           "change_picture": "Changer de photo",
           "username": "Nom d'utilisateur",

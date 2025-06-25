@@ -6,7 +6,7 @@ import avatarfallback from '@/assets/avatarfallback.png';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, HelpCircle } from 'lucide-react';
 import { useAuthContext } from '@/contexts/authContext';
 import { useTranslation } from 'react-i18next';
 import { Categories } from '@/constants/categories';
@@ -18,6 +18,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { AvatarInput } from '@/components/customs/profile/AvatarInput';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ProfileMenu } from '@/components/customs/profile/ProfileMenu';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -143,7 +144,20 @@ export const Profile = () => {
                     name='preferredCategory'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('pages.profile.form.label.preferred_category')}</FormLabel>
+                        <div className='flex items-center gap-2'>
+                          <FormLabel>{t('pages.profile.form.label.preferred_category')}</FormLabel>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <HelpCircle className='w-4 h-4 text-gray-400' />
+                              </TooltipTrigger>
+                              <TooltipContent side='right'>
+                                <p>{t('pages.profile.form.tooltip.preferred_category')}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
+
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className='w-full'>
