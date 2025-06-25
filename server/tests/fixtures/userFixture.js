@@ -1,3 +1,5 @@
+import { Categories } from '../../src/utils/enums/categories';
+
 export const defaultUser = {
   username: 'johndoe',
   email: 'john@example.com',
@@ -8,6 +10,13 @@ export const otherUser = {
   username: 'janedoe',
   email: 'jane@example.com',
   password: 'Janedoe123*',
+};
+
+export const userWithPreferredCategory = {
+  username: 'johndoe',
+  email: 'john@example.com',
+  password: 'Johndoe123*',
+  preferredCategory: Categories.FULL_TIME,
 };
 
 export const userRegistration = {

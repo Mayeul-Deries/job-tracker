@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Categories } from '../../src/utils/enums/categories.js';
 
 export const updateUserSchema = z
   .object({
@@ -10,6 +11,7 @@ export const updateUserSchema = z
       })
       .optional(),
     email: z.string().email().optional(),
+    preferredCategory: z.enum(Object.values(Categories)).optional().nullable(),
   })
   .refine(data => Object.keys(data).length > 0, {
     message: 'At least one field must be provided',

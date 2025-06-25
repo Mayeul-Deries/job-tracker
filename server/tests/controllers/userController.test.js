@@ -3,9 +3,9 @@ import request from 'supertest';
 import app from '../../src/app.js';
 import fs from 'fs';
 import path from 'path';
-import { defaultUser, otherUser, userWithAvatar } from '../fixtures/userFixture.js';
+import { defaultUser, otherUser, userWithAvatar, userWithPreferredCategory } from '../fixtures/userFixture.js';
 import { defaultJobApplication, otherJobApplication } from '../fixtures/jobApplicationFixture.js';
-
+import { Categories } from '../../src/utils/enums/categories.js';
 import mongoose from 'mongoose';
 import { generateToken } from '../../src/utils/generateToken.js';
 import User from '../../src/models/userModel.js';
@@ -31,7 +31,7 @@ describe('User Controller', () => {
 
   describe('getUser', () => {
     it('should return 200 and user data when user is found', async () => {
-      const user = await User.create(defaultUser);
+      const user = await User.create(userWithPreferredCategory);
 
       const res = await request(app)
         .get(`/api/users/${user._id}`)
@@ -43,6 +43,7 @@ describe('User Controller', () => {
         user: {
           username: user.username,
           email: user.email,
+          preferredCategory: Categories.FULL_TIME,
         },
       });
     });
@@ -107,6 +108,24 @@ describe('User Controller', () => {
         user: {
           username: updatedData.username,
           email: updatedData.email,
+        },
+      });
+    });
+
+    it('should return 200 and updated user preferred category if value is changed', async () => {
+      const user = await User.create(userWithPreferredCategory);
+      const updatedData = { preferredCategory: Categories.APPRENTICESHIP };
+
+      const res = await request(app)
+        .put(`/api/users/${user._id}`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .send(updatedData);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toMatchObject({
+        message: 'User successfully updated',
+        user: {
+          preferredCategory: updatedData.preferredCategory,
         },
       });
     });
