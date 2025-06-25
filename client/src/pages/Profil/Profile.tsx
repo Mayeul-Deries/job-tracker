@@ -15,12 +15,9 @@ import { getUpdateUserSchema } from '@/validations/schemas/user';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Separator } from '@/components/ui/separator';
 import { AvatarInput } from '@/components/customs/profile/AvatarInput';
-import { Dialog } from '@/components/ui/dialog';
-import { UpdatePasswordForm } from '@/components/customs/profile/UpdatePasswordForm';
-import { DeleteAccountForm } from '@/components/customs/profile/DeleteAccountForm';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ProfileMenu } from '@/components/customs/profile/ProfileMenu';
 
 export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,9 +25,6 @@ export const Profile = () => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
-
-  const [openUpdatePasswordDialog, setOpenUpdatePasswordDialog] = useState(false);
-  const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false);
 
   const updateUserSchema = getUpdateUserSchema(t);
 
@@ -86,12 +80,14 @@ export const Profile = () => {
 
   return (
     <div className='grid min-h-svh lg:grid-cols-1'>
-      <div className='absolute top-6 left-6'>
+      <div className='absolute top-6 left-4 sm:left-8 right-4 sm:right-8 flex justify-between items-center sm:px-6'>
         <Button variant='link' className='cursor-pointer' onClick={() => navigate(-1)}>
           <ArrowLeft /> {t('pages.profile.button.back_to_home')}
         </Button>
+        <ProfileMenu />
       </div>
-      <div className='flex flex-col p-6 md:p-10  max-h-screen overflow-y-auto'>
+
+      <div className='flex flex-col py-24 md:py-20 max-h-screen overflow-y-auto'>
         <div className='flex flex-1 items-center justify-center'>
           <div className='w-full max-w-xs'>
             <div className='flex flex-col items-center gap-4'>
@@ -104,9 +100,10 @@ export const Profile = () => {
             </div>
             <Form {...updateUserForm}>
               <form onSubmit={updateUserForm.handleSubmit(updateUser)} className='flex flex-col gap-6'>
-                <div className='flex flex-col items-center gap-10 text-center'>
-                  <h1 className='text-2xl font-bold'>{authenticatedUser?.username}</h1>
-                  <p className='text-balance text-sm text-muted-foreground'>{t('pages.profile.form.description')}</p>
+                <div className='flex flex-col items-center gap-6 text-center'>
+                  <p className='pt-2 text-balance text-sm text-muted-foreground'>
+                    {t('pages.profile.form.label.change_picture')}
+                  </p>
                 </div>
                 <div className='grid gap-6'>
                   <FormField
@@ -141,25 +138,6 @@ export const Profile = () => {
                     )}
                   />
 
-                  <FormItem>
-                    <div className='flex flex-col w-full gap-2'>
-                      <FormLabel>{t('pages.profile.form.label.current_password')}</FormLabel>
-                      <div className='flex items-center justify-between gap-2'>
-                        <FormControl>
-                          <Input type='password' placeholder={t('pages.profile.form.placeholder.password')} disabled />
-                        </FormControl>
-                        <Button
-                          type='button'
-                          variant='outline'
-                          onClick={() => setOpenUpdatePasswordDialog(true)}
-                          disabled={loading}
-                        >
-                          {t('pages.profile.form.button.edit_password')}
-                        </Button>
-                      </div>
-                    </div>
-                  </FormItem>
-
                   <FormField
                     control={updateUserForm.control}
                     name='preferredCategory'
@@ -191,20 +169,6 @@ export const Profile = () => {
                 </div>
               </form>
             </Form>
-            <div className='flex flex-col mt-8'>
-              <Separator />
-              <Button
-                variant='link'
-                className='cursor-pointer text-destructive mt-4'
-                onClick={() => setOpenDeleteAccountDialog(true)}
-              >
-                {t('pages.profile.delete_account.title')}
-              </Button>
-              <Dialog open={openUpdatePasswordDialog} onOpenChange={setOpenUpdatePasswordDialog}>
-                <UpdatePasswordForm setOpen={setOpenUpdatePasswordDialog} />
-              </Dialog>
-              <DeleteAccountForm open={openDeleteAccountDialog} setOpen={setOpenDeleteAccountDialog} />
-            </div>
           </div>
         </div>
       </div>

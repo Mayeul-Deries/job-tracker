@@ -162,6 +162,7 @@
       "form": {
         "description": "Mettre à jour votre profil",
         "label": {
+          "change_picture": "Changer de photo",
           "username": "Nom d'utilisateur",
           "email": "E-mail",
           "current_password": "Mot de passe actuel",
@@ -174,7 +175,11 @@
           "preferred_category": "Aucune catégorie sélectionnée"
         },
         "button": {
-          "edit_password": "Modifiez votre mot de passe",
+          "actions": {
+            "title": "Actions",
+            "change_language": "Changer la langue"
+          },
+          "edit_password": "Modifier votre mot de passe",
           "confirm": "Enregistrer les modifications"
         }
       },
@@ -258,7 +263,7 @@
     },
     "home": {
       "button": {
-        "add_job_application": "Ajouter une nouvelle candidature"
+        "add_job_application": "Nouvelle candidature"
       }
     },
     "createJobApplication": {

@@ -162,6 +162,7 @@
       "form": {
         "description": "Update your profile",
         "label": {
+          "change_picture": "Change picture",
           "username": "Username",
           "email": "Email",
           "current_password": "Current password",
@@ -174,6 +175,10 @@
           "preferred_category": "no category selected"
         },
         "button": {
+          "actions": {
+            "title": "Actions",
+            "change_language": "Changer language"
+          },
           "edit_password": "Change your password",
           "confirm": "Save changes"
         }
@@ -258,7 +263,7 @@
     },
     "home": {
       "button": {
-        "add_job_application": "Add a new job application"
+        "add_job_application": "New job application"
       }
     },
     "createJobApplication": {

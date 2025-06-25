@@ -21,11 +21,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useTranslation } from 'react-i18next';
 
 interface DeleteAccountProps {
-  open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export const DeleteAccountForm = ({ open, setOpen }: DeleteAccountProps) => {
+export const DeleteAccountForm = ({ setOpen }: DeleteAccountProps) => {
   const { authenticatedUser, setAuthenticatedUser } = useAuthContext();
 
   const [loading, setLoading] = useState(false);
@@ -63,48 +62,46 @@ export const DeleteAccountForm = ({ open, setOpen }: DeleteAccountProps) => {
   };
 
   return (
-    <Dialog open={open}>
-      <DialogContent className='sm:max-w-[525px]'>
-        <Form {...deleteUserForm}>
-          <form onSubmit={deleteUserForm.handleSubmit(onDeleteAccountSubmit)} className='space-y-6'>
-            <DialogHeader>
-              <DialogTitle>{t('pages.profile.delete_account.title')}</DialogTitle>
-              <DialogDescription className='sr-only'>{t('pages.profile.delete_account.description')}</DialogDescription>
-            </DialogHeader>
-            <FormField
-              control={deleteUserForm.control}
-              name='checkApproval'
-              render={({ field }) => (
-                <FormItem className='flex items-start space-x-2 mt-4'>
-                  <FormControl>
-                    <Checkbox
-                      id='check-approval'
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      className='mt-[2px] border-gray-500'
-                    />
-                  </FormControl>
-                  <div className='space-y-1'>
-                    <FormLabel htmlFor='check-approval' className='font-normal text-sm leading-snug !text-gray-500'>
-                      {t('pages.profile.delete_account.checkbox')}{' '}
-                    </FormLabel>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
+    <DialogContent className='sm:max-w-[525px]'>
+      <Form {...deleteUserForm}>
+        <form onSubmit={deleteUserForm.handleSubmit(onDeleteAccountSubmit)} className='space-y-6'>
+          <DialogHeader>
+            <DialogTitle>{t('pages.profile.delete_account.title')}</DialogTitle>
+            <DialogDescription className='sr-only'>{t('pages.profile.delete_account.description')}</DialogDescription>
+          </DialogHeader>
+          <FormField
+            control={deleteUserForm.control}
+            name='checkApproval'
+            render={({ field }) => (
+              <FormItem className='flex items-start space-x-2 mt-4'>
+                <FormControl>
+                  <Checkbox
+                    id='check-approval'
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                    className='mt-[2px] border-gray-500'
+                  />
+                </FormControl>
+                <div className='space-y-1'>
+                  <FormLabel htmlFor='check-approval' className='font-normal text-sm leading-snug !text-gray-500'>
+                    {t('pages.profile.delete_account.checkbox')}{' '}
+                  </FormLabel>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
 
-            <DialogFooter>
-              <Button variant='outline' onClick={handleCancel} type='button'>
-                {t('pages.profile.delete_account.button.cancel')}
-              </Button>
-              <Button disabled={loading} className='bg-red-700 hover:bg-red-800 text-white' type='submit'>
-                {t('pages.profile.delete_account.button.confirm')}
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+          <DialogFooter>
+            <Button variant='outline' onClick={handleCancel} type='button'>
+              {t('pages.profile.delete_account.button.cancel')}
+            </Button>
+            <Button disabled={loading} className='bg-red-700 hover:bg-red-800 text-white' type='submit'>
+              {t('pages.profile.delete_account.button.confirm')}
+            </Button>
+          </DialogFooter>
+        </form>
+      </Form>
+    </DialogContent>
   );
 };
