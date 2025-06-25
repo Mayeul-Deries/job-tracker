@@ -6,8 +6,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
-import { Categories } from '@/constants/categories';
+import { Categories, type CategoryType } from '@/constants/categories';
 import { StatusOffer } from '@/constants/statusOffer';
+import { useAuthContext } from '@/contexts/authContext';
+import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,7 +18,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { DatePicker } from '@/components/customs/table/DatePicker';
 import { StatusSelect } from '@/components/customs/table/StatusSelect';
-import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
 
 interface JobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
@@ -39,6 +40,8 @@ export const JobApplicationForm = ({
 
   const [loading, setLoading] = useState(false);
 
+  const { authenticatedUser } = useAuthContext();
+
   const createJobApplicationSchema = getJobApplicationSchema(t);
   const editJobApplicationSchema = getJobApplicationSchema(t);
 
@@ -49,7 +52,7 @@ export const JobApplicationForm = ({
       company: '',
       city: '',
       date: new Date(),
-      category: Categories.APPRENTICESHIP,
+      category: (authenticatedUser?.preferredCategory as CategoryType) ?? Categories.FULL_TIME,
       status: StatusOffer.SENT,
       link: '',
       notes: '',

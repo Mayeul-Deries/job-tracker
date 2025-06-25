@@ -164,12 +164,14 @@
         "label": {
           "username": "Username",
           "email": "Email",
-          "current_password": "Current password"
+          "current_password": "Current password",
+          "preferred_category": "Favourite category"
         },
         "placeholder": {
           "username": "example",
           "email": "example@email.com",
-          "password": "*******"
+          "password": "*******",
+          "preferred_category": "no category selected"
         },
         "button": {
           "edit_password": "Change your password",

@@ -1,3 +1,4 @@
+import { Categories } from '@/constants/categories';
 import { Regex } from '@/constants/regex';
 import type { TFunction } from 'i18next';
 import z from 'zod';
@@ -48,6 +49,7 @@ export const getUpdateUserSchema = (t: TFunction) =>
         message: t('pages.register.errors.username_regex'),
       }),
     email: z.string().email({ message: t('pages.register.errors.email_invalid') }),
+    preferredCategory: z.enum(Object.values(Categories) as [string, ...string[]]).optional(),
   });
 
 export const getUpdatePasswordSchema = (t: TFunction) =>

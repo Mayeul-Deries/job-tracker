@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { useAuthContext } from '@/contexts/authContext';
 import { useTranslation } from 'react-i18next';
+import { Categories } from '@/constants/categories';
 import { getUpdateUserSchema } from '@/validations/schemas/user';
 
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ import { AvatarInput } from '@/components/customs/profile/AvatarInput';
 import { Dialog } from '@/components/ui/dialog';
 import { UpdatePasswordForm } from '@/components/customs/profile/UpdatePasswordForm';
 import { DeleteAccountForm } from '@/components/customs/profile/DeleteAccountForm';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,6 +39,7 @@ export const Profile = () => {
     defaultValues: {
       username: authenticatedUser?.username,
       email: authenticatedUser?.email,
+      preferredCategory: authenticatedUser?.preferredCategory ?? undefined,
     },
   });
 
@@ -156,6 +159,31 @@ export const Profile = () => {
                       </div>
                     </div>
                   </FormItem>
+
+                  <FormField
+                    control={updateUserForm.control}
+                    name='preferredCategory'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t('pages.profile.form.label.preferred_category')}</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className='w-full'>
+                              <SelectValue placeholder={t('pages.profile.form.placeholder.preferred_category')} />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {Object.values(Categories).map(category => (
+                              <SelectItem key={category} value={category}>
+                                {t(`categories.${category}`)}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <Button type='submit' className='w-full' disabled={loading}>
                     {t('pages.profile.form.button.confirm')}

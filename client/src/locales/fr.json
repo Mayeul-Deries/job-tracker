@@ -164,12 +164,14 @@
         "label": {
           "username": "Nom d'utilisateur",
           "email": "E-mail",
-          "current_password": "Mot de passe actuel"
+          "current_password": "Mot de passe actuel",
+          "preferred_category": "Catégorie préférée"
         },
         "placeholder": {
           "username": "exemple",
           "email": "exemple@email.com",
-          "password": "*******"
+          "password": "*******",
+          "preferred_category": "Aucune catégorie sélectionnée"
         },
         "button": {
           "edit_password": "Modifiez votre mot de passe",
