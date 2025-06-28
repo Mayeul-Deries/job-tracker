@@ -50,14 +50,16 @@ export const createJobApplication = async (req, res) => {
 };
 
 export const getJobApplication = async (req, res) => {
+  const id = req.params.id.toString();
+
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(400)
         .json({ error: 'Invalid ID', translationKey: 'jobApplication.error.getJobApplication.invalid_id' });
     }
 
-    const jobApplication = await jobApplicationModel.findOne({ _id: req.params.id });
+    const jobApplication = await jobApplicationModel.findOne({ _id: id });
     if (!jobApplication) {
       return res.status(404).json({
         error: 'Job application not found',
