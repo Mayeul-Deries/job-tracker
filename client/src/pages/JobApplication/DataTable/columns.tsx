@@ -124,7 +124,7 @@ export const getColumns = (
   },
   {
     accessorKey: 'status',
-    size: 150,
+    size: 170,
     header: ({ column }) => <DataTableColumnHeader column={column} title='status' />,
     cell: ({ row }) => {
       const status = row.getValue('status') as string;
