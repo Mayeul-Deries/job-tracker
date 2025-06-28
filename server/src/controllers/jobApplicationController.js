@@ -171,10 +171,20 @@ export const deleteJobApplication = async (req, res) => {
 };
 
 export const deleteJobApplicationBatch = async (req, res) => {
-  try {
-    const { ids } = req.body;
+  let ids = req.body.ids;
 
-    if (!Array.isArray(ids) || ids.length === 0 || !ids.every(id => mongoose.Types.ObjectId.isValid(id))) {
+  try {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        error: 'Invalid IDs provided',
+        translationKey: 'jobApplication.error.deleteJobApplicationBatch.invalid_ids',
+      });
+    }
+
+    ids = ids.map(id => String(id));
+
+    const allValid = ids.every(id => mongoose.Types.ObjectId.isValid(id));
+    if (!allValid) {
       return res.status(400).json({
         error: 'Invalid IDs provided',
         translationKey: 'jobApplication.error.deleteJobApplicationBatch.invalid_ids',

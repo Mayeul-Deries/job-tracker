@@ -500,6 +500,24 @@ describe('JobApplications Controller', () => {
         expect(response.body.error).toBe('Invalid IDs provided');
       });
 
+      it('should return 400 if one of the ids is not valid', async () => {
+        const user = await User.create(defaultUser);
+
+        const invalidIds = [
+          new mongoose.Types.ObjectId().toString(),
+          'invalid-id',
+          new mongoose.Types.ObjectId().toString(),
+        ];
+
+        const response = await request(app)
+          .delete('/api/jobApplications/batch')
+          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .send({ ids: invalidIds });
+
+        expect(response.status).toBe(400);
+        expect(response.body.error).toBe('Invalid IDs provided');
+      });
+
       it('should return 404 if no job applications are found', async () => {
         const user = await User.create(defaultUser);
         const nonExistentId = new mongoose.Types.ObjectId();
