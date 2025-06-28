@@ -22,6 +22,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [preview, setPreview] = useState<string | null>(null);
+
   const { authenticatedUser, setAuthenticatedUser } = useAuthContext();
   const { t } = useTranslation();
 
@@ -61,6 +63,8 @@ export const Profile = () => {
       setLoading(false);
       return;
     }
+    setPreview(URL.createObjectURL(file));
+    e.target.value = '';
 
     const formData = new FormData();
     formData.append('avatar', file);
@@ -93,7 +97,7 @@ export const Profile = () => {
           <div className='w-full max-w-xs'>
             <div className='flex flex-col items-center gap-4'>
               <AvatarInput
-                src={authenticatedUser?.avatar}
+                src={preview || authenticatedUser?.avatar}
                 fallbackSrc={avatarfallback}
                 onChange={updateProfilePic}
                 disabled={loading}
