@@ -8,12 +8,14 @@ import { updateUserSchema, updatePasswordSchema } from '../validations/userSchem
 import { Constants } from '../../src/utils/constants/constants.js';
 
 export const getUser = async (req, res) => {
+  const id = req.params.id.toString();
+
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.getUser.invalid_id' });
     }
 
-    const user = await userModel.findOne({ _id: req.params.id });
+    const user = await userModel.findOne({ _id: id });
     if (!user) {
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.getUser.not_found' });
     }
@@ -26,17 +28,19 @@ export const getUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
+  const id = req.params.id.toString();
+
   try {
     const data = updateUserSchema.parse(req.body);
 
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.updateUser.invalid_id' });
     }
 
     if (data.email) {
       const existingEmail = await userModel.findOne({
         email: data.email.toLowerCase(),
-        _id: { $ne: req.params.id },
+        _id: { $ne: id },
       });
 
       if (existingEmail) {
@@ -51,7 +55,7 @@ export const updateUser = async (req, res) => {
     if (data.username) {
       const existingUsername = await userModel.findOne({
         username: data.username.toLowerCase(),
-        _id: { $ne: req.params.id },
+        _id: { $ne: id },
       });
 
       if (existingUsername) {
@@ -63,7 +67,7 @@ export const updateUser = async (req, res) => {
       data.username = data.username.toLowerCase();
     }
 
-    const user = await userModel.findOneAndUpdate({ _id: req.params.id }, data, { new: true });
+    const user = await userModel.findOneAndUpdate({ _id: id }, data, { new: true });
 
     if (!user) {
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.updateUser.not_found' });
@@ -78,15 +82,14 @@ export const updateUser = async (req, res) => {
 };
 
 export const updateAvatar = async (req, res) => {
-  try {
-    const userId = req.params.id;
+  const id = req.params.id.toString();
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      if (req.file) fs.unlinkSync(req.file.path);
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.updateAvatar.invalid_id' });
     }
 
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(id);
     if (!user) {
       if (req.file) fs.unlinkSync(req.file.path);
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.updateAvatar.not_found' });
@@ -135,9 +138,10 @@ export const updateAvatar = async (req, res) => {
 };
 
 export const updatePassword = async (req, res) => {
+  const id = req.params.id.toString();
+
   try {
     const { currentPassword, newPassword } = updatePasswordSchema.parse(req.body);
-    const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.updatePassword.invalid_id' });
@@ -179,12 +183,14 @@ export const updatePassword = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  const id = req.params.id.toString();
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: 'Invalid ID', translationKey: 'user.error.deleteUser.invalid_id' });
   }
 
   try {
-    const user = await userModel.findOneAndDelete({ _id: req.params.id });
+    const user = await userModel.findOneAndDelete({ _id: id });
     if (!user) {
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.deleteUser.not_found' });
     }
@@ -192,7 +198,7 @@ export const deleteUser = async (req, res) => {
     let deletedApplicationsResult = null;
 
     try {
-      deletedApplicationsResult = await jobApplicationModel.deleteMany({ userId: req.params.id });
+      deletedApplicationsResult = await jobApplicationModel.deleteMany({ userId: id });
     } catch (error) {
       return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
     }

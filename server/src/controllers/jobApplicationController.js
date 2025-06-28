@@ -77,6 +77,8 @@ export const getJobApplication = async (req, res) => {
 };
 
 export const updateJobApplication = async (req, res) => {
+  const id = req.params.id.toString();
+
   const { title, company, link, date, status, notes, category, city, favorite } = req.body;
   try {
     if (!title || !company || !date || !status || !category || !city) {
@@ -85,17 +87,13 @@ export const updateJobApplication = async (req, res) => {
         translationKey: 'jobApplication.error.updateJobApplication.missing_fields',
       });
     }
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(400)
         .json({ error: 'Invalid ID', translationKey: 'jobApplication.error.updateJobApplication.invalid_id' });
     }
 
-    const jobApplication = await jobApplicationModel.findOneAndUpdate(
-      { _id: req.params.id },
-      { ...req.body },
-      { new: true }
-    );
+    const jobApplication = await jobApplicationModel.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
 
     if (!jobApplication) {
       return res.status(404).json({
@@ -115,8 +113,9 @@ export const updateJobApplication = async (req, res) => {
 };
 
 export const patchJobApplication = async (req, res) => {
+  const id = req.params.id.toString();
+
   try {
-    const { id } = req.params;
     const update = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -145,14 +144,16 @@ export const patchJobApplication = async (req, res) => {
 };
 
 export const deleteJobApplication = async (req, res) => {
+  const id = req.params.id.toString();
+
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res
         .status(400)
         .json({ error: 'Invalid ID', translationKey: 'jobApplication.error.deleteJobApplication.invalid_id' });
     }
 
-    const jobApplication = await jobApplicationModel.findOneAndDelete({ _id: req.params.id });
+    const jobApplication = await jobApplicationModel.findOneAndDelete({ _id: id });
     if (!jobApplication) {
       return res.status(404).json({
         error: 'Job application not found',
