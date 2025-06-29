@@ -27,7 +27,7 @@ export function AvatarInput({ src, fallbackSrc, onChange, disabled = false, clas
     <div
       onClick={handleClick}
       className={cn(
-        'relative group w-20 h-20 sm:w-24 sm:h-24 cursor-pointer',
+        'relative group w-24 h-24 sm:w-24 sm:h-24 cursor-pointer',
         disabled && 'pointer-events-none opacity-50',
         className
       )}

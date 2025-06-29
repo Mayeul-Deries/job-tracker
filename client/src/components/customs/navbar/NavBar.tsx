@@ -37,7 +37,7 @@ export function Navbar() {
 
   return (
     <header className='fixed top-0 z-50 w-full border-b bg-white/75 backdrop-blur-md'>
-      <div className='mx-auto flex h-16 max-w-screen-xl items-center justify-between px-2 sm:px-6 lg:px-8'>
+      <div className='mx-auto flex h-16 max-w-screen-xl items-center justify-between pl-4 pr-2 sm:px-6 lg:px-8'>
         <img src={jobtracker} alt='Job Tracker Logo' className='h-6 w-auto' />
         <div className='hidden gap-4 md:flex'>
           <LocaleChanger />
