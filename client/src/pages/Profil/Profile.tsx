@@ -19,12 +19,13 @@ import { AvatarInput } from '@/components/customs/profile/AvatarInput';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ProfileMenu } from '@/components/customs/profile/ProfileMenu';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Loading } from '@/components/customs/Loading';
 
 export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [preview, setPreview] = useState<string | null>(null);
 
-  const { authenticatedUser, setAuthenticatedUser } = useAuthContext();
+  const { authenticatedUser, setAuthenticatedUser, authLoading } = useAuthContext();
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -83,7 +84,9 @@ export const Profile = () => {
     }
   };
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div className='grid min-h-svh lg:grid-cols-1'>
       <div className='absolute top-6 left-4 sm:left-8 right-4 sm:right-8 flex justify-between items-center sm:px-6'>
         <Button variant='link' className='cursor-pointer' onClick={() => navigate(-1)}>
