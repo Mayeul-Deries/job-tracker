@@ -105,10 +105,6 @@ export const updateAvatar = async (req, res) => {
         .json({ error: 'Invalid file type', translationKey: 'user.error.updateAvatar.invalid_type' });
     }
 
-    if (req.file.size > Constants.AVATAR_MAX_SIZE) {
-      return res.status(400).json({ error: 'File too large', translationKey: 'user.error.updateAvatar.too_large' });
-    }
-
     if (user.avatar) {
       // Extraire le public_id de l'URL pour supprimer l'ancien fichier
       const publicId = user.avatar.split('/').pop().split('.')[0];

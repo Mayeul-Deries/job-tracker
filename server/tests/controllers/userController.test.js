@@ -3,6 +3,8 @@ import request from 'supertest';
 import app from '../../src/app.js';
 import fs from 'fs';
 import path from 'path';
+import express from 'express';
+import multer from 'multer';
 import { defaultUser, otherUser, userWithAvatar, userWithPreferredCategory } from '../fixtures/userFixture.js';
 import { defaultJobApplication, otherJobApplication } from '../fixtures/jobApplicationFixture.js';
 import { Categories } from '../../src/utils/enums/categories.js';
@@ -537,6 +539,24 @@ describe('User Controller', () => {
 
       expect(res.status).toBe(400);
       expect(res.body.error).toBe('File too large');
+    });
+
+    it('should return 400 with generic Multer error when wrong file field is used', async () => {
+      const user = await User.create(defaultUser);
+
+      const res = await request(app)
+        .put(`/api/users/${user._id}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .attach('wrongField', Buffer.from('fake-image-content'), {
+          filename: 'avatar.jpg',
+          contentType: 'image/jpeg',
+        });
+
+      expect(res.status).toBe(400);
+      expect(res.body).toEqual({
+        error: 'Multer error',
+        translationKey: 'user.error.updateAvatar.upload_error',
+      });
     });
 
     it('should return 500 if an unexpected server error occurs', async () => {

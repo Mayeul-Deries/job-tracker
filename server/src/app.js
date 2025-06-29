@@ -3,6 +3,7 @@ import express from 'express';
 import router from './routes/router.js';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN,
@@ -25,6 +26,8 @@ app.use((req, res, next) => {
 });
 
 app.use(router);
+
+app.use(errorHandler);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
