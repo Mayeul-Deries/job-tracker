@@ -11,7 +11,7 @@ export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/*' element={<NotFound />} />
+        <Route path='*' element={<NotFound />} />
         <Route
           path='/auth/login'
           element={
