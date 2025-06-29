@@ -25,6 +25,12 @@ export const getJobApplicationSchema = (t: TFunction) =>
       StatusOffer.ACCEPTED,
       StatusOffer.REJECTED,
     ]),
-    link: z.string().url(t('pages.createJobApplication.errors.link_invalid')).optional().or(z.literal('')),
+    link: z
+      .string()
+      .optional()
+      .or(z.literal(''))
+      .refine(val => !val || /^((https?:\/\/)?[\w-]+\.[\w-]+.*)$/.test(val), {
+        message: t('pages.createJobApplication.errors.link_invalid'),
+      }),
     notes: z.string().optional().or(z.literal('')),
   });
