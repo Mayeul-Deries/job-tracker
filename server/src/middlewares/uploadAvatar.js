@@ -1,9 +1,9 @@
 import multer from 'multer';
-import { AVATAR_MAX_SIZE } from '../utils/constants/constants.js';
+import { Constants } from '../utils/constants/constants.js';
 
 const storage = multer.memoryStorage();
 
 export const uploadAvatar = multer({
   storage,
-  limits: { fileSize: AVATAR_MAX_SIZE },
+  limits: { fileSize: Constants.AVATAR_MAX_SIZE },
 });
