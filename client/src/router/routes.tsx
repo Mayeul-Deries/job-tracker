@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ProtectedRoute } from '@/router/protectedRoute';
 
-import { Register } from '@/pages/Authentication/Register';
-import { Login } from '@/pages/Authentication/login';
-import { JobApplicationsList } from '@/pages/JobApplication/DataTable/JobApplicationsList';
 import { Profile } from '@/pages/Profil/Profile';
 import { NotFound } from '@/pages/NotFound';
+import { Login } from '@/pages/Authentication/Login';
+import { Register } from '@/pages/Authentication/Register';
+import { JobApplicationsList } from '@/pages/JobApplication/DataTable/JobApplicationsList';
 
 export const Router = () => {
   return (
