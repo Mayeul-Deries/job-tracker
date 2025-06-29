@@ -13,6 +13,37 @@ import JobApplication from '../../src/models/jobApplicationModel.js';
 import bcrypt from 'bcryptjs';
 import { describe, expect, it, vi } from 'vitest';
 import { Constants } from '../../src/utils/constants/constants.js';
+import { v2 as cloudinary } from 'cloudinary';
+import { Readable } from 'stream';
+import { Writable } from 'stream';
+
+vi.mock('cloudinary', () => {
+  return {
+    v2: {
+      config: vi.fn(),
+      uploader: {
+        destroy: vi.fn().mockResolvedValue({ result: 'ok' }),
+        upload_stream: vi.fn((options, callback) => {
+          const writable = new Writable({
+            write(chunk, encoding, done) {
+              // On ignore les chunks, on simule simplement le traitement
+              done();
+            },
+            final(done) {
+              // On simule un résultat Cloudinary une fois le stream terminé
+              callback(null, {
+                secure_url: 'https://res.cloudinary.com/test/image/upload/v123/avatar.png',
+              });
+              done();
+            },
+          });
+
+          return writable;
+        }),
+      },
+    },
+  };
+});
 
 describe('User Controller', () => {
   beforeAll(async () => {
@@ -413,135 +444,193 @@ describe('User Controller', () => {
   });
 
   describe('updateAvatar', () => {
-    let uploadedAvatarPath;
-    let pathOldAvatar;
-
-    beforeEach(() => {
-      const uniqueFilename = `test-avatar-${uuidv4()}.png`;
-      uploadedAvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', uniqueFilename);
-
-      pathOldAvatar = `./uploads/users/avatars/${uniqueFilename}`;
-      fs.writeFileSync(pathOldAvatar, 'test-avatar');
-
-      userWithAvatar.avatar = pathOldAvatar;
-    });
-
-    afterEach(() => {
-      if (uploadedAvatarPath && fs.existsSync(uploadedAvatarPath)) {
-        fs.unlinkSync(uploadedAvatarPath);
-      }
-    });
-
-    it('should delete old profilePic if there is one and update the current', async () => {
+    it('should delete old Cloudinary avatar and upload a new one', async () => {
       const user = await User.create(userWithAvatar);
 
-      const pathNewAvatar = './tests/controllers/test-new-avatar.png';
-      fs.writeFileSync(pathNewAvatar, 'test-new-avatar');
+      const newAvatarPath = path.join(__dirname, '../fixtures/test-new-avatar.png');
+      fs.writeFileSync(newAvatarPath, 'fake-avatar-content');
 
       const response = await request(app)
         .put(`/api/users/${user._id}/avatar`)
         .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
-        .attach('avatar', pathNewAvatar, 'test-new-avatar.png');
+        .attach('avatar', newAvatarPath);
 
-      // Vérifie si l'ancien avatar a bien été supprimé
-      expect(fs.existsSync(pathOldAvatar)).toBe(false);
-      expect(fs.existsSync(pathNewAvatar)).toBe(true);
-      expect(response.body.message).toBe('Avatar updated successfully');
+      // on supprime le fichier avant les expect pour eviter qu'une erreur empâche la suppression
+      fs.unlinkSync(newAvatarPath);
+
       expect(response.statusCode).toBe(200);
-
-      const uploadedAvatarUrl = response.body.user.avatar;
-      const uploadedAvatarFilename = path.basename(uploadedAvatarUrl);
-      const uploadedAvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', uploadedAvatarFilename);
-
-      // Nettoyage des fichiers temporaires
-      if (fs.existsSync(pathNewAvatar)) {
-        fs.unlinkSync(pathNewAvatar);
-      }
-
-      if (fs.existsSync(uploadedAvatarPath)) {
-        fs.unlinkSync(uploadedAvatarPath);
-      }
+      expect(response.body.message).toBe('Avatar updated successfully');
+      expect(response.body.user.avatar).toContain('cloudinary.com');
     });
 
     it('should return 400 if ID is invalid', async () => {
-      const response = await request(app)
-        .put('/api/users/invalid-id/avatar')
-        .set('Cookie', [`__jt_token=${generateToken('fakeId')}`])
-        .attach('avatar', userWithAvatar.avatar);
+      const user = await User.create(userWithAvatar);
 
-      expect(response.statusCode).toBe(400);
+      const newAvatarPath = path.join(__dirname, '../fixtures/test-new-avatar.png');
+      fs.writeFileSync(newAvatarPath, 'fake-avatar-content');
+
+      const response = await request(app)
+        .put(`/api/users/invalid-id/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .attach('avatar', newAvatarPath);
+
+      fs.unlinkSync(newAvatarPath);
+
+      expect(response.status).toBe(400);
       expect(response.body.error).toBe('Invalid ID');
     });
 
-    it('should return 404 if user does not exist', async () => {
-      const nonExistentId = new mongoose.Types.ObjectId();
+    it('should return 404 if user is not found', async () => {
+      const nonExistentUserId = new mongoose.Types.ObjectId();
+
+      const newAvatarPath = path.join(__dirname, '../fixtures/test-new-avatar.png');
+      fs.writeFileSync(newAvatarPath, 'fake-avatar-content');
 
       const response = await request(app)
-        .put(`/api/users/${nonExistentId}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(nonExistentId)}`])
-        .attach('avatar', userWithAvatar.avatar);
+        .put(`/api/users/${nonExistentUserId}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`])
+        .attach('avatar', newAvatarPath);
 
-      expect(response.statusCode).toBe(404);
+      fs.unlinkSync(newAvatarPath);
+
+      expect(response.status).toBe(404);
       expect(response.body.error).toBe('User not found');
     });
 
     it('should return 400 if no file is uploaded', async () => {
-      const user = await User.create(defaultUser);
+      const user = await User.create(userWithAvatar);
 
       const response = await request(app)
         .put(`/api/users/${user._id}/avatar`)
         .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
 
-      expect(response.statusCode).toBe(400);
+      expect(response.status).toBe(400);
       expect(response.body.error).toBe('No file uploaded');
     });
 
-    it('should return 400 for invalid file type', async () => {
+    it('should return 400 if file type is not allowed', async () => {
       const user = await User.create(userWithAvatar);
+
+      const newAvatarPath = path.join(__dirname, '../fixtures/test-new-avatar.txt');
+      fs.writeFileSync(newAvatarPath, 'fake-avatar-content');
 
       const response = await request(app)
         .put(`/api/users/${user._id}/avatar`)
         .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
-        .attach('avatar', user.avatar, { contentType: 'text/plain' });
+        .attach('avatar', newAvatarPath);
 
-      expect(response.statusCode).toBe(400);
+      fs.unlinkSync(newAvatarPath);
+
+      expect(response.status).toBe(400);
       expect(response.body.error).toBe('Invalid file type');
     });
 
-    it('should return 400 for file too large', async () => {
+    it('should return 400 if the file is too large', async () => {
       const user = await User.create(userWithAvatar);
-      const largeFile = path.join(__dirname, `test-large-${uuidv4()}.png`);
-      fs.writeFileSync(largeFile, Buffer.alloc(Constants.AVATAR_MAX_SIZE + 1));
 
-      const response = await request(app)
-        .put(`/api/users/${user._id}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
-        .attach('avatar', largeFile, { contentType: 'image/png' });
-
-      expect(response.statusCode).toBe(400);
-      expect(response.body.error).toBe('File too large');
-
-      fs.unlinkSync(largeFile);
-    });
-
-    it('should return 500 if a server error occurs during avatar update', async () => {
-      const user = await User.create(userWithAvatar);
-      fs.writeFileSync(user.avatar, 'dummy-avatar');
-
-      vi.spyOn(User, 'findById').mockImplementationOnce(() => {
-        throw new Error('Server error');
-      });
+      const largeBuffer = Buffer.alloc(6 * 1024 * 1024);
 
       const res = await request(app)
         .put(`/api/users/${user._id}/avatar`)
         .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
-        .attach('avatar', user.avatar, 'test-error-avatar.png');
+        .attach('avatar', largeBuffer, { filename: 'big.jpg', contentType: 'image/jpeg' });
+
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBe('File too large');
+    });
+
+    it('should return 500 if an unexpected server error occurs', async () => {
+      const userId = new mongoose.Types.ObjectId();
+
+      vi.spyOn(User, 'findById').mockImplementationOnce(() => {
+        throw new Error('Unexpected server error');
+      });
+
+      const newAvatarPath = path.join(__dirname, '../fixtures/avatar.png');
+      fs.writeFileSync(newAvatarPath, 'fake-avatar');
+
+      const res = await request(app)
+        .put(`/api/users/${userId}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(userId)}`])
+        .attach('avatar', newAvatarPath);
+
+      fs.unlinkSync(newAvatarPath);
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({
-        error: 'Unexpected error',
+        error: 'Unexpected server error',
         translationKey: 'internal_server_error',
       });
+    });
+
+    it('should return 500 if cloudinary upload fails', async () => {
+      const user = await User.create(defaultUser);
+
+      cloudinary.uploader.upload_stream.mockImplementationOnce((options, callback) => {
+        const writable = new Writable({
+          write(chunk, encoding, done) {
+            done();
+          },
+          final(done) {
+            callback(new Error('Upload failed'), null);
+            done();
+          },
+        });
+
+        return writable;
+      });
+
+      const buffer = Buffer.from('valid-image-content');
+
+      const res = await request(app)
+        .put(`/api/users/${user._id}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .attach('avatar', buffer, { filename: 'avatar.png', contentType: 'image/png' });
+
+      expect(res.status).toBe(500);
+      expect(res.body).toMatchObject({
+        error: 'Upload failed',
+        translationKey: 'internal_server_error',
+      });
+    });
+
+    it('should continue even if deleting the old avatar fails', async () => {
+      const userId = new mongoose.Types.ObjectId();
+      const user = {
+        _id: userId,
+        avatar: 'https://res.cloudinary.com/demo/image/upload/v1/users/avatars/old-avatar.jpg',
+        save: vi.fn(),
+      };
+
+      vi.spyOn(User, 'findById').mockResolvedValue(user);
+
+      cloudinary.uploader.destroy = vi.fn().mockRejectedValueOnce(new Error('Cloudinary destroy failed'));
+
+      cloudinary.uploader.upload_stream = vi.fn((options, callback) => {
+        return new Writable({
+          write(chunk, encoding, done) {
+            done();
+          },
+          final(done) {
+            callback(null, { secure_url: 'https://cloudinary.com/fake/new-avatar.png' });
+            done();
+          },
+        });
+      });
+
+      const avatarPath = path.join(__dirname, '../fixtures/avatar.jpg');
+      fs.writeFileSync(avatarPath, 'fake-avatar');
+
+      const res = await request(app)
+        .put(`/api/users/${userId}/avatar`)
+        .set('Cookie', [`__jt_token=${generateToken(userId)}`])
+        .attach('avatar', avatarPath);
+
+      fs.unlinkSync(avatarPath);
+
+      expect(res.status).toBe(200);
+      expect(user.save).toHaveBeenCalled();
+      expect(res.body.user.avatar).toBe('https://cloudinary.com/fake/new-avatar.png');
     });
   });
 
@@ -583,12 +672,7 @@ describe('User Controller', () => {
 
     it('should return 200 and delete user avatar when user has an avatar', async () => {
       const user = await User.create(userWithAvatar);
-
-      fs.writeFileSync(user.avatar, 'test-avatar-delete');
-      const uploadedAvatarFilename = path.basename(user.avatar);
-      const uploadedAvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', uploadedAvatarFilename);
-
-      expect(fs.existsSync(uploadedAvatarPath)).toBe(true);
+      const destroyMock = cloudinary.uploader.destroy;
 
       const res = await request(app)
         .delete(`/api/users/${user._id}`)
@@ -600,7 +684,25 @@ describe('User Controller', () => {
         translationKey: 'user.success.user_deleted',
       });
 
-      expect(fs.existsSync(uploadedAvatarPath)).toBe(false);
+      expect(destroyMock).toHaveBeenCalledWith('users/avatars/test-avatar');
+    });
+
+    it('should log a warning if cloudinary destroy fails', async () => {
+      const user = await User.create(userWithAvatar);
+
+      const destroyMock = cloudinary.uploader.destroy;
+      destroyMock.mockRejectedValueOnce(new Error('Cloudinary error'));
+
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const res = await request(app)
+        .delete(`/api/users/${user._id}`)
+        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+
+      expect(res.status).toBe(200);
+      expect(warnSpy).toHaveBeenCalledWith('Failed to delete avatar on Cloudinary:', 'Cloudinary error');
+
+      warnSpy.mockRestore();
     });
 
     it('should return 400 if user ID is invalid', async () => {
