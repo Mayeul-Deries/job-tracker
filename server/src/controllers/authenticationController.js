@@ -33,6 +33,8 @@ export const register = async (req, res) => {
     res.cookie('__jt_token', token, {
       maxAge: Constants.MAX_DURATION_COOKIE,
       httpOnly: true,
+      sameSite: None,
+      secure: true,
     });
 
     const { password: userPassword, ...userWithoutPassword } = user._doc;
@@ -75,6 +77,8 @@ export const login = async (req, res) => {
     res.cookie('__jt_token', token, {
       maxAge: Constants.MAX_DURATION_COOKIE,
       httpOnly: true,
+      sameSite: None,
+      secure: true,
     });
 
     const { password: userPassword, ...userWithoutPassword } = user._doc;
