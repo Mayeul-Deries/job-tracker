@@ -44,6 +44,7 @@ export const JobApplicationForm = ({
 
   const createJobApplicationSchema = getJobApplicationSchema(t);
   const editJobApplicationSchema = getJobApplicationSchema(t);
+  const duplicateJobApplicationSchema = getJobApplicationSchema(t);
 
   const createJobApplicationForm = useForm<z.infer<typeof createJobApplicationSchema>>({
     resolver: zodResolver(createJobApplicationSchema),
@@ -61,6 +62,20 @@ export const JobApplicationForm = ({
 
   const editJobApplicationForm = useForm<z.infer<typeof editJobApplicationSchema>>({
     resolver: zodResolver(editJobApplicationSchema),
+    defaultValues: {
+      title: jobApplication?.title,
+      company: jobApplication?.company,
+      city: jobApplication?.city,
+      date: jobApplication?.date ? new Date(jobApplication.date) : new Date(),
+      category: jobApplication?.category,
+      status: jobApplication?.status,
+      link: jobApplication?.link,
+      notes: jobApplication?.notes,
+    },
+  });
+
+  const duplicateJobApplicationForm = useForm<z.infer<typeof duplicateJobApplicationSchema>>({
+    resolver: zodResolver(duplicateJobApplicationSchema),
     defaultValues: {
       title: jobApplication?.title,
       company: jobApplication?.company,
@@ -101,6 +116,26 @@ export const JobApplicationForm = ({
       dialog(false);
       refresh();
       editJobApplicationForm.reset();
+    } catch (error: any) {
+      toast.error(t(`toast.${error.response.data.translationKey}`));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onDuplicateSubmit: SubmitHandler<z.infer<typeof duplicateJobApplicationSchema>> = async values => {
+    try {
+      setLoading(true);
+      const data = {
+        ...values,
+        date: values.date.toISOString(),
+        withCreadentials: true,
+      };
+      const response = await axiosConfig.post('jobApplications', data);
+      toast.success(t(`toast.${response.data.translationKey}`));
+      dialog(false);
+      refresh();
+      createJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
@@ -452,6 +487,166 @@ export const JobApplicationForm = ({
             <div className='flex flex-col gap-4'>
               <Button type='submit' className='w-full' disabled={loading}>
                 {t('pages.editJobApplication.form.button.submit')}
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Form>
+    );
+  }
+
+  if (action === 'duplicate') {
+    return (
+      <Form {...duplicateJobApplicationForm}>
+        <form onSubmit={duplicateJobApplicationForm.handleSubmit(onDuplicateSubmit)} className='flex flex-col gap-6'>
+          <div className='grid gap-5 sm:gap-6'>
+            <FormField
+              control={duplicateJobApplicationForm.control}
+              name='title'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.duplicateJobApplication.form.label.jobTitle')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('pages.duplicateJobApplication.form.placeholder.jobTitle')} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={duplicateJobApplicationForm.control}
+              name='company'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.duplicateJobApplication.form.label.companyName')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('pages.duplicateJobApplication.form.placeholder.companyName')} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className='flex gap-2 sm:gap-4'>
+              <div className='w-1/2'>
+                <FormField
+                  control={duplicateJobApplicationForm.control}
+                  name='city'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('pages.duplicateJobApplication.form.label.city')}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={t('pages.duplicateJobApplication.form.placeholder.city')} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className='w-1/2'>
+                <FormField
+                  control={duplicateJobApplicationForm.control}
+                  name='date'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-col'>
+                      <FormLabel>{t('pages.duplicateJobApplication.form.label.applicationDate')}</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          value={field.value}
+                          onChange={field.onChange}
+                          variant='outline'
+                          placeholder={t('pages.duplicateJobApplication.form.placeholder.applicationDate')}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className='flex gap-2 sm:gap-4'>
+              <div className='w-1/2'>
+                <FormField
+                  control={duplicateJobApplicationForm.control}
+                  name='category'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('pages.duplicateJobApplication.form.label.category')}</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className='w-full'>
+                            <SelectValue placeholder={t('pages.duplicateJobApplication.form.placeholder.category')}>
+                              {t(`categories.${field.value}`)}
+                            </SelectValue>
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.values(Categories).map(category => (
+                            <SelectItem key={category} value={category}>
+                              {t(`categories.${category}`)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className='w-1/2'>
+                <FormField
+                  control={duplicateJobApplicationForm.control}
+                  name='status'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t('pages.duplicateJobApplication.form.label.status')}</FormLabel>
+                      <FormControl>
+                        <StatusSelect status={field.value} onStatusChange={field.onChange} variant='form' />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <FormField
+              control={duplicateJobApplicationForm.control}
+              name='link'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.duplicateJobApplication.form.label.link')}</FormLabel>
+                  <FormControl>
+                    <Input placeholder={t('pages.duplicateJobApplication.form.placeholder.link')} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={duplicateJobApplicationForm.control}
+              name='notes'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('pages.duplicateJobApplication.form.label.notes')}</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder={t('pages.duplicateJobApplication.form.placeholder.notes')}
+                      className='h-[90px] resize-none'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className='flex flex-col gap-4'>
+              <Button type='submit' className='w-full' disabled={loading}>
+                {t('pages.duplicateJobApplication.form.button.submit')}
               </Button>
             </div>
           </div>
