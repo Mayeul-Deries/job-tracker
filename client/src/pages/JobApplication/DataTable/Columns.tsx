@@ -144,13 +144,21 @@ export const getColumns = (
     size: 50,
     header: () => <span className='font-bold'>{t('pages.dataTable.columns.link')}</span>,
     cell: ({ row }) => {
-      const link = row.getValue('link') as string;
+      let link = row.getValue('link') as string;
+
+      if (link && !link.startsWith('http://') && !link.startsWith('https://')) {
+        link = `https://${link}`;
+      }
+
       return link ? (
-        <Button variant='ghost' size='icon' asChild className='size-8'>
-          <a href={link} target='_blank' rel='noopener noreferrer'>
-            <ExternalLink className='size-4' />
-          </a>
-        </Button>
+        <a
+          href={link}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='size-8 inline-flex items-center justify-center rounded-md hover:bg-accent'
+        >
+          <ExternalLink className='size-4' />
+        </a>
       ) : null;
     },
   },
