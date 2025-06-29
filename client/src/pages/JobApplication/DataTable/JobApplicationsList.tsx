@@ -66,6 +66,11 @@ export const JobApplicationsList = () => {
         setAction('edit');
         setOpenDialog(true);
         break;
+      case 'duplicate':
+        setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
+        setAction('duplicate');
+        setOpenDialog(true);
+        break;
       case 'delete':
         setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
         setAction('delete');
@@ -111,6 +116,7 @@ export const JobApplicationsList = () => {
                 className={cn(
                   action === 'create' && 'sm:max-w-[625px]',
                   action === 'edit' && 'sm:max-w-[625px]',
+                  action === 'duplicate' && 'sm:max-w-[625px]',
                   action === 'delete' && 'sm:max-w-[425px]',
                   action === 'deleteMany' && 'sm:max-w-[460px]'
                 )}

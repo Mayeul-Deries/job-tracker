@@ -52,6 +52,10 @@ export function DataTable<TData>({
     if (sorting.length === 0) {
       return [...data].sort((a: any, b: any) => {
         if (a.favorite === b.favorite) {
+          const createdAtDiff = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          if (createdAtDiff !== 0) {
+            return createdAtDiff;
+          }
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         }
         return a.favorite ? -1 : 1;

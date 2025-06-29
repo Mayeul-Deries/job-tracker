@@ -29,7 +29,7 @@ export const getJobApplicationSchema = (t: TFunction) =>
       .string()
       .optional()
       .or(z.literal(''))
-      .refine(val => !val || /^((https?:\/\/)?[\w-]+\.[\w-]+.*)$/.test(val), {
+      .refine(val => !val || /^(https?:\/\/)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$/.test(val), {
         message: t('pages.createJobApplication.errors.link_invalid'),
       }),
     notes: z.string().optional().or(z.literal('')),
