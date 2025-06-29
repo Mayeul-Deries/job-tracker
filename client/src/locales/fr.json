@@ -51,7 +51,8 @@
           "invalid_id": "ID invalide",
           "existing_email": "Cet e-mail est déjà associé à un autre compte",
           "existing_username": "Ce nom d'utilisateur est déjà associé à un autre compte",
-          "not_found": "Utilisateur introuvable"
+          "not_found": "Utilisateur introuvable",
+          "upload_error": "Une erreur s'est produite lors du téléchargement du fichier"
         },
         "updateAvatar": {
           "invalid_id": "ID invalide",

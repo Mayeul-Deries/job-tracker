@@ -58,7 +58,8 @@
           "not_found": "User not found",
           "no_file": "No file uploaded",
           "invalid_type": "Invalid file type",
-          "too_large": "File too large"
+          "too_large": "File too large",
+          "upload_error": "An error occurred while uploading the file"
         },
         "updatePassword": {
           "invalid_id": "Invalid ID",

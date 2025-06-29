@@ -4,8 +4,6 @@ import router from './routes/router.js';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 
-const port = process.env.PORT;
-
 const corsOptions = {
   origin: 'http://localhost:5173',
   credentials: true,

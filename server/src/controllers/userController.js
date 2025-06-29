@@ -1,11 +1,11 @@
-import fs from 'fs';
-import path from 'path';
 import userModel from '../models/userModel.js';
 import jobApplicationModel from '../models/jobApplicationModel.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { updateUserSchema, updatePasswordSchema } from '../validations/userSchemas.js';
-import { Constants } from '../../src/utils/constants/constants.js';
+import cloudinary from '../../src/configs/cloudinary.js';
+import streamifier from 'streamifier';
+import { Constants } from '../utils/constants/constants.js';
 
 export const getUser = async (req, res) => {
   const id = req.params.id.toString();
@@ -91,7 +91,6 @@ export const updateAvatar = async (req, res) => {
 
     const user = await userModel.findById(id);
     if (!user) {
-      if (req.file) fs.unlinkSync(req.file.path);
       return res.status(404).json({ error: 'User not found', translationKey: 'user.error.updateAvatar.not_found' });
     }
 
@@ -101,27 +100,43 @@ export const updateAvatar = async (req, res) => {
 
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'];
     if (!ALLOWED_TYPES.includes(req.file.mimetype)) {
-      fs.unlinkSync(req.file.path);
       return res
         .status(400)
         .json({ error: 'Invalid file type', translationKey: 'user.error.updateAvatar.invalid_type' });
     }
 
     if (req.file.size > Constants.AVATAR_MAX_SIZE) {
-      fs.unlinkSync(req.file.path);
       return res.status(400).json({ error: 'File too large', translationKey: 'user.error.updateAvatar.too_large' });
     }
 
     if (user.avatar) {
-      const oldAvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', path.basename(user.avatar));
-      if (fs.existsSync(oldAvatarPath)) {
-        fs.unlinkSync(oldAvatarPath);
+      // Extraire le public_id de l'URL pour supprimer l'ancien fichier
+      const publicId = user.avatar.split('/').pop().split('.')[0];
+      try {
+        await cloudinary.uploader.destroy(`users/avatars/${publicId}`);
+      } catch (e) {
+        console.warn('Failed to delete old avatar:', e.message);
       }
     }
 
-    const newAvatarUrl = `${req.protocol}://${req.get('host')}/uploads/users/avatars/${req.file.filename}`;
+    const streamUpload = fileBuffer => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: 'users/avatars',
+          },
+          (error, result) => {
+            if (result) resolve(result);
+            else reject(error);
+          }
+        );
+        streamifier.createReadStream(fileBuffer).pipe(stream);
+      });
+    };
 
-    user.avatar = newAvatarUrl;
+    const result = await streamUpload(req.file.buffer);
+
+    user.avatar = result.secure_url;
     await user.save();
 
     return res.status(200).json({
@@ -129,11 +144,8 @@ export const updateAvatar = async (req, res) => {
       translationKey: 'user.success.avatar_updated',
       user,
     });
-  } catch (err) {
-    if (req.file && fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path);
-    }
-    return res.status(500).json({ error: 'Unexpected error', translationKey: 'internal_server_error' });
+  } catch (error) {
+    return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
 
@@ -204,9 +216,11 @@ export const deleteUser = async (req, res) => {
     }
 
     if (user.avatar) {
-      const AvatarPath = path.join(process.cwd(), 'uploads', 'users', 'avatars', path.basename(user.avatar));
-      if (fs.existsSync(AvatarPath)) {
-        fs.unlinkSync(AvatarPath);
+      try {
+        const publicId = user.avatar.split('/').pop().split('.')[0]; // extrait le nom de fichier
+        await cloudinary.uploader.destroy(`users/avatars/${publicId}`);
+      } catch (err) {
+        console.warn('Failed to delete avatar on Cloudinary:', err.message);
       }
     }
 

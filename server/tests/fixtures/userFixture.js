@@ -26,7 +26,7 @@ export const userRegistration = {
   confirmPassword: 'Johnregister123*',
 };
 
-export const pathExistingAvatar = './uploads/users/avatars/test-avatar.png';
+export const pathExistingAvatar = 'https://res.cloudinary.com/demo/image/upload/v1/users/avatars/test-avatar.png';
 
 export const userWithAvatar = {
   username: 'test',
