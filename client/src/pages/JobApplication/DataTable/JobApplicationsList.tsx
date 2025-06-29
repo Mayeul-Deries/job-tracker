@@ -5,13 +5,13 @@ import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
 import { cn } from '@/lib/utils';
 
-import { getColumns } from './Columns';
-import { DataTable } from './DataTable';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { JobApplicationForm } from '../../Forms/JobApplicationForm';
 import { Navbar } from '@/components/customs/navbar/NavBar';
+import { DataTable } from './DataTable';
+import { getColumns } from './Columns';
 
 export const JobApplicationsList = () => {
   const { t } = useTranslation();
