@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: process.env.CORS_ORIGIN,
   credentials: true,
   methods: 'GET, POST, PUT, PATCH, DELETE',
   preflightContinue: true,
