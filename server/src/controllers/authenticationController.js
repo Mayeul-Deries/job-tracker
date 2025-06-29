@@ -33,7 +33,7 @@ export const register = async (req, res) => {
     res.cookie('__jt_token', token, {
       maxAge: Constants.MAX_DURATION_COOKIE,
       httpOnly: true,
-      sameSite: None,
+      sameSite: 'None',
       secure: true,
     });
 
@@ -77,7 +77,7 @@ export const login = async (req, res) => {
     res.cookie('__jt_token', token, {
       maxAge: Constants.MAX_DURATION_COOKIE,
       httpOnly: true,
-      sameSite: None,
+      sameSite: 'None',
       secure: true,
     });
 
