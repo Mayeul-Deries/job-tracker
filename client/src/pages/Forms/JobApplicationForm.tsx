@@ -135,7 +135,7 @@ export const JobApplicationForm = ({
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
       refresh();
-      createJobApplicationForm.reset();
+      duplicateJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
