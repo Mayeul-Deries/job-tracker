@@ -233,10 +233,10 @@ export const getColumns = (
               {t('pages.dataTable.columns.actions.duplicate')}
             </DropdownMenuItem>
             <DropdownMenuItem
-              className='flex gap-2'
+              className='flex gap-2 text-destructive hover:text-destructive!'
               onClick={() => handleJobApplicationAction('delete', jobApplication._id)}
             >
-              <Trash className='h-2' />
+              <Trash className='h-2 text-destructive' />
               {t('pages.dataTable.columns.actions.delete')}
             </DropdownMenuItem>
           </DropdownMenuContent>

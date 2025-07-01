@@ -374,7 +374,7 @@
           "notes": "Informations supplémentaires"
         },
         "button": {
-          "submit": "Créer la candidature",
+          "submit": "Dupliquer la candidature",
           "cancel": "Annuler"
         }
       }

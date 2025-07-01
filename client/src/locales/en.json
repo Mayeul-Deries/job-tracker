@@ -374,7 +374,7 @@
           "notes": "Additional information"
         },
         "button": {
-          "submit": "Create application",
+          "submit": "Duplicate application",
           "cancel": "Cancel"
         }
       }

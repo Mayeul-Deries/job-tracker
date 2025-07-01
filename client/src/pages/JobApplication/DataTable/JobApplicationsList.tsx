@@ -8,10 +8,10 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { JobApplicationForm } from '../../Forms/JobApplicationForm';
 import { Navbar } from '@/components/customs/navbar/NavBar';
 import { DataTable } from './DataTable';
 import { getColumns } from './Columns';
+import { JobApplicationForm } from '@/pages/Forms/JobApplicationForm';
 
 export const JobApplicationsList = () => {
   const { t } = useTranslation();
