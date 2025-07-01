@@ -4,7 +4,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 import { cn } from '@/lib/utils';
 
-import { ExternalLink, FileText, MoreVertical, Pencil, Star, Trash } from 'lucide-react';
+import { Copy, ExternalLink, FileText, MoreVertical, Pencil, Star, Trash } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -227,9 +227,16 @@ export const getColumns = (
             </DropdownMenuItem>
             <DropdownMenuItem
               className='flex gap-2'
+              onClick={() => handleJobApplicationAction('duplicate', jobApplication._id)}
+            >
+              <Copy className='h-2' />
+              {t('pages.dataTable.columns.actions.duplicate')}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className='flex gap-2 text-destructive hover:text-destructive!'
               onClick={() => handleJobApplicationAction('delete', jobApplication._id)}
             >
-              <Trash className='h-2' />
+              <Trash className='h-2 text-destructive' />
               {t('pages.dataTable.columns.actions.delete')}
             </DropdownMenuItem>
           </DropdownMenuContent>

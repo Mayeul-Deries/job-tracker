@@ -342,6 +342,43 @@
         }
       }
     },
+    "duplicateJobApplication": {
+      "errors": {
+        "jobTitle_required": "Job title is required",
+        "companyName_required": "Company name is required",
+        "city_required": "City is required",
+        "applicationDate_required": "Application date is required",
+        "link_invalid": "The job offer link must be a valid URL"
+      },
+      "form": {
+        "title": "Duplicate a job application",
+        "description": "Fill out the form to add a new job application",
+        "label": {
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
+          "applicationDate": "Application date",
+          "category": "Category",
+          "status": "Status",
+          "link": "Job offer link",
+          "notes": "Notes"
+        },
+        "placeholder": {
+          "jobTitle": "Web developer apprenticeship",
+          "companyName": "XYZ Company",
+          "city": "Paris",
+          "applicationDate": "Choose a date",
+          "category": "Select a category",
+          "status": "Select a status",
+          "link": "https://www.example-job.com",
+          "notes": "Additional information"
+        },
+        "button": {
+          "submit": "Duplicate application",
+          "cancel": "Cancel"
+        }
+      }
+    },
     "deleteJobApplication": {
       "title": "Delete Job Application",
       "description": "Are you sure you want to delete this job application? This action is irreversible.",
@@ -378,6 +415,7 @@
           "title": "Actions",
           "create": "Add a job application",
           "edit": "Edit job application",
+          "duplicate": "Duplicate this job application",
           "delete": "Delete job application",
           "deleteMany": "Delete selected job applications"
         }
