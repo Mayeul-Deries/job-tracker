@@ -208,7 +208,7 @@
         "password_max": "Le mot de passe doit contenir au maximum 255 caractères"
       },
       "form": {
-        "title": "Connectez-vous à votre compte",
+        "title": "Connexion à votre compte",
         "description": "Entrez vos identifiants pour accéder à votre compte",
         "label": {
           "login": "Identifiant",
