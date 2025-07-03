@@ -15,6 +15,43 @@
     "Contract": "Contrat",
     "Seasonal": "Saisonnier"
   },
+  "form": {
+    "helper": {
+      "username": "Le nom d'utilisateur doit être en minuscules, sans espace ni caractère spécial",
+      "password": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial"
+    },
+    "errors": {
+      "authentication": {
+        "loginName_min": "Adresse e-mail ou nom d'utilisateur requis",
+        "loginName_no_spaces": "Les espaces ne sont pas autorisés",
+        "password_required": "Mot de passe requis",
+        "username_min": "Le nom d'utilisateur doit contenir au moins 2 caractères",
+        "username_max": "Le nom d'utilisateur doit contenir au maximum 25 caractères",
+        "username_alphanumeric": "Le nom d'utilisateur ne doit contenir que des lettres, chiffres ou tirets",
+        "username_no_uppercase": "Le nom d'utilisateur ne doit pas contenir de majuscules",
+        "username_no_spaces": "Le nom d'utilisateur ne doit pas contenir d'espaces",
+        "username_no_hyphen_edges": "Le nom d'utilisateur ne peut pas commencer ou finir par un tiret",
+        "email_invalid": "Adresse e-mail invalide",
+        "password_max": "Le mot de passe doit contenir au maximum 255 caractères",
+        "password_do_not_match": "Les mots de passe ne correspondent pas",
+        "password_min": "Le mot de passe est trop court",
+        "password_lowercase": "Le mot de passe doit contenir une minuscule",
+        "password_uppercase": "Le mot de passe doit contenir une majuscule",
+        "password_number": "Le mot de passe doit contenir un chiffre",
+        "password_special": "Le mot de passe doit contenir un caractère spécial"
+      },
+      "delete_account": {
+        "check_approval": "Veuillez cocher la case pour confirmer la suppression de votre compte"
+      },
+      "jobApplication": {
+        "jobTitle_required": "L'intitulé du poste est requis",
+        "companyName_required": "Le nom de l'entreprise est requis",
+        "city_required": "La ville est requise",
+        "applicationDate_required": "La date de candidature est requise",
+        "link_invalid": "Le lien vers l'offre d'emploi doit être une URL valide"
+      }
+    }
+  },
   "toast": {
     "internal_server_error": "Une erreur inattendue est survenue",
     "auth": {
@@ -132,11 +169,6 @@
     },
     "profile": {
       "password_changer": {
-        "errors": {
-          "password_max": "Le mot de passe doit contenir au maximum 255 caractères",
-          "password_regex": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
-          "passwords_do_not_match": "Les mots de passe ne correspondent pas"
-        },
         "title": "Modifiez votre mot de passe",
         "description": "Modifiez votre mot de passe en complétant le formulaire ci-dessous.",
         "label": {
@@ -188,9 +220,6 @@
         }
       },
       "delete_account": {
-        "errors": {
-          "check_approval": "Veuillez cocher la case pour confirmer la suppression de votre compte"
-        },
         "title": "Supprimer votre compte",
         "description": "Cette boîte de dialogue permet de supprimer votre compte utilisateur",
         "checkbox": "En cochant cette case, je comprends que la suppression de mon compte est définitive. Toutes mes données personnelles, ainsi que mes candidatures associées, seront supprimées de façon irréversible.",
@@ -201,12 +230,6 @@
       }
     },
     "login": {
-      "errors": {
-        "loginName_min": "Adresse e-mail ou nom d'utilisateur requis",
-        "loginName_no_spaces": "Les espaces ne sont pas autorisés",
-        "password_min": "Mot de passe requis",
-        "password_max": "Le mot de passe doit contenir au maximum 255 caractères"
-      },
       "form": {
         "title": "Connexion à votre compte",
         "description": "Entrez vos identifiants pour accéder à votre compte",
@@ -230,15 +253,6 @@
       }
     },
     "register": {
-      "errors": {
-        "username_min": "Le nom d'utilisateur doit contenir au moins 2 caractères",
-        "username_max": "Le nom d'utilisateur doit contenir au maximum 25 caractères",
-        "username_regex": "Le nom d'utilisateur ne doit pas contenir d'espaces, de majuscules ou de caractères spéciaux",
-        "email_invalid": "Adresse e-mail invalide",
-        "password_max": "Le mot de passe doit contenir au maximum 255 caractères",
-        "password_regex": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
-        "password_do_not_match": "Les mots de passe ne correspondent pas"
-      },
       "form": {
         "title": "Créer un compte",
         "description": "Créez un compte en remplissant le formulaire",
@@ -271,13 +285,6 @@
       }
     },
     "createJobApplication": {
-      "errors": {
-        "jobTitle_required": "L'intitulé du poste est requis",
-        "companyName_required": "Le nom de l'entreprise est requis",
-        "city_required": "La ville est requise",
-        "applicationDate_required": "La date de candidature est requise",
-        "link_invalid": "Le lien vers l'offre d'emploi doit être une URL valide"
-      },
       "form": {
         "title": "Ajouter une candidature",
         "description": "Remplissez le formulaire pour ajouter une nouvelle candidature",
@@ -308,13 +315,6 @@
       }
     },
     "editJobApplication": {
-      "errors": {
-        "jobTitle_required": "L'intitulé du poste est requis",
-        "companyName_required": "Le nom de l'entreprise est requis",
-        "city_required": "La ville est requise",
-        "applicationDate_required": "La date de candidature est requise",
-        "link_invalid": "Le lien vers l'offre d'emploi doit être une URL valide"
-      },
       "form": {
         "title": "Modifier une candidature",
         "label": {
@@ -343,13 +343,6 @@
       }
     },
     "duplicateJobApplication": {
-      "errors": {
-        "jobTitle_required": "L'intitulé du poste est requis",
-        "companyName_required": "Le nom de l'entreprise est requis",
-        "city_required": "La ville est requise",
-        "applicationDate_required": "La date de candidature est requise",
-        "link_invalid": "Le lien vers l'offre d'emploi doit être une URL valide"
-      },
       "form": {
         "title": "Dupliquer une candidature",
         "description": "Remplissez le formulaire pour ajouter une nouvelle candidature",
