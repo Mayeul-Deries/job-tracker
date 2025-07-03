@@ -26,6 +26,7 @@ export const DuplicateJobApplicationForm = ({ dialog, refresh, jobApplication }:
 
   const duplicateJobApplicationForm = useForm<z.infer<typeof duplicateJobApplicationSchema>>({
     resolver: zodResolver(duplicateJobApplicationSchema),
+    mode: 'onTouched',
     defaultValues: {
       title: jobApplication?.title,
       company: jobApplication?.company,

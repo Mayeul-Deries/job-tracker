@@ -29,6 +29,7 @@ export const CreateJobApplicationForm = ({ dialog, refresh }: CreateJobApplicati
 
   const createJobApplicationForm = useForm<z.infer<typeof createJobApplicationSchema>>({
     resolver: zodResolver(createJobApplicationSchema),
+    mode: 'onTouched',
     defaultValues: {
       title: '',
       company: '',

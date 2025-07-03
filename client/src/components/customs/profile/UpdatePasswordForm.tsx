@@ -26,6 +26,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
   const updatePasswordSchema = getUpdatePasswordSchema(t);
   const updatePasswordForm = useForm<z.infer<typeof updatePasswordSchema>>({
     resolver: zodResolver(updatePasswordSchema),
+    mode: 'onTouched',
     defaultValues: {
       currentPassword: '',
       newPassword: '',
@@ -68,7 +69,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className='text-xs -mt-1 px-1' />
               </FormItem>
             )}
           />
@@ -85,7 +86,8 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className='text-xs -mt-1 px-1' />
+                <p className='text-xs px-1 -mt-1 text-muted-foreground'>{t('form.helper.password')}</p>
               </FormItem>
             )}
           />
@@ -102,7 +104,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className='text-xs -mt-1 px-1' />
               </FormItem>
             )}
           />

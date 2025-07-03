@@ -15,6 +15,43 @@
     "Contract": "Contract",
     "Seasonal": "Seasonal"
   },
+  "form": {
+    "helper": {
+      "username": "Username must be lowercase, without spaces or special characters",
+      "password": "Password must be at least 8 characters long, and include an uppercase letter, a lowercase letter, a number, and a special character"
+    },
+    "errors": {
+      "authentication": {
+        "loginName_min": "Email or username is required",
+        "loginName_no_spaces": "Spaces are not allowed",
+        "password_required": "Password is required",
+        "username_min": "Username must be at least 2 characters long",
+        "username_max": "Username must be no more than 25 characters",
+        "username_alphanumeric": "Username can only contain letters, numbers, or hyphens",
+        "username_no_uppercase": "Username must not contain uppercase letters",
+        "username_no_spaces": "Username must not contain spaces",
+        "username_no_hyphen_edges": "Username cannot start or end with a hyphen",
+        "email_invalid": "Invalid email address",
+        "password_max": "Password must be no more than 255 characters",
+        "password_do_not_match": "Passwords do not match",
+        "password_min": "Password is too short",
+        "password_lowercase": "Password must include at least one lowercase letter",
+        "password_uppercase": "Password must include at least one uppercase letter",
+        "password_number": "Password must include at least one number",
+        "password_special": "Password must include at least one special character"
+      },
+      "delete_account": {
+        "check_approval": "Please check the box to confirm account deletion"
+      },
+      "jobApplication": {
+        "jobTitle_required": "Job title is required",
+        "companyName_required": "Company name is required",
+        "city_required": "City is required",
+        "applicationDate_required": "Application date is required",
+        "link_invalid": "The job posting link must be a valid URL"
+      }
+    }
+  },
   "toast": {
     "internal_server_error": "An unexpected error has occurred",
     "auth": {
@@ -132,11 +169,6 @@
     },
     "profile": {
       "password_changer": {
-        "errors": {
-          "password_max": "Password must be at most 255 characters long",
-          "password_regex": "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-          "passwords_do_not_match": "Passwords don't match"
-        },
         "title": "Change your password",
         "description": "Change your password by completing the form below",
         "label": {
@@ -188,9 +220,6 @@
         }
       },
       "delete_account": {
-        "errors": {
-          "check_approval": "Please check the box to confirm the deletion of your account"
-        },
         "title": "Delete your account",
         "description": "This dialog allows you to delete your user account",
         "checkbox": "By checking this box, I understand that the deletion of my account is definitive. All my personal data and associated job applications will be irreversibly deleted.",
@@ -201,12 +230,6 @@
       }
     },
     "login": {
-      "errors": {
-        "loginName_min": "Email address or username is required",
-        "loginName_no_spaces": "Spaces are forbidden",
-        "password_min": "Password is required",
-        "password_max": "Password must be at most 255 characters long"
-      },
       "form": {
         "title": "Login to your account",
         "description": "Enter your credentials to login to your account",
@@ -230,15 +253,6 @@
       }
     },
     "register": {
-      "errors": {
-        "username_min": "Username must be at least 2 characters long",
-        "username_max": "Username must be at most 25 characters long",
-        "username_regex": "Username must not contain spaces, uppercase letters or special characters",
-        "email_invalid": "Invalid email address",
-        "password_max": "Password must be at most 255 characters long",
-        "password_regex": "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-        "password_do_not_match": "Passwords don't match"
-      },
       "form": {
         "title": "Create an account",
         "description": "Create a new account by filling out the form below",
@@ -271,13 +285,6 @@
       }
     },
     "createJobApplication": {
-      "errors": {
-        "jobTitle_required": "Job title is required",
-        "companyName_required": "Company name is required",
-        "city_required": "City is required",
-        "applicationDate_required": "Application date is required",
-        "link_invalid": "The job offer link must be a valid URL"
-      },
       "form": {
         "title": "Add a job application",
         "description": "Fill out the form to add a new job application",
@@ -308,13 +315,6 @@
       }
     },
     "editJobApplication": {
-      "errors": {
-        "jobTitle_required": "Job title is required",
-        "companyName_required": "Company name is required",
-        "city_required": "City is required",
-        "applicationDate_required": "Application date is required",
-        "link_invalid": "The job offer link must be a valid URL"
-      },
       "form": {
         "title": "Edit a job application",
         "label": {
@@ -343,13 +343,6 @@
       }
     },
     "duplicateJobApplication": {
-      "errors": {
-        "jobTitle_required": "Job title is required",
-        "companyName_required": "Company name is required",
-        "city_required": "City is required",
-        "applicationDate_required": "Application date is required",
-        "link_invalid": "The job offer link must be a valid URL"
-      },
       "form": {
         "title": "Duplicate a job application",
         "description": "Fill out the form to add a new job application",

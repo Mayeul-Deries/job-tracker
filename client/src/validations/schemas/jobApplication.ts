@@ -5,10 +5,10 @@ import z from 'zod';
 
 export const getJobApplicationSchema = (t: TFunction) =>
   z.object({
-    title: z.string().min(1, { message: t('pages.createJobApplication.errors.jobTitle_required') }),
-    company: z.string().min(1, { message: t('pages.createJobApplication.errors.companyName_required') }),
-    city: z.string().min(1, { message: t('pages.createJobApplication.errors.city_required') }),
-    date: z.date({ required_error: t('pages.createJobApplication.errors.applicationDate_required') }),
+    title: z.string().min(1, { message: t('form.errors.jobApplication.jobTitle_required') }),
+    company: z.string().min(1, { message: t('form.errors.jobApplication.companyName_required') }),
+    city: z.string().min(1, { message: t('form.errors.jobApplication.city_required') }),
+    date: z.date({ required_error: t('form.errors.jobApplication.applicationDate_required') }),
     category: z.enum([
       Categories.INTERNSHIP,
       Categories.APPRENTICESHIP,
@@ -30,7 +30,7 @@ export const getJobApplicationSchema = (t: TFunction) =>
       .optional()
       .or(z.literal(''))
       .refine(val => !val || /^(https?:\/\/)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$/.test(val), {
-        message: t('pages.createJobApplication.errors.link_invalid'),
+        message: t('form.errors.jobApplication.link_invalid'),
       }),
     notes: z.string().optional().or(z.literal('')),
   });

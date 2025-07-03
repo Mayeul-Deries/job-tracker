@@ -46,7 +46,7 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
           <Trash2 className='h-4 w-4' />({selectedRows.length})
         </Button>
 
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
             <Button variant='outline' className='ml-auto'>
               <Settings2 className='hidden sm:inline-block h-4 w-4' />
