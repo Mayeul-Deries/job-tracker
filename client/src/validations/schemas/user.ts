@@ -7,12 +7,12 @@ export const getLoginSchema = (t: TFunction) =>
   z.object({
     loginName: z
       .string()
-      .min(2, { message: t('pages.login.errors.loginName_min') })
-      .regex(Regex.LOGIN_NAME, { message: t('pages.login.errors.loginName_no_spaces') }),
+      .min(2, { message: t('form.errors.authentication.loginName_min') })
+      .regex(Regex.LOGIN_NAME, { message: t('form.errors.authentication.loginName_no_spaces') }),
     password: z
       .string()
-      .min(1, { message: t('pages.login.errors.password_min') })
-      .max(255, { message: t('pages.login.errors.password_max') }),
+      .min(1, { message: t('form.errors.authentication.password_required') })
+      .max(255, { message: t('form.errors.authentication.password_max') }),
   });
 
 export const getRegisterSchema = (t: TFunction) =>
@@ -20,22 +20,41 @@ export const getRegisterSchema = (t: TFunction) =>
     .object({
       username: z
         .string()
-        .min(2, { message: t('pages.register.errors.username_min') })
-        .max(25, { message: t('pages.register.errors.username_max') })
-        .regex(Regex.USERNAME, {
-          message: t('pages.register.errors.username_regex'),
+        .min(2, { message: t('form.errors.authentication.username_min') })
+        .max(25, { message: t('form.errors.authentication.username_max') })
+        .refine(val => /^[a-zA-Z0-9\-_ ]*$/.test(val), {
+          message: t('form.errors.authentication.username_alphanumeric'),
+        })
+        .refine(val => !/[A-Z]/.test(val) === true, {
+          message: t('form.errors.authentication.username_no_uppercase'),
+        })
+        .refine(val => !val.includes(' '), {
+          message: t('form.errors.authentication.username_no_spaces'),
+        })
+        .refine(val => !/^[-_]|[-_]$/.test(val), {
+          message: t('form.errors.authentication.username_no_hyphen_edges'),
         }),
-      email: z.string().email({ message: t('pages.register.errors.email_invalid') }),
+      email: z.string().email({ message: t('form.errors.authentication.email_invalid') }),
       password: z
         .string()
-        .max(255, { message: t('pages.register.errors.password_max') })
-        .regex(Regex.PASSWORD, {
-          message: t('pages.register.errors.password_regex'),
+        .min(8, { message: t('form.errors.authentication.password_min') })
+        .max(255, { message: t('form.errors.authentication.password_max') })
+        .refine(val => /[a-z]/.test(val), {
+          message: t('form.errors.authentication.password_lowercase'),
+        })
+        .refine(val => /[A-Z]/.test(val), {
+          message: t('form.errors.authentication.password_uppercase'),
+        })
+        .refine(val => /\d/.test(val), {
+          message: t('form.errors.authentication.password_number'),
+        })
+        .refine(val => /[^A-Za-z0-9]/.test(val), {
+          message: t('form.errors.authentication.password_special'),
         }),
       confirmPassword: z.string(),
     })
     .refine(data => data.password === data.confirmPassword, {
-      message: t('pages.register.errors.password_do_not_match'),
+      message: t('form.errors.authentication.password_do_not_match'),
       path: ['confirmPassword'],
     });
 
@@ -43,12 +62,21 @@ export const getUpdateUserSchema = (t: TFunction) =>
   z.object({
     username: z
       .string()
-      .min(2, { message: t('pages.register.errors.username_min') })
-      .max(25, { message: t('pages.register.errors.username_max') })
-      .regex(Regex.USERNAME, {
-        message: t('pages.register.errors.username_regex'),
+      .min(2, { message: t('form.errors.authentication.username_min') })
+      .max(25, { message: t('form.errors.authentication.username_max') })
+      .refine(val => /^[a-zA-Z0-9\-_ ]*$/.test(val), {
+        message: t('form.errors.authentication.username_alphanumeric'),
+      })
+      .refine(val => !/[A-Z]/.test(val) === true, {
+        message: t('form.errors.authentication.username_no_uppercase'),
+      })
+      .refine(val => !val.includes(' '), {
+        message: t('form.errors.authentication.username_no_spaces'),
+      })
+      .refine(val => !/^[-_]|[-_]$/.test(val), {
+        message: t('form.errors.authentication.username_no_hyphen_edges'),
       }),
-    email: z.string().email({ message: t('pages.register.errors.email_invalid') }),
+    email: z.string().email({ message: t('form.errors.authentication.email_invalid') }),
     preferredCategory: z.enum(Object.values(Categories) as [string, ...string[]]).optional(),
   });
 
@@ -57,26 +85,46 @@ export const getUpdatePasswordSchema = (t: TFunction) =>
     .object({
       currentPassword: z
         .string()
-        .max(255, { message: t('pages.profile.password_changer.errors.password_max') })
-        .regex(Regex.PASSWORD, {
-          message: t('pages.profile.password_changer.errors.password_regex'),
+        .min(8, { message: t('form.errors.authentication.password_min') })
+        .max(255, { message: t('form.errors.authentication.password_max') })
+        .refine(val => /[a-z]/.test(val), {
+          message: t('form.errors.authentication.password_lowercase'),
+        })
+        .refine(val => /[A-Z]/.test(val), {
+          message: t('form.errors.authentication.password_uppercase'),
+        })
+        .refine(val => /\d/.test(val), {
+          message: t('form.errors.authentication.password_number'),
+        })
+        .refine(val => /[^A-Za-z0-9]/.test(val), {
+          message: t('form.errors.authentication.password_special'),
         }),
       newPassword: z
         .string()
-        .max(255, { message: t('pages.profile.password_changer.errors.password_max') })
-        .regex(Regex.PASSWORD, {
-          message: t('pages.profile.password_changer.errors.password_regex'),
+        .min(8, { message: t('form.errors.authentication.password_min') })
+        .max(255, { message: t('form.errors.authentication.password_max') })
+        .refine(val => /[a-z]/.test(val), {
+          message: t('form.errors.authentication.password_lowercase'),
+        })
+        .refine(val => /[A-Z]/.test(val), {
+          message: t('form.errors.authentication.password_uppercase'),
+        })
+        .refine(val => /\d/.test(val), {
+          message: t('form.errors.authentication.password_number'),
+        })
+        .refine(val => /[^A-Za-z0-9]/.test(val), {
+          message: t('form.errors.authentication.password_special'),
         }),
       newPasswordConfirm: z.string(),
     })
     .refine(data => data.newPassword === data.newPasswordConfirm, {
-      message: t('pages.profile.password_changer.errors.passwords_do_not_match'),
+      message: t('form.errors.authentication.password_do_not_match'),
       path: ['newPasswordConfirm'],
     });
 
 export const getDeleteUserSchema = (t: TFunction) =>
   z.object({
     checkApproval: z.boolean().refine(val => val === true, {
-      message: t('pages.profile.delete_account.errors.check_approval'),
+      message: t('form.errors.delete_account.check_approval'),
     }),
   });
