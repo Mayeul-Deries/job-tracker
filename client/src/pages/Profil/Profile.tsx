@@ -25,7 +25,7 @@ export const Profile = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [preview, setPreview] = useState<string | null>(null);
 
-  const { authenticatedUser, setAuthenticatedUser, authLoading } = useAuthContext();
+  const { authenticatedUser, setAuthenticatedUser } = useAuthContext();
   const { t } = useTranslation();
 
   const navigate = useNavigate();
@@ -34,6 +34,7 @@ export const Profile = () => {
 
   const updateUserForm = useForm<z.infer<typeof updateUserSchema>>({
     resolver: zodResolver(updateUserSchema),
+    mode: 'onTouched',
     defaultValues: {
       username: authenticatedUser?.username,
       email: authenticatedUser?.email,
@@ -127,7 +128,7 @@ export const Profile = () => {
                             {...field}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>
                     )}
                   />
@@ -141,7 +142,7 @@ export const Profile = () => {
                         <FormControl>
                           <Input type='email' placeholder={t('pages.profile.form.placeholder.email')} {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>
                     )}
                   />
@@ -179,7 +180,7 @@ export const Profile = () => {
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>
                     )}
                   />

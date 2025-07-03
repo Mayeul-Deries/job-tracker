@@ -31,7 +31,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
               <FormControl>
                 <Input placeholder={t(`pages.${formKey}.form.placeholder.jobTitle`)} {...field} />
               </FormControl>
-              <FormMessage />
+              <FormMessage className='text-xs -mt-1 px-1' />
             </FormItem>
           )}
         />
@@ -45,7 +45,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
               <FormControl>
                 <Input placeholder={t(`pages.${formKey}.form.placeholder.companyName`)} {...field} />
               </FormControl>
-              <FormMessage />
+              <FormMessage className='text-xs -mt-1 px-1' />
             </FormItem>
           )}
         />
@@ -61,7 +61,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
                   <FormControl>
                     <Input placeholder={t(`pages.${formKey}.form.placeholder.city`)} {...field} />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className='text-xs -mt-1 px-1' />
                 </FormItem>
               )}
             />
@@ -81,7 +81,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
                       placeholder={t(`pages.${formKey}.form.placeholder.applicationDate`)}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className='text-xs -mt-1 px-1' />
                 </FormItem>
               )}
             />
@@ -112,7 +112,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <FormMessage className='text-xs -mt-1 px-1' />
                 </FormItem>
               )}
             />
@@ -127,7 +127,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
                   <FormControl>
                     <StatusSelect status={field.value} onStatusChange={field.onChange} variant='form' />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className='text-xs -mt-1 px-1' />
                 </FormItem>
               )}
             />
@@ -143,7 +143,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
               <FormControl>
                 <Input placeholder={t(`pages.${formKey}.form.placeholder.link`)} {...field} />
               </FormControl>
-              <FormMessage />
+              <FormMessage className='text-xs -mt-1 px-1' />
             </FormItem>
           )}
         />
@@ -161,7 +161,7 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className='text-xs -mt-1 px-1' />
             </FormItem>
           )}
         />

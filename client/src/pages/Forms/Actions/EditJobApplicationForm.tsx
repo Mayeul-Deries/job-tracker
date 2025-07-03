@@ -26,6 +26,7 @@ export const EditJobApplicationForm = ({ dialog, refresh, jobApplication }: Edit
 
   const editJobApplicationForm = useForm<z.infer<typeof editJobApplicationSchema>>({
     resolver: zodResolver(editJobApplicationSchema),
+    mode: 'onTouched',
     defaultValues: {
       title: jobApplication?.title,
       company: jobApplication?.company,

@@ -28,6 +28,7 @@ export const Login = () => {
 
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
+    mode: 'onTouched',
     defaultValues: {
       loginName: '',
       password: '',
@@ -58,7 +59,7 @@ export const Login = () => {
     <div className='grid min-h-svh lg:grid-cols-1'>
       <div className='flex flex-col p-6 md:p-10'>
         <div className='flex flex-1 items-center justify-center'>
-          <div className='w-full max-w-xs'>
+          <div className='w-full max-w-xs sm:max-w-sm'>
             <Form {...loginForm}>
               <form onSubmit={loginForm.handleSubmit(login)} className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center gap-2 text-center'>
@@ -75,7 +76,7 @@ export const Login = () => {
                         <FormControl>
                           <Input placeholder={t('pages.login.form.placeholder.login')} {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>
                     )}
                   />
@@ -89,7 +90,7 @@ export const Login = () => {
                         <FormControl>
                           <Input type='password' placeholder={t('pages.login.form.placeholder.password')} {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>
                     )}
                   />

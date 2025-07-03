@@ -1,13 +1,6 @@
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { axiosConfig } from '@/config/axiosConfig';
 import { getDeleteUserSchema } from '@/validations/schemas/user';
 import { useAuthContext } from '@/contexts/authContext';
@@ -86,7 +79,7 @@ export const DeleteAccountForm = ({ setOpen }: DeleteAccountProps) => {
                   <FormLabel htmlFor='check-approval' className='font-normal text-sm leading-snug !text-gray-500'>
                     {t('pages.profile.delete_account.checkbox')}{' '}
                   </FormLabel>
-                  <FormMessage />
+                  <FormMessage className='text-xs' />
                 </div>
               </FormItem>
             )}

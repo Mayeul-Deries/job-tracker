@@ -28,6 +28,7 @@ export const Register = () => {
 
   const registerForm = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
+    mode: 'onTouched',
     defaultValues: {
       username: '',
       email: '',
@@ -56,7 +57,7 @@ export const Register = () => {
     <div className='grid min-h-svh lg:grid-cols-1'>
       <div className='flex flex-col p-6 md:p-10  max-h-screen overflow-y-auto'>
         <div className='flex flex-1 items-center justify-center'>
-          <div className='w-full max-w-xs'>
+          <div className='w-full max-w-xs sm:max-w-sm'>
             <Form {...registerForm}>
               <form onSubmit={registerForm.handleSubmit(register)} className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center gap-2 text-center'>
@@ -77,7 +78,8 @@ export const Register = () => {
                             {...field}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
+                        <p className='text-xs px-1 -mt-1 text-muted-foreground'>{t('form.helper.username')}</p>
                       </FormItem>
                     )}
                   />
@@ -91,7 +93,7 @@ export const Register = () => {
                         <FormControl>
                           <Input type='email' placeholder={t('pages.register.form.placeholder.email')} {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>
                     )}
                   />
@@ -109,7 +111,8 @@ export const Register = () => {
                             {...field}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
+                        <p className='text-xs px-1 -mt-1 text-muted-foreground'>{t('form.helper.password')}</p>
                       </FormItem>
                     )}
                   />
@@ -127,7 +130,7 @@ export const Register = () => {
                             {...field}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>
                     )}
                   />
