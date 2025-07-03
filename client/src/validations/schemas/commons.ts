@@ -15,7 +15,7 @@ export const getUsernameCommonSchema = (t: TFunction) =>
     .refine(val => !val.includes(' '), {
       message: t('form.errors.authentication.username_no_spaces'),
     })
-    .refine(val => !/^[-_]|[-_]$/.test(val), {
+    .refine(val => !/^(?:[-_]|.*[-_]$)/.test(val), {
       message: t('form.errors.authentication.username_no_hyphen_edges'),
     });
 
