@@ -55,9 +55,9 @@ export const Register = () => {
 
   return (
     <div className='grid min-h-svh lg:grid-cols-1'>
-      <div className='flex flex-col p-6 md:p-10  max-h-screen overflow-y-auto'>
+      <div className='flex flex-col p-6 md:p-10 max-h-screen overflow-y-auto'>
         <div className='flex flex-1 items-center justify-center'>
-          <div className='w-full max-w-xs sm:max-w-sm'>
+          <div className='w-full max-w-xs sm:max-w-sm py-6'>
             <Form {...registerForm}>
               <form onSubmit={registerForm.handleSubmit(register)} className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center gap-2 text-center'>

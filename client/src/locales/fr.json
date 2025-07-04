@@ -275,7 +275,7 @@
         },
         "text": {
           "or_continue_with": "Ou continuez avec",
-          "no_account": "Vous n'avez pas de compte ?"
+          "no_account": "Vous possédez déjà un compte ?"
         }
       }
     },
