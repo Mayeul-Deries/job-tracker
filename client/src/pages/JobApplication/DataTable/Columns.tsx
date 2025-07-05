@@ -193,7 +193,7 @@ export const getColumns = (
                 onChange={e => setNotes(e.target.value)}
                 placeholder={t('pages.dataTable.columns.notes_dialog.placeholder')}
               />
-              <div className='flex justify-start'>
+              <div className='flex justify-end'>
                 <Button onClick={handleSaveNotes}>{t('pages.dataTable.columns.notes_dialog.save')}</Button>
               </div>
             </div>

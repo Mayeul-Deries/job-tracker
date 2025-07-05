@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import jobtracker from '@/assets/jobtracker.png';
 import { LogOut, Menu, User, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
@@ -38,7 +37,7 @@ export function Navbar() {
   return (
     <header className='fixed top-0 z-50 w-full border-b bg-white/75 backdrop-blur-md'>
       <div className='mx-auto flex h-16 max-w-screen-xl items-center justify-between pl-4 pr-2 sm:px-6 lg:px-8'>
-        <img src={jobtracker} alt='Job Tracker Logo' className='h-6 w-auto' />
+        <span className='font-logo text-2xl'>Job Tracker</span>
         <div className='hidden gap-4 md:flex'>
           <LocaleChanger />
           <AvatarDropdown />
