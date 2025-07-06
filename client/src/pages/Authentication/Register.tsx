@@ -45,6 +45,7 @@ export const Register = () => {
 
       toast.success(t(`toast.${response.data.translationKey}`));
       setAuthenticatedUser(response.data.user);
+      localStorage.setItem('__jt_token', response.data.accessToken);
       navigate('/');
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));

@@ -28,14 +28,7 @@ export const register = async (req, res) => {
       email: email.toLowerCase(),
       password: hashedPassword,
     });
-    const token = generateToken(user._id);
-
-    res.cookie('__jt_token', token, {
-      maxAge: Constants.MAX_DURATION_COOKIE,
-      httpOnly: true,
-      sameSite: 'None',
-      secure: true,
-    });
+    const accessToken = generateToken(user._id);
 
     const { password: userPassword, ...userWithoutPassword } = user._doc;
 
@@ -43,6 +36,7 @@ export const register = async (req, res) => {
       message: 'User successfully created',
       user: userWithoutPassword,
       translationKey: 'auth.success.register',
+      accessToken,
     });
   } catch (error) {
     if (error.name === 'ZodError') {
@@ -73,13 +67,7 @@ export const login = async (req, res) => {
         .json({ error: 'Invalid credentials', translationKey: 'auth.error.login.invalid_credentials' });
     }
 
-    const token = generateToken(user._id);
-    res.cookie('__jt_token', token, {
-      maxAge: Constants.MAX_DURATION_COOKIE,
-      httpOnly: true,
-      sameSite: 'None',
-      secure: true,
-    });
+    const accessToken = generateToken(user._id);
 
     const { password: userPassword, ...userWithoutPassword } = user._doc;
 
@@ -87,6 +75,7 @@ export const login = async (req, res) => {
       message: 'User successfully logged in',
       user: userWithoutPassword,
       translationKey: 'auth.success.login',
+      accessToken,
     });
   } catch (error) {
     if (error.name === 'ZodError') {
@@ -97,16 +86,7 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  try {
-    res.clearCookie('__jt_token', {
-      httpOnly: true,
-      sameSite: 'None',
-      secure: true,
-    });
-    res.status(200).json({ message: 'User successfully logged out', translationKey: 'auth.success.logout' });
-  } catch (error) {
-    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
-  }
+  res.status(200).json({ message: 'User successfully logged out', translationKey: 'auth.success.logout' });
 };
 
 export const getConnectedUser = async (req, res) => {

@@ -15,6 +15,7 @@ export const useLogout = () => {
     setLoading(true);
     try {
       const response = await axiosConfig.get('/auth/logout');
+      localStorage.removeItem('__jt_token');
 
       toast.success(t(`toast.${response.data.translationKey}`));
       setAuthenticatedUser(null);

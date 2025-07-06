@@ -1,7 +1,6 @@
 import cors from 'cors';
 import express from 'express';
 import router from './routes/router.js';
-import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import { errorHandler } from './middlewares/errorHandler.js';
 
@@ -17,7 +16,6 @@ const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 // Middleware for logging requests
 app.use((req, res, next) => {

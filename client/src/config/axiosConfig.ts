@@ -7,3 +7,16 @@ export const axiosConfig = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+axiosConfig.interceptors.request.use(
+  config => {
+    const accessToken = localStorage.getItem('__jt_token');
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
