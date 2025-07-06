@@ -31,4 +31,13 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
+setInterval(async () => {
+  try {
+    const res = await fetch(process.env.SELF_URL + '/api/ping');
+    console.log(`Self-ping status: ${res.status}`);
+  } catch (err) {
+    console.error('Self-ping failed:', err);
+  }
+}, 14 * 60 * 1000);
+
 export default app;

@@ -16,4 +16,9 @@ router.use('/api/auth', authenticationRouter);
 
 router.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
+// Health check endpoint
+router.get('/api/ping', (req, res) => {
+  return res.status(200).json({ message: 'The server is running!' });
+});
+
 export default router;
