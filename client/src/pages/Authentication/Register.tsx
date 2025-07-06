@@ -13,7 +13,7 @@ import { FcGoogle } from 'react-icons/fc';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
 export const Register = () => {
   const { t } = useTranslation();
@@ -79,7 +79,9 @@ export const Register = () => {
                           />
                         </FormControl>
                         <FormMessage className='text-xs -mt-1 px-1' />
-                        <p className='text-xs px-1 -mt-1 text-muted-foreground'>{t('form.helper.username')}</p>
+                        <FormDescription className='text-xs px-1 -mt-1 text-muted-foreground'>
+                          {t('form.helper.username')}
+                        </FormDescription>
                       </FormItem>
                     )}
                   />
@@ -112,7 +114,9 @@ export const Register = () => {
                           />
                         </FormControl>
                         <FormMessage className='text-xs -mt-1 px-1' />
-                        <p className='text-xs px-1 -mt-1 text-muted-foreground'>{t('form.helper.password')}</p>
+                        <FormDescription className='text-xs px-1 -mt-1 text-muted-foreground'>
+                          {t('form.helper.password')}
+                        </FormDescription>
                       </FormItem>
                     )}
                   />

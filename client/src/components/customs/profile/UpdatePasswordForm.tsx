@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useAuthContext } from '@/contexts/authContext';
@@ -87,7 +87,9 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
                   />
                 </FormControl>
                 <FormMessage className='text-xs -mt-1 px-1' />
-                <p className='text-xs px-1 -mt-1 text-muted-foreground'>{t('form.helper.password')}</p>
+                <FormDescription className='text-xs px-1 -mt-1 text-muted-foreground'>
+                  {t('form.helper.password')}
+                </FormDescription>
               </FormItem>
             )}
           />
