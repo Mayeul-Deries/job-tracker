@@ -118,7 +118,8 @@ export const JobApplicationsList = () => {
                   action === 'edit' && 'sm:max-w-[625px]',
                   action === 'duplicate' && 'sm:max-w-[625px]',
                   action === 'delete' && 'sm:max-w-[425px]',
-                  action === 'deleteMany' && 'sm:max-w-[460px]'
+                  action === 'deleteMany' && 'sm:max-w-[460px]',
+                  'max-h-[90vh] overflow-hidden flex flex-col px-4'
                 )}
               >
                 <DialogHeader className='flex flex-col items-center gap-2 text-center'>

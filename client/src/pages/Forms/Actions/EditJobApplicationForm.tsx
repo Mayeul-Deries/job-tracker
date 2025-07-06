@@ -55,10 +55,12 @@ export const EditJobApplicationForm = ({ dialog, refresh, jobApplication }: Edit
   };
 
   return (
-    <Form {...editJobApplicationForm}>
-      <form onSubmit={editJobApplicationForm.handleSubmit(onEditSubmit)} className='flex flex-col gap-6'>
-        <JobApplicationFormFields form={editJobApplicationForm} formKey={'editJobApplication'} loading={loading} />
-      </form>
-    </Form>
+    <div className='overflow-y-auto px-2 sm:px-1 sm:ml-3 pt-2' style={{ maxHeight: 'calc(90vh - 5rem)' }}>
+      <Form {...editJobApplicationForm}>
+        <form onSubmit={editJobApplicationForm.handleSubmit(onEditSubmit)} className='flex flex-col gap-6'>
+          <JobApplicationFormFields form={editJobApplicationForm} formKey={'editJobApplication'} loading={loading} />
+        </form>
+      </Form>
+    </div>
   );
 };

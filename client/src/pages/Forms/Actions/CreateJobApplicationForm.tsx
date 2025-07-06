@@ -63,10 +63,16 @@ export const CreateJobApplicationForm = ({ dialog, refresh }: CreateJobApplicati
   };
 
   return (
-    <Form {...createJobApplicationForm}>
-      <form onSubmit={createJobApplicationForm.handleSubmit(onCreateSubmit)} className='flex flex-col gap-6'>
-        <JobApplicationFormFields form={createJobApplicationForm} formKey={'createJobApplication'} loading={loading} />
-      </form>
-    </Form>
+    <div className='overflow-y-auto px-2 sm:px-1 sm:ml-3 pt-2' style={{ maxHeight: 'calc(90vh - 5rem)' }}>
+      <Form {...createJobApplicationForm}>
+        <form onSubmit={createJobApplicationForm.handleSubmit(onCreateSubmit)} className='flex flex-col gap-6'>
+          <JobApplicationFormFields
+            form={createJobApplicationForm}
+            formKey={'createJobApplication'}
+            loading={loading}
+          />
+        </form>
+      </Form>
+    </div>
   );
 };
