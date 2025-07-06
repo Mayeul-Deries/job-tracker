@@ -44,7 +44,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .get('/api/jobApplications')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(200);
         expect.arrayContaining([
@@ -87,7 +87,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .get('/api/jobApplications')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
         expect(res.status).toBe(500);
         expect(res.body.error).toBe('Test error');
       });
@@ -99,7 +99,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .post('/api/jobApplications')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             ...defaultJobApplication,
             userId: user._id,
@@ -122,7 +122,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .post('/api/jobApplications')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             userId: user._id,
             ...jobApplicationWithMissingFields,
@@ -138,7 +138,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .post('/api/jobApplications')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             ...defaultJobApplication,
             userId: user._id,
@@ -159,7 +159,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .get(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(200);
         expect(res.body).toMatchObject({
@@ -179,7 +179,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .get(`/api/jobApplications/${invalidId}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(400);
         expect(res.body).toMatchObject({
@@ -192,7 +192,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .get(`/api/jobApplications/${nonExistentUserId}`)
-          .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`]);
+          .set('Authorization', `Bearer ${generateToken(nonExistentUserId)}`);
 
         expect(res.status).toBe(404);
         expect(res.body.error).toBe('Job application not found');
@@ -204,7 +204,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .get(`/api/jobApplications/${user._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(500);
         expect(res.body.error).toBe('Database error');
@@ -221,7 +221,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .put(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             ...otherJobApplication,
             userId: user._id,
@@ -248,7 +248,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .put(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             userId: user._id,
             ...jobApplicationWithMissingFields,
@@ -264,7 +264,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .put(`/api/jobApplications/${invalidId}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             ...otherJobApplication,
             userId: user._id,
@@ -282,7 +282,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .put(`/api/jobApplications/${nonExistentJobApplicationId}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             ...otherJobApplication,
             userId: user._id,
@@ -303,7 +303,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .put(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             ...otherJobApplication,
             userId: user._id,
@@ -324,7 +324,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .patch(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             notes: 'Patched notes',
           });
@@ -346,7 +346,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .patch(`/api/jobApplications/${invalidId}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             notes: 'Updated notes',
           });
@@ -363,7 +363,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .patch(`/api/jobApplications/${invalidJobApplicationId}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             notes: 'Patched notes',
           });
@@ -383,7 +383,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .patch(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({
             notes: 'Patched notes',
           });
@@ -403,7 +403,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .delete(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(200);
         expect(res.body.message).toBe('Job application successfully deleted');
@@ -415,7 +415,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .delete(`/api/jobApplications/${invalidId}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(400);
         expect(res.body).toMatchObject({
@@ -429,7 +429,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .delete(`/api/jobApplications/${nonExistentJobApplicationId}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(404);
         expect(res.body.error).toBe('Job application not found');
@@ -446,7 +446,7 @@ describe('JobApplications Controller', () => {
 
         const res = await request(app)
           .delete(`/api/jobApplications/${jobApplication._id}`)
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(500);
         expect(res.body.error).toBe('Database error');
@@ -469,7 +469,7 @@ describe('JobApplications Controller', () => {
 
         const response = await request(app)
           .delete('/api/jobApplications/batch')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({ ids });
 
         expect(response.status).toBe(200);
@@ -481,7 +481,7 @@ describe('JobApplications Controller', () => {
 
         const response = await request(app)
           .delete('/api/jobApplications/batch')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({ ids: [] });
 
         expect(response.status).toBe(400);
@@ -493,7 +493,7 @@ describe('JobApplications Controller', () => {
 
         const response = await request(app)
           .delete('/api/jobApplications/batch')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({ ids: 'not-an-array' });
 
         expect(response.status).toBe(400);
@@ -511,7 +511,7 @@ describe('JobApplications Controller', () => {
 
         const response = await request(app)
           .delete('/api/jobApplications/batch')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({ ids: invalidIds });
 
         expect(response.status).toBe(400);
@@ -524,7 +524,7 @@ describe('JobApplications Controller', () => {
 
         const response = await request(app)
           .delete('/api/jobApplications/batch')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({ ids: [nonExistentId] });
 
         expect(response.status).toBe(404);
@@ -542,7 +542,7 @@ describe('JobApplications Controller', () => {
 
         const response = await request(app)
           .delete('/api/jobApplications/batch')
-          .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+          .set('Authorization', `Bearer ${generateToken(user._id)}`)
           .send({ ids: [jobApplication._id] });
 
         expect(response.status).toBe(500);

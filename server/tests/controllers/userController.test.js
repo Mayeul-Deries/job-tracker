@@ -68,7 +68,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .get(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject({
@@ -86,7 +86,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .get(`/api/users/${invalidId}`)
-        .set('Cookie', [`__jt_token=${generateToken(invalidId)}`]);
+        .set('Authorization', `Bearer ${generateToken(invalidId)}`);
 
       expect(res.status).toBe(400);
       expect(res.body).toMatchObject({
@@ -99,7 +99,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .get(`/api/users/${nonExistentUserId}`)
-        .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`]);
+        .set('Authorization', `Bearer ${generateToken(nonExistentUserId)}`);
 
       expect(res.status).toBe(404);
       expect(res.body).toMatchObject({
@@ -116,7 +116,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .get(`/api/users/${userId}`)
-        .set('Cookie', [`__jt_token=${generateToken(userId)}`]);
+        .set('Authorization', `Bearer ${generateToken(userId)}`);
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({
@@ -132,7 +132,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send(updatedData);
 
       expect(res.status).toBe(200);
@@ -151,7 +151,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send(updatedData);
 
       expect(res.status).toBe(200);
@@ -168,7 +168,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${invalidId}`)
-        .set('Cookie', [`__jt_token=${generateToken(invalidId)}`])
+        .set('Authorization', `Bearer ${generateToken(invalidId)}`)
         .send({ username: 'newusername' });
 
       expect(res.status).toBe(400);
@@ -184,7 +184,7 @@ describe('User Controller', () => {
       const res = await request(app)
         .put(`/api/users/${user._id}`)
         .send({ email: 'jane@example.com' })
-        .set('Cookie', `__jt_token=${generateToken(user._id)}`);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
       expect(res.status).toBe(409);
       expect(res.body.error).toBe('Email already exists');
     });
@@ -196,7 +196,7 @@ describe('User Controller', () => {
       const res = await request(app)
         .put(`/api/users/${user._id}`)
         .send({ username: 'janedoe' })
-        .set('Cookie', `__jt_token=${generateToken(user._id)}`);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
       expect(res.status).toBe(409);
       expect(res.body.error).toBe('Username already exists');
     });
@@ -207,7 +207,7 @@ describe('User Controller', () => {
       const res = await request(app)
         .put(`/api/users/${nonExistentUserId}`)
         .send({ username: 'johndoe' })
-        .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`]);
+        .set('Authorization', `Bearer ${generateToken(nonExistentUserId)}`);
 
       expect(res.status).toBe(404);
       expect(res.body).toMatchObject({
@@ -224,7 +224,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({ username: 'Invalid Username!' });
 
       expect(res.status).toBe(400);
@@ -242,7 +242,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({ email: 'invalid-email' });
 
       expect(res.status).toBe(400);
@@ -260,7 +260,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({});
 
       expect(res.status).toBe(400);
@@ -279,7 +279,7 @@ describe('User Controller', () => {
       const res = await request(app)
         .put(`/api/users/${userId}`)
         .send({ username: 'johndoe' })
-        .set('Cookie', [`__jt_token=${generateToken(userId)}`]);
+        .set('Authorization', `Bearer ${generateToken(userId)}`);
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({
@@ -308,7 +308,7 @@ describe('User Controller', () => {
     it('should update the password and return 200', async () => {
       const res = await request(app)
         .put(`/api/users/${user._id}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           currentPassword,
           newPassword,
@@ -328,7 +328,7 @@ describe('User Controller', () => {
     it('should return 400 for invalid user ID', async () => {
       const res = await request(app)
         .put(`/api/users/invalid-id/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           currentPassword,
           newPassword,
@@ -344,7 +344,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${fakeId}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(fakeId)}`])
+        .set('Authorization', `Bearer ${generateToken(fakeId)}`)
         .send({
           currentPassword,
           newPassword,
@@ -358,7 +358,7 @@ describe('User Controller', () => {
     it('should return 401 if current password is incorrect', async () => {
       const res = await request(app)
         .put(`/api/users/${user._id}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           currentPassword: 'WrongPassword1!',
           newPassword,
@@ -372,7 +372,7 @@ describe('User Controller', () => {
     it('should return 400 if new password is the same as old password', async () => {
       const res = await request(app)
         .put(`/api/users/${user._id}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           currentPassword,
           newPassword: currentPassword,
@@ -386,7 +386,7 @@ describe('User Controller', () => {
     it("should return 400 if new password doesn't match regex", async () => {
       const res = await request(app)
         .put(`/api/users/${user._id}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           currentPassword,
           newPassword: 'weakpass',
@@ -402,7 +402,7 @@ describe('User Controller', () => {
     it('should return 400 if new passwords do not match', async () => {
       const res = await request(app)
         .put(`/api/users/${user._id}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           currentPassword,
           newPassword,
@@ -416,7 +416,7 @@ describe('User Controller', () => {
     it('should return 400 if validation fails (missing fields)', async () => {
       const res = await request(app)
         .put(`/api/users/${user._id}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           newPassword,
           newPasswordConfirm: newPassword,
@@ -433,7 +433,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}/password`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .send({
           currentPassword,
           newPassword,
@@ -454,7 +454,7 @@ describe('User Controller', () => {
 
       const response = await request(app)
         .put(`/api/users/${user._id}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .attach('avatar', newAvatarPath);
 
       // on supprime le fichier avant les expect pour eviter qu'une erreur empâche la suppression
@@ -473,7 +473,7 @@ describe('User Controller', () => {
 
       const response = await request(app)
         .put(`/api/users/invalid-id/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .attach('avatar', newAvatarPath);
 
       fs.unlinkSync(newAvatarPath);
@@ -490,7 +490,7 @@ describe('User Controller', () => {
 
       const response = await request(app)
         .put(`/api/users/${nonExistentUserId}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`])
+        .set('Authorization', `Bearer ${generateToken(nonExistentUserId)}`)
         .attach('avatar', newAvatarPath);
 
       fs.unlinkSync(newAvatarPath);
@@ -504,7 +504,7 @@ describe('User Controller', () => {
 
       const response = await request(app)
         .put(`/api/users/${user._id}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(response.status).toBe(400);
       expect(response.body.error).toBe('No file uploaded');
@@ -518,7 +518,7 @@ describe('User Controller', () => {
 
       const response = await request(app)
         .put(`/api/users/${user._id}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .attach('avatar', newAvatarPath);
 
       fs.unlinkSync(newAvatarPath);
@@ -534,7 +534,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .attach('avatar', largeBuffer, { filename: 'big.jpg', contentType: 'image/jpeg' });
 
       expect(res.status).toBe(400);
@@ -546,7 +546,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .attach('wrongField', Buffer.from('fake-image-content'), {
           filename: 'avatar.jpg',
           contentType: 'image/jpeg',
@@ -571,7 +571,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${userId}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(userId)}`])
+        .set('Authorization', `Bearer ${generateToken(userId)}`)
         .attach('avatar', newAvatarPath);
 
       fs.unlinkSync(newAvatarPath);
@@ -604,7 +604,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${user._id}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`])
+        .set('Authorization', `Bearer ${generateToken(user._id)}`)
         .attach('avatar', buffer, { filename: 'avatar.png', contentType: 'image/png' });
 
       expect(res.status).toBe(500);
@@ -643,7 +643,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .put(`/api/users/${userId}/avatar`)
-        .set('Cookie', [`__jt_token=${generateToken(userId)}`])
+        .set('Authorization', `Bearer ${generateToken(userId)}`)
         .attach('avatar', avatarPath);
 
       fs.unlinkSync(avatarPath);
@@ -660,7 +660,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject({
@@ -681,7 +681,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject({
@@ -696,7 +696,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toMatchObject({
@@ -717,7 +717,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${user._id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user._id)}`]);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(200);
       expect(warnSpy).toHaveBeenCalledWith('Failed to delete avatar on Cloudinary:', 'Cloudinary error');
@@ -730,7 +730,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${invalidId}`)
-        .set('Cookie', [`__jt_token=${generateToken(invalidId)}`]);
+        .set('Authorization', `Bearer ${generateToken(invalidId)}`);
 
       expect(res.status).toBe(400);
       expect(res.body).toMatchObject({
@@ -742,7 +742,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${nonExistentUserId}`)
-        .set('Cookie', [`__jt_token=${generateToken(nonExistentUserId)}`]);
+        .set('Authorization', `Bearer ${generateToken(nonExistentUserId)}`);
 
       expect(res.status).toBe(404);
       expect(res.body).toMatchObject({
@@ -759,7 +759,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${user.id}`)
-        .set('Cookie', [`__jt_token=${generateToken(user.id)}`]);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({
@@ -776,7 +776,7 @@ describe('User Controller', () => {
 
       const res = await request(app)
         .delete(`/api/users/${userId}`)
-        .set('Cookie', [`__jt_token=${generateToken(userId)}`]);
+        .set('Authorization', `Bearer ${generateToken(userId)}`);
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({

@@ -10,7 +10,7 @@ describe('verifyToken middleware', () => {
 
   beforeEach(() => {
     req = {
-      cookies: {},
+      headers: {},
     };
     res = {
       status: vi.fn().mockReturnThis(),
@@ -19,16 +19,16 @@ describe('verifyToken middleware', () => {
     next = vi.fn();
   });
 
-  it('should return 401 if no token is provided', async () => {
+  it('should return 401 if no Authorization header is provided', async () => {
     await verifyToken(req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(401);
-    expect(res.json).toHaveBeenCalledWith({ error: 'Not authenticated' });
+    expect(res.json).toHaveBeenCalledWith({ error: 'Not Authenticated' });
     expect(next).not.toHaveBeenCalled();
   });
 
   it('should return 403 if token is invalid', async () => {
-    req.cookies['__jt_token'] = 'invalid-token';
+    req.headers.authorization = 'invalid-token';
     vi.spyOn(jwt, 'verify').mockImplementation((token, secret, callback) => {
       callback(new Error('Invalid token'), null);
     });
@@ -42,7 +42,7 @@ describe('verifyToken middleware', () => {
 
   it('should call next and set userId if token is valid', async () => {
     const userId = new mongoose.Types.ObjectId();
-    req.cookies['__jt_token'] = 'valid-token';
+    req.headers.authorization = 'valid-token';
     vi.spyOn(jwt, 'verify').mockImplementation((token, secret, callback) => {
       callback(null, { userId });
     });
