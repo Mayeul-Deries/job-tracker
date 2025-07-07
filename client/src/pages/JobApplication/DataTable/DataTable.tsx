@@ -12,6 +12,7 @@ import {
   type ColumnFiltersState,
   type VisibilityState,
 } from '@tanstack/react-table';
+import { customGlobalFilter } from '@/lib/utils';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -84,6 +85,7 @@ export function DataTable<TData>({
     pageCount: Math.ceil(dataCount / pagination.pageSize),
     manualPagination: true,
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: customGlobalFilter,
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onColumnVisibilityChange: setColumnVisibility,

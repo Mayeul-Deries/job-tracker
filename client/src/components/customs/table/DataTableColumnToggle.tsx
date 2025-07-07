@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react';
 import type { Table } from '@tanstack/react-table';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Settings2, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from '@/hooks/useDebounce';
 
 import {
   DropdownMenu,
@@ -20,6 +22,12 @@ interface DataTableViewOptionsProps<TData> {
 
 export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOptionsProps<TData>) {
   const { t } = useTranslation();
+  const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
+
+  useEffect(() => {
+    table.setGlobalFilter(debouncedSearch);
+  }, [debouncedSearch, table]);
 
   const selectedRows = table.getSelectedRowModel().rows;
 
@@ -27,8 +35,8 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
     <div className='flex items-center gap-2 justify-between'>
       <Input
         placeholder={t('pages.dataTable.search.placeholder')}
-        value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
-        onChange={event => table.getColumn('title')?.setFilterValue(event.target.value)}
+        value={search}
+        onChange={event => setSearch(event.target.value)}
         className='max-w-sm truncate'
       />
 
