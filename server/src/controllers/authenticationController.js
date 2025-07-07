@@ -8,18 +8,18 @@ export const register = async (req, res) => {
   try {
     const { username, email, password } = registerSchema.parse(req.body);
 
-    const existingEmail = await userModel.findOne({ email: email.toLowerCase() });
-    if (existingEmail) {
-      return res
-        .status(409)
-        .json({ error: 'Email already exists', translationKey: 'auth.error.register.existing_email' });
-    }
-
     const existingUsername = await userModel.findOne({ username: username.toLowerCase() });
     if (existingUsername) {
       return res
         .status(409)
         .json({ error: 'Username already exists', translationKey: 'auth.error.register.existing_username' });
+    }
+
+    const existingEmail = await userModel.findOne({ email: email.toLowerCase() });
+    if (existingEmail) {
+      return res
+        .status(409)
+        .json({ error: 'Email already exists', translationKey: 'auth.error.register.existing_email' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
