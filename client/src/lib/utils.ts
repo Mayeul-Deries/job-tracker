@@ -50,7 +50,7 @@ function normalize(str: string): string {
 }
 
 function translateStatus(status: string): string {
-  const translatedStatus = t(`status.${status.toLowerCase().replace(/ /g, '_')}`);
+  const translatedStatus = t(`status.${status}`);
   return translatedStatus;
 }
 

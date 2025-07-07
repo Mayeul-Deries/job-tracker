@@ -1,7 +1,7 @@
 export const StatusOffer = {
-  SENT: 'Sent',
-  FOLLOWED_UP: 'Followed up',
-  INTERVIEW_SCHEDULED: 'Interview scheduled',
-  ACCEPTED: 'Accepted',
-  REJECTED: 'Rejected',
+  SENT: 'SENT',
+  FOLLOWED_UP: 'FOLLOWED_UP',
+  INTERVIEW_SCHEDULED: 'INTERVIEW_SCHEDULED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
 };

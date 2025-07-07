@@ -1,19 +1,19 @@
 {
   "status": {
-    "sent": "Sent",
-    "followed_up": "Followed up",
-    "interview_scheduled": "Interview scheduled",
-    "accepted": "Accepted",
-    "rejected": "Rejected"
+    "SENT": "Sent",
+    "FOLLOWED_UP": "Followed up",
+    "INTERVIEW_SCHEDULED": "Interview scheduled",
+    "ACCEPTED": "Accepted",
+    "REJECTED": "Rejected"
   },
   "categories": {
-    "Internship": "Internship",
-    "Apprenticeship": "Apprenticeship",
-    "Full-time": "Full time",
-    "Part-time": "Part time",
-    "Freelance": "Freelance",
-    "Contract": "Contract",
-    "Seasonal": "Seasonal"
+    "INTERNSHIP": "Internship",
+    "APPRENTICESHIP": "Apprenticeship",
+    "FULL_TIME": "Full time",
+    "PART_TIME": "Part time",
+    "FREELANCE": "Freelance",
+    "CONTRACT": "Contract",
+    "SEASONAL": "Seasonal"
   },
   "form": {
     "helper": {

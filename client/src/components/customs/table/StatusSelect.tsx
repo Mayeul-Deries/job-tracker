@@ -41,7 +41,7 @@ export const StatusSelect = ({ status, onStatusChange, variant = 'form' }: Statu
             variantStyles[variant].trigger
           )}
         >
-          {t(`status.${status.toLowerCase().replace(/ /g, '_')}`)}
+          {t(`status.${status}`)}
           <ChevronDownIcon className='h-4 w-4' />
         </button>
       </PopoverTrigger>
@@ -56,7 +56,7 @@ export const StatusSelect = ({ status, onStatusChange, variant = 'form' }: Statu
               )}
               onClick={() => onStatusChange(option.value)}
             >
-              {t(`status.${option.value.toLowerCase().replace(/ /g, '_')}`)}
+              {t(`status.${option.value}`)}
               {option.value === status && <CheckIcon className='h-4 w-4' />}
             </button>
           ))}

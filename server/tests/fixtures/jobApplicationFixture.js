@@ -3,9 +3,9 @@ export const defaultJobApplication = {
   company: 'A Company',
   link: 'https://example-software.com/job',
   date: new Date(),
-  status: 'Sent',
+  status: 'SENT',
   notes: 'Some notes',
-  category: 'Apprenticeship',
+  category: 'APPRENTICESHIP',
   city: 'Paris',
   favorite: false,
 };
@@ -15,16 +15,16 @@ export const otherJobApplication = {
   company: 'An other Company',
   link: 'https://example-web.com/job',
   date: new Date(),
-  status: 'Sent',
+  status: 'SENT',
   notes: 'Other notes',
-  category: 'Internship',
+  category: 'INTERNSHIP',
   city: 'Lyon',
   favorite: false,
 };
 
 export const jobApplicationWithMissingFields = {
   link: 'https://example-software.com/job',
-  status: 'Sent',
+  status: 'SENT',
   notes: 'Some notes',
-  category: 'Apprenticeship',
+  category: 'APPRENTICESHIP',
 };
