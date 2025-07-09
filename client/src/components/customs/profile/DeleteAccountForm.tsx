@@ -72,7 +72,7 @@ export const DeleteAccountForm = ({ setOpen }: DeleteAccountProps) => {
                     id='check-approval'
                     checked={field.value}
                     onCheckedChange={field.onChange}
-                    className='mt-[2px] border-gray-500'
+                    className='mt-[2px] border-gray-500 cursor-pointer'
                   />
                 </FormControl>
                 <div className='space-y-1'>
@@ -86,10 +86,10 @@ export const DeleteAccountForm = ({ setOpen }: DeleteAccountProps) => {
           />
 
           <DialogFooter>
-            <Button variant='outline' onClick={handleCancel} type='button'>
+            <Button className='cursor-pointer' variant='outline' onClick={handleCancel} type='button'>
               {t('pages.profile.delete_account.button.cancel')}
             </Button>
-            <Button disabled={loading} className='bg-red-700 hover:bg-red-800 text-white' type='submit'>
+            <Button disabled={loading} className='cursor-pointer bg-red-700 hover:bg-red-800 text-white' type='submit'>
               {t('pages.profile.delete_account.button.confirm')}
             </Button>
           </DialogFooter>

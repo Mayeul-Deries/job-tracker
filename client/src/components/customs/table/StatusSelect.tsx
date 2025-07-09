@@ -36,7 +36,7 @@ export const StatusSelect = ({ status, onStatusChange, variant = 'form' }: Statu
       <PopoverTrigger asChild>
         <button
           className={cn(
-            'inline-flex items-center justify-between rounded-md text-sm border-solid border-1',
+            'inline-flex items-center justify-between rounded-md text-sm border-solid border-1 cursor-pointer',
             currentStatus?.color,
             variantStyles[variant].trigger
           )}
@@ -51,7 +51,7 @@ export const StatusSelect = ({ status, onStatusChange, variant = 'form' }: Statu
             <button
               key={option.value}
               className={cn(
-                'flex w-full items-center justify-between rounded-md px-3 py-1.5 text-sm',
+                'flex w-full items-center justify-between rounded-md px-3 py-1.5 text-sm cursor-pointer',
                 option.value === status ? option.color : 'hover:bg-gray-100'
               )}
               onClick={() => onStatusChange(option.value)}

@@ -96,7 +96,7 @@ export const Login = () => {
                     )}
                   />
 
-                  <Button type='submit' className='w-full' disabled={loading}>
+                  <Button type='submit' className='w-full cursor-pointer' disabled={loading}>
                     {t('pages.login.form.button.login')}
                   </Button>
                 </div>
@@ -108,7 +108,7 @@ export const Login = () => {
                   {t('pages.login.form.text.or_continue_with')}
                 </span>
               </div>
-              <Button disabled variant='outline' className='w-full'>
+              <Button disabled variant='outline' className='w-full cursor-pointer'>
                 <FcGoogle />
                 {t('pages.login.form.button.google')}
               </Button>

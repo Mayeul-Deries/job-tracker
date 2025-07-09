@@ -49,14 +49,14 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
             }
           }}
           disabled={selectedRows.length === 0}
-          className='gap-2 bg-red-700 hover:bg-red-800 text-white'
+          className='cursor-pointer gap-2 bg-red-700 hover:bg-red-800 text-white'
         >
           <Trash2 className='h-4 w-4' />({selectedRows.length})
         </Button>
 
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
+            <Button variant='outline' className='ml-auto cursor-pointer'>
               <Settings2 className='hidden sm:inline-block h-4 w-4' />
               {t('pages.dataTable.visibility.columns')}
             </Button>
@@ -70,6 +70,7 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
               .map(column => {
                 return (
                   <DropdownMenuCheckboxItem
+                    className='cursor-pointer'
                     key={column.id}
                     checked={column.getIsVisible()}
                     onCheckedChange={value => column.toggleVisibility(!!value)}

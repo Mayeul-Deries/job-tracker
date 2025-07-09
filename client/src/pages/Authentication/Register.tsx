@@ -140,7 +140,7 @@ export const Register = () => {
                     )}
                   />
 
-                  <Button type='submit' className='w-full' disabled={loading}>
+                  <Button type='submit' className='w-full cursor-pointer' disabled={loading}>
                     {t('pages.register.form.button.register')}
                   </Button>
                 </div>
@@ -152,7 +152,7 @@ export const Register = () => {
                   {t('pages.register.form.text.or_continue_with')}
                 </span>
               </div>
-              <Button disabled variant='outline' className='w-full'>
+              <Button disabled variant='outline' className='w-full cursor-pointer'>
                 <FcGoogle />
                 {t('pages.register.form.button.google')}
               </Button>

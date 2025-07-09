@@ -26,7 +26,7 @@ export const DatePicker = ({ value, onChange, placeholder, variant = 'outline', 
       <PopoverTrigger asChild>
         <Button
           variant={variant}
-          className={cn('justify-start text-left font-normal', !value && 'text-muted-foreground')}
+          className={cn('cursor-pointer justify-start text-left font-normal', !value && 'text-muted-foreground')}
         >
           {value ? (
             format(value, 'PPP', { locale: currentLocale })

@@ -112,10 +112,10 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
           />
 
           <DialogFooter>
-            <Button variant='outline' onClick={() => setOpen(false)} type='button'>
+            <Button className='cursor-pointer' variant='outline' onClick={() => setOpen(false)} type='button'>
               {t('pages.profile.password_changer.button.cancel')}
             </Button>
-            <Button disabled={loading} type='submit'>
+            <Button className='cursor-pointer' disabled={loading} type='submit'>
               {t('pages.profile.password_changer.button.save')}
             </Button>
           </DialogFooter>

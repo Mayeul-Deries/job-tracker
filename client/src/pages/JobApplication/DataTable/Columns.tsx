@@ -37,7 +37,7 @@ export const getColumns = (
     size: 50,
     header: ({ table }) => (
       <Checkbox
-        className='mx-2 px-auto'
+        className='cursor-pointer mx-2 px-auto'
         checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
         onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
@@ -45,7 +45,7 @@ export const getColumns = (
     ),
     cell: ({ row }) => (
       <Checkbox
-        className='mx-2 px-auto'
+        className='cursor-pointer mx-2 px-auto'
         checked={row.getIsSelected()}
         onCheckedChange={value => row.toggleSelected(!!value)}
         aria-label='Select row'
@@ -68,7 +68,7 @@ export const getColumns = (
           <Button
             variant='ghost'
             size='icon'
-            className={cn('size-8', favorite ? 'text-yellow-500' : 'hover:text-yellow-500')}
+            className={cn('cursor-pointer size-8', favorite ? 'text-yellow-500' : 'hover:text-yellow-500')}
             onClick={() => onUpdateField(row.original._id, 'favorite', !favorite)}
           >
             <Star className={cn('size-4', favorite && 'fill-yellow-500')} />
@@ -177,7 +177,7 @@ export const getColumns = (
       return (
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant='ghost' size='icon' className='size-8'>
+            <Button variant='ghost' size='icon' className='size-8 cursor-pointer'>
               <FileText className='size-4' />
             </Button>
           </DialogTrigger>
@@ -194,7 +194,9 @@ export const getColumns = (
                 placeholder={t('pages.dataTable.columns.notes_dialog.placeholder')}
               />
               <div className='flex justify-end'>
-                <Button onClick={handleSaveNotes}>{t('pages.dataTable.columns.notes_dialog.save')}</Button>
+                <Button className='cursor-pointer' onClick={handleSaveNotes}>
+                  {t('pages.dataTable.columns.notes_dialog.save')}
+                </Button>
               </div>
             </div>
           </DialogContent>
@@ -212,7 +214,7 @@ export const getColumns = (
       return (
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
+            <Button variant='ghost' className='h-8 w-8 p-0 cursor-pointer'>
               <MoreVertical className='h-4 w-4' />
             </Button>
           </DropdownMenuTrigger>

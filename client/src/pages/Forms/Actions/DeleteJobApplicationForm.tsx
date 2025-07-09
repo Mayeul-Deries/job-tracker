@@ -36,11 +36,11 @@ export const DeleteJobApplicationForm = ({ dialog, refresh, jobApplication }: De
       <p className='text-sm text-muted-foreground text-center'>{t('pages.deleteJobApplication.description')}</p>
 
       <div className='flex flex-col sm:flex-row gap-2 sm:gap-4'>
-        <Button className='flex-1 min-w-[120px]' onClick={() => dialog(false)} disabled={loading}>
+        <Button className='flex-1 min-w-[120px] cursor-pointer' onClick={() => dialog(false)} disabled={loading}>
           {t('pages.deleteJobApplication.button.cancel')}
         </Button>
         <Button
-          className='bg-red-700 hover:bg-red-800 text-white flex-1 min-w-[120px]'
+          className='bg-red-700 hover:bg-red-800 text-white flex-1 min-w-[120px] cursor-pointer'
           onClick={onDeleteSubmit}
           disabled={loading}
         >
