@@ -14,6 +14,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { PasswordInput } from '@/components/customs/PasswordInput';
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -89,7 +90,7 @@ export const Login = () => {
                       <FormItem>
                         <FormLabel>{t('pages.login.form.label.password')}</FormLabel>
                         <FormControl>
-                          <Input type='password' placeholder={t('pages.login.form.placeholder.password')} {...field} />
+                          <PasswordInput placeholder={t('pages.login.form.placeholder.password')} {...field} />
                         </FormControl>
                         <FormMessage className='text-xs -mt-1 px-1' />
                       </FormItem>

@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { PasswordInput } from '../PasswordInput';
 
 interface UpdatePasswordProps {
   setOpen: (open: boolean) => void;
@@ -63,8 +64,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
               <FormItem className='flex-1'>
                 <FormLabel>{t('pages.profile.password_changer.label.current_password')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
+                  <PasswordInput
                     placeholder={t('pages.profile.password_changer.placeholder.current_password')}
                     {...field}
                   />
@@ -80,8 +80,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
               <FormItem className='flex-1'>
                 <FormLabel>{t('pages.profile.password_changer.label.new_password')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
+                  <PasswordInput
                     placeholder={t('pages.profile.password_changer.placeholder.new_password')}
                     {...field}
                   />
@@ -100,8 +99,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
               <FormItem className='flex-1'>
                 <FormLabel>{t('pages.profile.password_changer.label.new_password_confirm')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
+                  <PasswordInput
                     placeholder={t('pages.profile.password_changer.placeholder.new_password_confirm')}
                     {...field}
                   />
