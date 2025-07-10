@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useAuthContext } from '@/contexts/authContext';
 import { getUpdatePasswordSchema } from '@/validations/schemas/user';

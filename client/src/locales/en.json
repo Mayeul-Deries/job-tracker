@@ -289,9 +289,9 @@
         "title": "Add a job application",
         "description": "Fill out the form to add a new job application",
         "label": {
-          "jobTitle": "Job title",
-          "companyName": "Company name",
-          "city": "City",
+          "jobTitle": "Job",
+          "companyName": "Company",
+          "city": "Location",
           "applicationDate": "Application date",
           "category": "Category",
           "status": "Status",
@@ -299,9 +299,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Web developer apprenticeship",
-          "companyName": "XYZ Company",
-          "city": "Paris",
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
           "applicationDate": "Choose a date",
           "category": "Select a category",
           "status": "Select a status",
@@ -318,9 +318,9 @@
       "form": {
         "title": "Edit a job application",
         "label": {
-          "jobTitle": "Job title",
-          "companyName": "Company name",
-          "city": "City",
+          "jobTitle": "Job",
+          "companyName": "Company",
+          "city": "Location",
           "applicationDate": "Application date",
           "category": "Category",
           "status": "Status",
@@ -328,9 +328,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Web developer apprenticeship",
-          "companyName": "XYZ Company",
-          "city": "Paris",
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
           "applicationDate": "Choose a date",
           "category": "Select a category",
           "status": "Select a status",
@@ -347,9 +347,9 @@
         "title": "Duplicate a job application",
         "description": "Fill out the form to add a new job application",
         "label": {
-          "jobTitle": "Job title",
-          "companyName": "Company name",
-          "city": "City",
+          "jobTitle": "Job",
+          "companyName": "Company",
+          "city": "Location",
           "applicationDate": "Application date",
           "category": "Category",
           "status": "Status",
@@ -357,9 +357,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Web developer apprenticeship",
-          "companyName": "XYZ Company",
-          "city": "Paris",
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
           "applicationDate": "Choose a date",
           "category": "Select a category",
           "status": "Select a status",
@@ -437,7 +437,8 @@
         "notes": "Notes"
       },
       "search": {
-        "placeholder": "Search for a job application"
+        "label": "Search",
+        "placeholder": "Search by job, company, city..."
       },
       "errors": {
         "no_data": "No job applications found"

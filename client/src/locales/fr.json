@@ -289,9 +289,9 @@
         "title": "Ajouter une candidature",
         "description": "Remplissez le formulaire pour ajouter une nouvelle candidature",
         "label": {
-          "jobTitle": "Intitulé du poste",
-          "companyName": "Nom de l'entreprise",
-          "city": "Ville",
+          "jobTitle": "Poste",
+          "companyName": "Entreprise",
+          "city": "Localisation",
           "applicationDate": "Date de candidature",
           "category": "Catégorie",
           "status": "Statut",
@@ -299,9 +299,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Alternance développeur web",
-          "companyName": "Compagnie XYZ",
-          "city": "Paris",
+          "jobTitle": "Intitulé du poste",
+          "companyName": "Nom de l'entreprise",
+          "city": "Ville",
           "applicationDate": "Choisir une date",
           "category": "Sélectionnez une catégorie",
           "status": "Sélectionnez un statut",
@@ -318,9 +318,9 @@
       "form": {
         "title": "Modifier une candidature",
         "label": {
-          "jobTitle": "Intitulé du poste",
-          "companyName": "Nom de l'entreprise",
-          "city": "Ville",
+          "jobTitle": "Poste",
+          "companyName": "Entreprise",
+          "city": "Localisation",
           "applicationDate": "Date de candidature",
           "category": "Catégorie",
           "status": "Statut",
@@ -328,9 +328,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Alternance développeur web",
-          "companyName": "Compagnie XYZ",
-          "city": "Paris",
+          "jobTitle": "Intitulé du poste",
+          "companyName": "Nom de l'entreprise",
+          "city": "Ville",
           "applicationDate": "Choisir une date",
           "category": "Sélectionnez une catégorie",
           "status": "Sélectionnez un statut",
@@ -347,9 +347,9 @@
         "title": "Dupliquer une candidature",
         "description": "Remplissez le formulaire pour ajouter une nouvelle candidature",
         "label": {
-          "jobTitle": "Intitulé du poste",
-          "companyName": "Nom de l'entreprise",
-          "city": "Ville",
+          "jobTitle": "Poste",
+          "companyName": "Entreprise",
+          "city": "Localisation",
           "applicationDate": "Date de candidature",
           "category": "Catégorie",
           "status": "Statut",
@@ -357,9 +357,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Alternance développeur web",
-          "companyName": "Compagnie XYZ",
-          "city": "Paris",
+          "jobTitle": "Intitulé du poste",
+          "companyName": "Nom de l'entreprise",
+          "city": "Ville",
           "applicationDate": "Choisir une date",
           "category": "Sélectionnez une catégorie",
           "status": "Sélectionnez un statut",
@@ -425,7 +425,8 @@
         "next": "Page suivante"
       },
       "search": {
-        "placeholder": "Rechercher une candidature"
+        "label": "Recherche",
+        "placeholder": "Rechercher par poste, entreprise, ville..."
       },
       "visibility": {
         "toggle_columns": "Afficher les colonnes",
