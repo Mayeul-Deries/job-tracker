@@ -26,6 +26,11 @@ export const JobApplicationsList = () => {
 
   const resetSelectionRef = useRef<() => void>(() => {});
 
+  const hasAnyLink = jobApplications.some(app => !!app.link);
+  const columns = getColumns(t, patchJobApplication, handleJobApplicationAction).filter(col =>
+    'accessorKey' in col ? col.accessorKey !== 'link' || hasAnyLink : true
+  );
+
   async function fetchJobApplications(page: number = 0, size: number = 10) {
     setLoading(true);
     try {
@@ -107,7 +112,7 @@ export const JobApplicationsList = () => {
         </div>
         <div className='w-full overflow-hidden'>
           <DataTable
-            columns={getColumns(t, patchJobApplication, handleJobApplicationAction)}
+            columns={columns}
             data={jobApplications}
             loading={loading}
             fetchData={fetchJobApplications}
