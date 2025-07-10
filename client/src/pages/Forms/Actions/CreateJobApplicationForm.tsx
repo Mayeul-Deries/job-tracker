@@ -16,9 +16,10 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface CreateJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
+  resetPagination?: () => void;
 }
 
-export const CreateJobApplicationForm = ({ dialog, refresh }: CreateJobApplicationFormProps) => {
+export const CreateJobApplicationForm = ({ dialog, refresh, resetPagination }: CreateJobApplicationFormProps) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -53,6 +54,7 @@ export const CreateJobApplicationForm = ({ dialog, refresh }: CreateJobApplicati
       const response = await axiosConfig.post('jobApplications', data);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
       createJobApplicationForm.reset();
     } catch (error: any) {

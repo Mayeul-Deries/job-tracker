@@ -8,6 +8,7 @@ import { DeleteManyJobApplicationForm } from './Actions/DeleteManyJobApplication
 interface JobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
+  resetPagination?: () => void;
   action: string;
   jobApplication?: JobApplication;
   selectedJobApplications?: JobApplication[];
@@ -21,16 +22,38 @@ export const JobApplicationForm = ({
   jobApplication,
   selectedJobApplications,
   resetSelection,
+  resetPagination,
 }: JobApplicationFormProps) => {
   switch (action) {
     case 'create':
-      return <CreateJobApplicationForm dialog={dialog} refresh={refresh} />;
+      return <CreateJobApplicationForm dialog={dialog} refresh={refresh} resetPagination={resetPagination} />;
     case 'edit':
-      return <EditJobApplicationForm dialog={dialog} refresh={refresh} jobApplication={jobApplication} />;
+      return (
+        <EditJobApplicationForm
+          dialog={dialog}
+          refresh={refresh}
+          jobApplication={jobApplication}
+          resetPagination={resetPagination}
+        />
+      );
     case 'duplicate':
-      return <DuplicateJobApplicationForm dialog={dialog} refresh={refresh} jobApplication={jobApplication} />;
+      return (
+        <DuplicateJobApplicationForm
+          dialog={dialog}
+          refresh={refresh}
+          jobApplication={jobApplication}
+          resetPagination={resetPagination}
+        />
+      );
     case 'delete':
-      return <DeleteJobApplicationForm dialog={dialog} refresh={refresh} jobApplication={jobApplication} />;
+      return (
+        <DeleteJobApplicationForm
+          dialog={dialog}
+          refresh={refresh}
+          jobApplication={jobApplication}
+          resetPagination={resetPagination}
+        />
+      );
     case 'deleteMany':
       return (
         <DeleteManyJobApplicationForm
@@ -38,6 +61,7 @@ export const JobApplicationForm = ({
           refresh={refresh}
           selectedJobApplications={selectedJobApplications}
           resetSelection={resetSelection}
+          resetPagination={resetPagination}
         />
       );
     default:

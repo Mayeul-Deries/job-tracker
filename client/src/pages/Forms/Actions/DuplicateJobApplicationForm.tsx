@@ -15,9 +15,15 @@ interface DuplicateJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
   jobApplication?: JobApplication;
+  resetPagination?: () => void;
 }
 
-export const DuplicateJobApplicationForm = ({ dialog, refresh, jobApplication }: DuplicateJobApplicationFormProps) => {
+export const DuplicateJobApplicationForm = ({
+  dialog,
+  refresh,
+  jobApplication,
+  resetPagination,
+}: DuplicateJobApplicationFormProps) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -50,6 +56,7 @@ export const DuplicateJobApplicationForm = ({ dialog, refresh, jobApplication }:
       const response = await axiosConfig.post('jobApplications', data);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
       duplicateJobApplicationForm.reset();
     } catch (error: any) {

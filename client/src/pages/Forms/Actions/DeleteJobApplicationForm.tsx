@@ -10,9 +10,15 @@ interface DeleteJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
   jobApplication?: JobApplication;
+  resetPagination?: () => void;
 }
 
-export const DeleteJobApplicationForm = ({ dialog, refresh, jobApplication }: DeleteJobApplicationFormProps) => {
+export const DeleteJobApplicationForm = ({
+  dialog,
+  refresh,
+  jobApplication,
+  resetPagination,
+}: DeleteJobApplicationFormProps) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -23,6 +29,7 @@ export const DeleteJobApplicationForm = ({ dialog, refresh, jobApplication }: De
       const response = await axiosConfig.delete(`/jobApplications/${jobApplication?._id}`);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));

@@ -11,6 +11,7 @@ interface DeleteManyJobApplicationFormProps {
   refresh: () => void;
   resetSelection?: () => void;
   selectedJobApplications?: JobApplication[];
+  resetPagination?: () => void;
 }
 
 export const DeleteManyJobApplicationForm = ({
@@ -18,6 +19,7 @@ export const DeleteManyJobApplicationForm = ({
   refresh,
   resetSelection,
   selectedJobApplications,
+  resetPagination,
 }: DeleteManyJobApplicationFormProps) => {
   const { t } = useTranslation();
 
@@ -32,6 +34,7 @@ export const DeleteManyJobApplicationForm = ({
       });
       toast.success(response.data.deletedCount + ' ' + t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
       resetSelection?.();
     } catch (error: any) {

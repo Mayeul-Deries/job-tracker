@@ -25,6 +25,7 @@ export const JobApplicationsList = () => {
   const [selectedJobApplications, setSelectedJobApplications] = useState<JobApplication[]>([]);
 
   const resetSelectionRef = useRef<() => void>(() => {});
+  const resetPaginationRef = useRef<() => void>(() => {});
 
   const hasAnyLink = jobApplications.some(app => !!app.link);
   const columns = getColumns(t, patchJobApplication, handleJobApplicationAction).filter(col =>
@@ -119,6 +120,7 @@ export const JobApplicationsList = () => {
             dataCount={jobApplicationsCount}
             onAction={handleJobApplicationAction}
             onResetSelectionRef={resetFn => (resetSelectionRef.current = resetFn)}
+            onPaginationResetRef={resetFn => (resetPaginationRef.current = resetFn)}
           />
           {openDialog && (
             <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
@@ -145,6 +147,7 @@ export const JobApplicationsList = () => {
                   jobApplication={selectedJobApplication}
                   selectedJobApplications={selectedJobApplications}
                   resetSelection={resetSelectionRef.current}
+                  resetPagination={resetPaginationRef.current}
                 />
               </DialogContent>
             </Dialog>

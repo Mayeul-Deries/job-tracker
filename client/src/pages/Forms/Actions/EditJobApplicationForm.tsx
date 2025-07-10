@@ -15,9 +15,15 @@ interface EditJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
   jobApplication?: JobApplication;
+  resetPagination?: () => void;
 }
 
-export const EditJobApplicationForm = ({ dialog, refresh, jobApplication }: EditJobApplicationFormProps) => {
+export const EditJobApplicationForm = ({
+  dialog,
+  refresh,
+  jobApplication,
+  resetPagination,
+}: EditJobApplicationFormProps) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -45,6 +51,7 @@ export const EditJobApplicationForm = ({ dialog, refresh, jobApplication }: Edit
       const response = await axiosConfig.put(`/jobApplications/${jobApplication?._id}`, values);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
       editJobApplicationForm.reset();
     } catch (error: any) {
