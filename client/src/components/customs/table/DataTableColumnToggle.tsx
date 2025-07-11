@@ -31,10 +31,9 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
   }, [debouncedSearch, table]);
 
   const selectedRows = table.getSelectedRowModel().rows;
-
   return (
-    <div className='flex items-center gap-2 justify-between'>
-      <div>
+    <div className='flex items-end gap-2 justify-between'>
+      <div className='flex flex-col flex-grow max-w-[300px]'>
         <Label htmlFor='search' className='text-sm font-medium text-gray-700'>
           {t('pages.dataTable.search.label')}
         </Label>
@@ -44,12 +43,12 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
             placeholder={t('pages.dataTable.search.placeholder')}
             value={search}
             onChange={event => setSearch(event.target.value)}
-            className='pl-3 sm:pl-10 max-w-sm sm:max-w-none sm:w-[300px] truncate placeholder:text-sm'
+            className='w-full pl-3 sm:pl-10 truncate placeholder:text-sm'
           />
         </div>
       </div>
 
-      <div className='flex gap-2 pt-6'>
+      <div className='flex gap-2'>
         <Button
           onClick={() => {
             const selected = selectedRows.map(row => row.original);
@@ -64,9 +63,9 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
         </Button>
 
         <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto cursor-pointer'>
-              <Settings2 className='hidden sm:inline-block h-4 w-4' />
+          <DropdownMenuTrigger asChild className='hidden sm:flex'>
+            <Button variant='outline' className='cursor-pointer'>
+              <Settings2 className='h-4 w-4' />
               {t('pages.dataTable.visibility.columns')}
             </Button>
           </DropdownMenuTrigger>
@@ -82,6 +81,7 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
                     className='cursor-pointer'
                     key={column.id}
                     checked={column.getIsVisible()}
+                    onSelect={event => event.preventDefault()}
                     onCheckedChange={value => column.toggleVisibility(!!value)}
                   >
                     {t(`pages.dataTable.visibility.${column.id}`)}
