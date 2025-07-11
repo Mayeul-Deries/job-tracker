@@ -3,7 +3,7 @@ import { ProtectedRoute } from '@/router/protectedRoute';
 
 import { Profile } from '@/pages/Profil/Profile';
 import { NotFound } from '@/pages/NotFound';
-import { JobApplicationsList } from '@/pages/JobApplication/DataTable/JobApplicationsList';
+import { JobApplicationsList } from '@/pages/JobApplication/Home/JobApplicationsList';
 import { Register } from '@/pages/Authentication/Register';
 import { Login } from '@/pages/Authentication/Login';
 

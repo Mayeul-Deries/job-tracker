@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Navbar } from '@/components/customs/navbar/NavBar';
-import { DataTable } from './DataTable';
-import { getColumns } from './Columns';
+import { DataTable } from '../DataTable/DataTable';
+import { getColumns } from '../DataTable/Columns';
 import { JobApplicationForm } from '@/pages/Forms/JobApplicationForm';
 import { Header } from './Header';
 
