@@ -280,6 +280,8 @@
       }
     },
     "home": {
+      "title": "Welcome to Job Tracker",
+      "description": "Keep track of all your job, internship and work-study applications from the table below. Click on “New job application” and start organizing them now.",
       "button": {
         "add_job_application": "New job application"
       }

@@ -1,17 +1,16 @@
 import { useRef, useState } from 'react';
-import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
 import { cn } from '@/lib/utils';
 
-import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Navbar } from '@/components/customs/navbar/NavBar';
 import { DataTable } from './DataTable';
 import { getColumns } from './Columns';
 import { JobApplicationForm } from '@/pages/Forms/JobApplicationForm';
+import { Header } from './Header';
 
 export const JobApplicationsList = () => {
   const { t } = useTranslation();
@@ -101,15 +100,7 @@ export const JobApplicationsList = () => {
       <Navbar />
       <div className='flex flex-col mx-auto px-2 sm:px-6 md:px-8 lg:px-20 pt-26 pb-4 sm:pb-6 lg:pb-10 max-w-[1920px] min-h-screen'>
         <div className='px-2 mb-4'>
-          <Button
-            variant='outline'
-            size='default'
-            className='cursor-pointer'
-            onClick={() => handleJobApplicationAction('create')}
-          >
-            <Plus />
-            {t('pages.home.button.add_job_application')}
-          </Button>
+          <Header handleJobApplicationAction={handleJobApplicationAction} />
         </div>
         <div className='w-full overflow-hidden'>
           <DataTable

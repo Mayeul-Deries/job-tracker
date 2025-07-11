@@ -280,6 +280,8 @@
       }
     },
     "home": {
+      "title": "Bienvenue sur Job Tracker",
+      "description": "Suivez toutes vos candidatures d'emploi, stages et alternances depuis le tableau ci-dessous. Cliquez sur « Nouvelle candidature » et commencez à les organiser dès maintenant.",
       "button": {
         "add_job_application": "Nouvelle candidature"
       }
