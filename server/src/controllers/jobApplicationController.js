@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import jobApplicationModel from '../models/jobApplicationModel.js';
+import { StatusOffer } from '../utils/enums/statusOffer.js';
 
 export const getJobApplications = async (req, res) => {
   const size = parseInt(req.query.size);
@@ -207,5 +208,30 @@ export const deleteJobApplicationBatch = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
+  }
+};
+
+export const getJobApplicationStats = async (req, res) => {
+  const { userId } = req;
+  try {
+    const total = await jobApplicationModel.countDocuments({ userId });
+
+    const inProgress = await jobApplicationModel.countDocuments({
+      userId,
+      status: { $nin: [StatusOffer.ACCEPTED, StatusOffer.REJECTED] },
+    });
+
+    const sent = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.SENT });
+    const followed_up = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.FOLLOWED_UP });
+    const interviewScheduled = await jobApplicationModel.countDocuments({
+      userId,
+      status: StatusOffer.INTERVIEW_SCHEDULED,
+    });
+    const accepted = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.ACCEPTED });
+    const rejected = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.REJECTED });
+
+    res.status(200).json({ total, inProgress, sent, followed_up, interviewScheduled, accepted, rejected });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
