@@ -222,7 +222,7 @@ export const getJobApplicationStats = async (req, res) => {
     });
 
     const sent = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.SENT });
-    const followed_up = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.FOLLOWED_UP });
+    const followedUp = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.FOLLOWED_UP });
     const interviewScheduled = await jobApplicationModel.countDocuments({
       userId,
       status: StatusOffer.INTERVIEW_SCHEDULED,
@@ -230,8 +230,20 @@ export const getJobApplicationStats = async (req, res) => {
     const accepted = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.ACCEPTED });
     const rejected = await jobApplicationModel.countDocuments({ userId, status: StatusOffer.REJECTED });
 
-    res.status(200).json({ total, inProgress, sent, followed_up, interviewScheduled, accepted, rejected });
+    res.status(200).json({
+      message: `Stats successfully recovered`,
+      stats: {
+        total,
+        inProgress,
+        sent,
+        followedUp,
+        interviewScheduled,
+        accepted,
+        rejected,
+      },
+      translationKey: 'jobApplication.success.jobApplication_stats_recovered',
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };

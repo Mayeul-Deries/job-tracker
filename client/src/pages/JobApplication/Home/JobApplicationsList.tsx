@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
+import type { Stats } from '@/interfaces/Stats';
 import { cn } from '@/lib/utils';
 
 import { toast } from 'sonner';
@@ -11,6 +12,7 @@ import { DataTable } from '../DataTable/DataTable';
 import { getColumns } from '../DataTable/Columns';
 import { JobApplicationForm } from '@/pages/Forms/JobApplicationForm';
 import { Header } from './Header';
+import { Overview } from './Overview';
 
 export const JobApplicationsList = () => {
   const { t } = useTranslation();
@@ -22,14 +24,34 @@ export const JobApplicationsList = () => {
   const [action, setAction] = useState('');
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication>();
   const [selectedJobApplications, setSelectedJobApplications] = useState<JobApplication[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [statsLoading, setStatsLoading] = useState<boolean>(false);
 
   const resetSelectionRef = useRef<() => void>(() => {});
   const resetPaginationRef = useRef<() => void>(() => {});
 
   const hasAnyLink = jobApplications.some(app => !!app.link);
-  const columns = getColumns(t, patchJobApplication, handleJobApplicationAction).filter(col =>
-    'accessorKey' in col ? col.accessorKey !== 'link' || hasAnyLink : true
-  );
+  const columns = getColumns(
+    t,
+    (id, field, value) => patchJobApplication(id, field, value, field === 'status'),
+    handleJobApplicationAction
+  ).filter(col => ('accessorKey' in col ? col.accessorKey !== 'link' || hasAnyLink : true));
+
+  useEffect(() => {
+    fetchJobApplicationsStats();
+  }, []);
+
+  async function fetchJobApplicationsStats() {
+    setStatsLoading(true);
+    try {
+      const response = await axiosConfig.get('jobApplications/stats');
+      setStats(response.data.stats);
+    } catch (error: any) {
+      toast.error(t(`toast.${error.response.data.translationKey}`));
+    } finally {
+      setStatsLoading(false);
+    }
+  }
 
   async function fetchJobApplications(page: number = 0, size: number = 10) {
     setLoading(true);
@@ -44,13 +66,18 @@ export const JobApplicationsList = () => {
     }
   }
 
-  async function patchJobApplication(id: string, field: string, value: any) {
+  async function patchJobApplication(id: string, field: string, value: any, refreshStats = false) {
     try {
       const response = await axiosConfig.patch(`jobApplications/${id}`, {
         [field]: value,
       });
 
       setJobApplications(prev => prev.map(app => (app._id === id ? { ...app, [field]: value } : app)));
+
+      if (refreshStats) {
+        fetchJobApplicationsStats();
+      }
+
       toast.success(t(`toast.${response.data.translationKey}`));
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
@@ -98,9 +125,12 @@ export const JobApplicationsList = () => {
   return (
     <div>
       <Navbar />
-      <div className='flex flex-col mx-auto px-2 sm:px-6 md:px-8 lg:px-20 pt-26 pb-4 sm:pb-6 lg:pb-10 max-w-[1920px] min-h-screen'>
+      <div className='flex flex-col mx-auto max-w-screen-xl px-2 sm:px-6 md:px-8 pt-26 pb-4 lg:px-20 xl:px-2 sm:pb-6 lg:pb-10 max-w-[1920px] min-h-screen'>
         <div className='px-2 mb-4'>
           <Header handleJobApplicationAction={handleJobApplicationAction} />
+        </div>
+        <div className='px-2 mb-4'>
+          <Overview stats={stats} loading={statsLoading} />
         </div>
         <div className='w-full overflow-hidden'>
           <DataTable

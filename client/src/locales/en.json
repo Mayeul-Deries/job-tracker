@@ -112,6 +112,7 @@
     },
     "jobApplication": {
       "success": {
+        "jobApplication_stats_recovered": "Stats successfully recovered",
         "jobApplications_recovered": "Job applications successfully recovered",
         "jobApplication_created": "Job application successfully created",
         "jobApplication_recovered": "Job application successfully recovered",
@@ -284,6 +285,28 @@
       "description": "Keep track of all your job, internship and work-study applications from the table below. Click on “New job application” and start organizing them now.",
       "button": {
         "add_job_application": "New job application"
+      },
+      "overview": {
+        "stats": {
+          "labels": {
+            "total": {
+              "title": "Total",
+              "description": "applications submitted"
+            },
+            "in_progress": {
+              "title": "In progress",
+              "description": "pending applications"
+            },
+            "accepted": {
+              "title": "Accepted",
+              "description": "accepted applications"
+            },
+            "interview_scheduled": {
+              "title": "Interviews",
+              "description": "scheduled interviews"
+            }
+          }
+        }
       }
     },
     "createJobApplication": {
