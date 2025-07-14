@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 interface DeleteJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
-  jobApplication?: JobApplication;
+  jobApplication: JobApplication;
   resetPagination?: () => void;
 }
 
@@ -26,7 +26,7 @@ export const DeleteJobApplicationForm = ({
   const onDeleteSubmit = async () => {
     try {
       setLoading(true);
-      const response = await axiosConfig.delete(`/jobApplications/${jobApplication?._id}`);
+      const response = await axiosConfig.delete(`/jobApplications/${jobApplication._id}`);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
       resetPagination?.();

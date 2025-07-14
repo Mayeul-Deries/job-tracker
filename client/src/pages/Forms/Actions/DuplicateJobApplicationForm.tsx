@@ -14,7 +14,7 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface DuplicateJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
-  jobApplication?: JobApplication;
+  jobApplication: JobApplication;
   resetPagination?: () => void;
 }
 
@@ -34,14 +34,14 @@ export const DuplicateJobApplicationForm = ({
     resolver: zodResolver(duplicateJobApplicationSchema),
     mode: 'onTouched',
     defaultValues: {
-      title: jobApplication?.title,
-      company: jobApplication?.company,
-      city: jobApplication?.city,
-      date: jobApplication?.date ? new Date(jobApplication.date) : new Date(),
-      category: jobApplication?.category,
-      status: jobApplication?.status,
-      link: jobApplication?.link,
-      notes: jobApplication?.notes,
+      title: jobApplication.title,
+      company: jobApplication.company,
+      city: jobApplication.city,
+      date: jobApplication.date ? new Date(jobApplication.date) : new Date(),
+      category: jobApplication.category,
+      status: jobApplication.status,
+      link: jobApplication.link,
+      notes: jobApplication.notes,
     },
   });
 

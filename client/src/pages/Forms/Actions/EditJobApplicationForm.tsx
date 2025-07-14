@@ -14,7 +14,7 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface EditJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
-  jobApplication?: JobApplication;
+  jobApplication: JobApplication;
   resetPagination?: () => void;
 }
 
@@ -34,13 +34,13 @@ export const EditJobApplicationForm = ({
     resolver: zodResolver(editJobApplicationSchema),
     mode: 'onTouched',
     defaultValues: {
-      title: jobApplication?.title,
-      company: jobApplication?.company,
-      city: jobApplication?.city,
-      date: jobApplication?.date ? new Date(jobApplication.date) : new Date(),
-      category: jobApplication?.category,
-      status: jobApplication?.status,
-      link: jobApplication?.link,
+      title: jobApplication.title,
+      company: jobApplication.company,
+      city: jobApplication.city,
+      date: jobApplication.date ? new Date(jobApplication.date) : new Date(),
+      category: jobApplication.category,
+      status: jobApplication.status,
+      link: jobApplication.link,
       notes: jobApplication?.notes,
     },
   });
@@ -48,7 +48,7 @@ export const EditJobApplicationForm = ({
   const onEditSubmit: SubmitHandler<z.infer<typeof editJobApplicationSchema>> = async values => {
     try {
       setLoading(true);
-      const response = await axiosConfig.put(`/jobApplications/${jobApplication?._id}`, values);
+      const response = await axiosConfig.put(`/jobApplications/${jobApplication._id}`, values);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
       resetPagination?.();
