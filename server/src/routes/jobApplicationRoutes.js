@@ -7,13 +7,11 @@ import {
   patchJobApplication,
   deleteJobApplicationBatch,
   deleteJobApplication,
-  getJobApplicationStats,
 } from '../controllers/jobApplicationController.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
 
 const jobApplicationRouter = express.Router();
 
-jobApplicationRouter.get('/stats', verifyToken, getJobApplicationStats);
 jobApplicationRouter.get('/', verifyToken, getJobApplications);
 jobApplicationRouter.post('/', verifyToken, createJobApplication);
 jobApplicationRouter.get('/:id', verifyToken, getJobApplication);
