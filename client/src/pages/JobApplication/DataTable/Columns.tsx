@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { JobApplication } from '@/interfaces/JobApplication';
+import { Actions, type ActionType } from '@/constants/actions';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 import { cn } from '@/lib/utils';
@@ -30,7 +31,7 @@ import {
 export const getColumns = (
   t: TFunction,
   onUpdateField: (id: string, field: string, value: any) => void,
-  handleJobApplicationAction: (action: string, data?: any) => void
+  handleJobApplicationAction: (action: ActionType, data?: any) => void
 ): ColumnDef<JobApplication>[] => [
   {
     id: 'select',
@@ -222,21 +223,21 @@ export const getColumns = (
             <DropdownMenuLabel>{t('pages.dataTable.columns.actions.title')}</DropdownMenuLabel>
             <DropdownMenuItem
               className='flex gap-2'
-              onClick={() => handleJobApplicationAction('edit', jobApplication._id)}
+              onClick={() => handleJobApplicationAction(Actions.EDIT, jobApplication._id)}
             >
               <Pencil className='h-2' />
               {t('pages.dataTable.columns.actions.edit')}
             </DropdownMenuItem>
             <DropdownMenuItem
               className='flex gap-2'
-              onClick={() => handleJobApplicationAction('duplicate', jobApplication._id)}
+              onClick={() => handleJobApplicationAction(Actions.DUPLICATE, jobApplication._id)}
             >
               <Copy className='h-2' />
               {t('pages.dataTable.columns.actions.duplicate')}
             </DropdownMenuItem>
             <DropdownMenuItem
               className='flex gap-2 text-destructive hover:text-destructive!'
-              onClick={() => handleJobApplicationAction('delete', jobApplication._id)}
+              onClick={() => handleJobApplicationAction(Actions.DELETE, jobApplication._id)}
             >
               <Trash className='h-2 text-destructive' />
               {t('pages.dataTable.columns.actions.delete')}

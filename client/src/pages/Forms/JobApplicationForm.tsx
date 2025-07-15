@@ -1,5 +1,6 @@
 import { t } from 'i18next';
 import type { JobApplication } from '@/interfaces/JobApplication';
+import { Actions, type ActionType } from '@/constants/actions';
 import type { updateActionType } from '@/types/updateActionType';
 import { CreateJobApplicationForm } from './Actions/CreateJobApplicationForm';
 import { EditJobApplicationForm } from './Actions/EditJobApplicationForm';
@@ -12,7 +13,7 @@ interface JobApplicationFormProps {
   refresh: () => void;
   refreshAll?: (action: updateActionType) => void;
   resetPagination?: () => void;
-  action: string;
+  action: ActionType;
   jobApplication?: JobApplication;
   selectedJobApplications?: JobApplication[];
   resetSelection?: () => void;
@@ -29,7 +30,7 @@ export const JobApplicationForm = ({
   resetPagination,
 }: JobApplicationFormProps) => {
   switch (action) {
-    case 'create':
+    case Actions.CREATE:
       return (
         <CreateJobApplicationForm
           dialog={dialog}
@@ -39,7 +40,7 @@ export const JobApplicationForm = ({
         />
       );
 
-    case 'edit':
+    case Actions.EDIT:
       if (!jobApplication) {
         return <ErrorMessage />;
       }
@@ -53,7 +54,7 @@ export const JobApplicationForm = ({
         />
       );
 
-    case 'duplicate':
+    case Actions.DUPLICATE:
       if (!jobApplication) {
         return <ErrorMessage />;
       }
@@ -67,7 +68,7 @@ export const JobApplicationForm = ({
         />
       );
 
-    case 'delete':
+    case Actions.DELETE:
       if (!jobApplication) {
         return <ErrorMessage />;
       }
@@ -81,7 +82,7 @@ export const JobApplicationForm = ({
         />
       );
 
-    case 'deleteMany':
+    case Actions.DELETE_MANY:
       return (
         <DeleteManyJobApplicationForm
           dialog={dialog}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Table } from '@tanstack/react-table';
+import { Actions, type ActionType } from '@/constants/actions';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Search, Settings2, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +19,7 @@ import { Label } from '@/components/ui/label';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
-  onAction: (action: string, data: TData[]) => void;
+  onAction: (action: ActionType, data: TData[]) => void;
 }
 
 export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOptionsProps<TData>) {
@@ -53,7 +54,7 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
           onClick={() => {
             const selected = selectedRows.map(row => row.original);
             if (selected.length > 0) {
-              onAction('deleteMany', selected);
+              onAction(Actions.DELETE_MANY, selected);
             }
           }}
           disabled={selectedRows.length === 0}

@@ -1,9 +1,10 @@
+import { useTranslation } from 'react-i18next';
+import { Actions, type ActionType } from '@/constants/actions';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
-  handleJobApplicationAction: (action: string, data?: any) => void;
+  handleJobApplicationAction: (action: ActionType, data?: any) => void;
 }
 export const Header = ({ handleJobApplicationAction }: HeaderProps) => {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export const Header = ({ handleJobApplicationAction }: HeaderProps) => {
         <Button
           size='default'
           className='mt-2 sm:mt-0 w-full sm:w-auto'
-          onClick={() => handleJobApplicationAction('create')}
+          onClick={() => handleJobApplicationAction(Actions.CREATE)}
         >
           <Plus className='mr-2 h-5 w-5' />
           {t('pages.home.button.add_job_application')}

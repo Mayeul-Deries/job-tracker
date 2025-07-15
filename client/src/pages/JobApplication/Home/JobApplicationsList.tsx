@@ -5,7 +5,7 @@ import { type JobApplication } from '@/interfaces/JobApplication';
 import { StatusOffer } from '@/constants/statusOffer';
 import type { Stats } from '@/interfaces/Stats';
 import type { updateActionType } from '@/types/updateActionType';
-import { Actions } from '@/constants/actions';
+import { Actions, type ActionType } from '@/constants/actions';
 import { cn } from '@/lib/utils';
 
 import { toast } from 'sonner';
@@ -24,7 +24,7 @@ export const JobApplicationsList = () => {
   const [jobApplications, setJobApplications] = useState<JobApplication[]>([]);
   const [jobApplicationsCount, setJobApplicationsCount] = useState<number>(0);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [action, setAction] = useState('');
+  const [action, setAction] = useState<ActionType>();
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication>();
   const [selectedJobApplications, setSelectedJobApplications] = useState<JobApplication[]>([]);
 
@@ -120,35 +120,35 @@ export const JobApplicationsList = () => {
     }
   }
 
-  function handleJobApplicationAction(action: string, data?: any) {
+  function handleJobApplicationAction(action: ActionType, data?: any) {
     setSelectedJobApplication(undefined);
     setSelectedJobApplications([]);
     switch (action) {
-      case 'create':
-        setAction('create');
+      case Actions.CREATE:
+        setAction(Actions.CREATE);
         setOpenDialog(true);
         break;
-      case 'edit':
+      case Actions.EDIT:
         setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
-        setAction('edit');
+        setAction(Actions.EDIT);
         setOpenDialog(true);
         break;
-      case 'duplicate':
+      case Actions.DUPLICATE:
         setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
-        setAction('duplicate');
+        setAction(Actions.DUPLICATE);
         setOpenDialog(true);
         break;
-      case 'delete':
+      case Actions.DELETE:
         setSelectedJobApplication(jobApplications.find(jobApplication => jobApplication._id === data));
-        setAction('delete');
+        setAction(Actions.DELETE);
         setOpenDialog(true);
         break;
-      case 'deleteMany':
+      case Actions.DELETE_MANY:
         if (!Array.isArray(data) || data.length === 0) {
           throw new Error('Invalid data for deleteMany action');
         }
         setSelectedJobApplications(data);
-        setAction('deleteMany');
+        setAction(Actions.DELETE_MANY);
         setOpenDialog(true);
         break;
 
@@ -178,15 +178,15 @@ export const JobApplicationsList = () => {
             onResetSelectionRef={resetFn => (resetSelectionRef.current = resetFn)}
             onPaginationResetRef={resetFn => (resetPaginationRef.current = resetFn)}
           />
-          {openDialog && (
+          {action && openDialog && (
             <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
               <DialogContent
                 className={cn(
-                  action === 'create' && 'sm:max-w-[625px]',
-                  action === 'edit' && 'sm:max-w-[625px]',
-                  action === 'duplicate' && 'sm:max-w-[625px]',
-                  action === 'delete' && 'sm:max-w-[425px]',
-                  action === 'deleteMany' && 'sm:max-w-[460px]',
+                  action === Actions.CREATE && 'sm:max-w-[625px]',
+                  action === Actions.EDIT && 'sm:max-w-[625px]',
+                  action === Actions.DUPLICATE && 'sm:max-w-[625px]',
+                  action === Actions.DELETE && 'sm:max-w-[425px]',
+                  action === Actions.DELETE_MANY && 'sm:max-w-[460px]',
                   'max-h-[90vh] overflow-hidden flex flex-col px-4'
                 )}
               >

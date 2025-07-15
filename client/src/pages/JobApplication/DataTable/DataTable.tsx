@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { ActionType } from '@/constants/actions';
 import {
   useReactTable,
   type ColumnDef,
@@ -25,7 +26,7 @@ interface DataTableProps<TData> {
   loading?: boolean;
   fetchData: (pageIndex: number, pageSize: number) => void;
   dataCount: number;
-  onAction: (action: string, data: TData[]) => void;
+  onAction: (action: ActionType, data: TData[]) => void;
   onResetSelectionRef?: (resetFn: () => void) => void;
   onPaginationResetRef?: (resetFn: () => void) => void;
 }
