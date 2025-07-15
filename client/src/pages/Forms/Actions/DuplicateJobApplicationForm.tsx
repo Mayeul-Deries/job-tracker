@@ -7,6 +7,8 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 
 import { Form } from '@/components/ui/form';
 import { JobApplicationFormFields } from '../JobApplicationFormFields';
@@ -14,6 +16,7 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface DuplicateJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
+  refreshAll?: (action: updateActionType) => void;
   jobApplication: JobApplication;
   resetPagination?: () => void;
 }
@@ -21,6 +24,7 @@ interface DuplicateJobApplicationFormProps {
 export const DuplicateJobApplicationForm = ({
   dialog,
   refresh,
+  refreshAll,
   jobApplication,
   resetPagination,
 }: DuplicateJobApplicationFormProps) => {
@@ -58,6 +62,7 @@ export const DuplicateJobApplicationForm = ({
       dialog(false);
       resetPagination?.();
       refresh();
+      refreshAll?.({ type: Actions.DUPLICATE, payload: response.data.jobApplication });
       duplicateJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));

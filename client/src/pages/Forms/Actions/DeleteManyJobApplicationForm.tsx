@@ -3,12 +3,15 @@ import type { JobApplication } from '@/interfaces/JobApplication';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 
 import { Button } from '@/components/ui/button';
 
 interface DeleteManyJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
+  refreshAll?: (action: updateActionType) => void;
   resetSelection?: () => void;
   selectedJobApplications?: JobApplication[];
   resetPagination?: () => void;
@@ -17,6 +20,7 @@ interface DeleteManyJobApplicationFormProps {
 export const DeleteManyJobApplicationForm = ({
   dialog,
   refresh,
+  refreshAll,
   resetSelection,
   selectedJobApplications,
   resetPagination,
@@ -36,6 +40,7 @@ export const DeleteManyJobApplicationForm = ({
       dialog(false);
       resetPagination?.();
       refresh();
+      refreshAll?.({ type: Actions.DELETE_MANY, payload: ids });
       resetSelection?.();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));

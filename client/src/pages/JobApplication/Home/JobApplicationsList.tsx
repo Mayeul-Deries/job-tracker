@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { axiosConfig } from '@/config/axiosConfig';
 import { type JobApplication } from '@/interfaces/JobApplication';
+import { StatusOffer } from '@/constants/statusOffer';
 import type { Stats } from '@/interfaces/Stats';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 import { cn } from '@/lib/utils';
 
 import { toast } from 'sonner';
@@ -24,6 +27,8 @@ export const JobApplicationsList = () => {
   const [action, setAction] = useState('');
   const [selectedJobApplication, setSelectedJobApplication] = useState<JobApplication>();
   const [selectedJobApplications, setSelectedJobApplications] = useState<JobApplication[]>([]);
+
+  const [allJobApplications, setAllJobApplications] = useState<JobApplication[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [statsLoading, setStatsLoading] = useState<boolean>(false);
 
@@ -31,26 +36,60 @@ export const JobApplicationsList = () => {
   const resetPaginationRef = useRef<() => void>(() => {});
 
   const hasAnyLink = jobApplications.some(app => !!app.link);
-  const columns = getColumns(
-    t,
-    (id, field, value) => patchJobApplication(id, field, value, field === 'status'),
-    handleJobApplicationAction
-  ).filter(col => ('accessorKey' in col ? col.accessorKey !== 'link' || hasAnyLink : true));
+  const columns = getColumns(t, patchJobApplication, handleJobApplicationAction).filter(col =>
+    'accessorKey' in col ? col.accessorKey !== 'link' || hasAnyLink : true
+  );
 
   useEffect(() => {
-    fetchJobApplicationsStats();
+    setStats(computeStats(allJobApplications));
+  }, [allJobApplications]);
+
+  function computeStats(applications: JobApplication[]): Stats {
+    return {
+      total: applications.length,
+      inProgress: applications.filter(app => app.status !== StatusOffer.ACCEPTED && app.status !== StatusOffer.REJECTED)
+        .length,
+      sent: applications.filter(app => app.status === StatusOffer.SENT).length,
+      followedUp: applications.filter(app => app.status === StatusOffer.FOLLOWED_UP).length,
+      interviewScheduled: applications.filter(app => app.status === StatusOffer.INTERVIEW_SCHEDULED).length,
+      accepted: applications.filter(app => app.status === StatusOffer.ACCEPTED).length,
+      rejected: applications.filter(app => app.status === StatusOffer.REJECTED).length,
+    };
+  }
+
+  useEffect(() => {
+    fetchAllJobApplications();
   }, []);
 
-  async function fetchJobApplicationsStats() {
+  async function fetchAllJobApplications() {
     setStatsLoading(true);
     try {
-      const response = await axiosConfig.get('jobApplications/stats');
-      setStats(response.data.stats);
+      const response = await axiosConfig.get('jobApplications');
+      setAllJobApplications(response.data.jobApplications);
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
     } finally {
       setStatsLoading(false);
     }
+  }
+
+  function updateAllJobApplications({ type, payload }: updateActionType) {
+    setAllJobApplications((prev: JobApplication[]) => {
+      switch (type) {
+        case Actions.CREATE:
+        case Actions.DUPLICATE:
+          return [...prev, payload];
+        case Actions.EDIT:
+          return prev.map(app => (app._id === payload._id ? payload : app));
+        case Actions.DELETE:
+          return prev.filter(app => app._id !== payload);
+        case Actions.DELETE_MANY:
+          console.log(payload);
+          return prev.filter(app => !payload.includes(app._id));
+        default:
+          return prev;
+      }
+    });
   }
 
   async function fetchJobApplications(page: number = 0, size: number = 10) {
@@ -66,17 +105,14 @@ export const JobApplicationsList = () => {
     }
   }
 
-  async function patchJobApplication(id: string, field: string, value: any, refreshStats = false) {
+  async function patchJobApplication(id: string, field: string, value: any) {
     try {
       const response = await axiosConfig.patch(`jobApplications/${id}`, {
         [field]: value,
       });
 
       setJobApplications(prev => prev.map(app => (app._id === id ? { ...app, [field]: value } : app)));
-
-      if (refreshStats) {
-        fetchJobApplicationsStats();
-      }
+      setAllJobApplications(prev => prev.map(app => (app._id === id ? { ...app, [field]: value } : app)));
 
       toast.success(t(`toast.${response.data.translationKey}`));
     } catch (error: any) {
@@ -164,6 +200,7 @@ export const JobApplicationsList = () => {
                 <JobApplicationForm
                   dialog={setOpenDialog}
                   refresh={fetchJobApplications}
+                  refreshAll={updateAllJobApplications}
                   action={action}
                   jobApplication={selectedJobApplication}
                   selectedJobApplications={selectedJobApplications}

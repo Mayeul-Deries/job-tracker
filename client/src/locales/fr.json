@@ -1,4 +1,8 @@
 {
+  "errors": {
+    "forbidden_action": "Action interdite",
+    "jobApplication_missing": "Les données de demande d'emploi sont manquantes"
+  },
   "status": {
     "SENT": "Envoyé",
     "FOLLOWED_UP": "Relancé",
@@ -295,7 +299,8 @@
             },
             "in_progress": {
               "title": "En cours",
-              "description": "candidatures en attente"
+              "description": "candidatures en attente",
+              "tooltip": "Candidatures qui ne sont ni acceptées, ni rejetées."
             },
             "accepted": {
               "title": "Acceptées",

@@ -1,4 +1,8 @@
 {
+  "errors": {
+    "forbidden_action": "Forbbiden action",
+    "jobApplication_missing": "Job application data is missing"
+  },
   "status": {
     "SENT": "Sent",
     "FOLLOWED_UP": "Followed up",
@@ -295,7 +299,8 @@
             },
             "in_progress": {
               "title": "In progress",
-              "description": "pending applications"
+              "description": "pending applications",
+              "tooltip": "Job applications not accepted or rejected"
             },
             "accepted": {
               "title": "Accepted",

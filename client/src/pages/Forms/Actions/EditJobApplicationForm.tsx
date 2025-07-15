@@ -7,6 +7,8 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 
 import { Form } from '@/components/ui/form';
 import { JobApplicationFormFields } from '../JobApplicationFormFields';
@@ -14,6 +16,7 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface EditJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
+  refreshAll?: (action: updateActionType) => void;
   jobApplication: JobApplication;
   resetPagination?: () => void;
 }
@@ -21,6 +24,7 @@ interface EditJobApplicationFormProps {
 export const EditJobApplicationForm = ({
   dialog,
   refresh,
+  refreshAll,
   jobApplication,
   resetPagination,
 }: EditJobApplicationFormProps) => {
@@ -53,6 +57,7 @@ export const EditJobApplicationForm = ({
       dialog(false);
       resetPagination?.();
       refresh();
+      refreshAll?.({ type: Actions.EDIT, payload: response.data.jobApplication });
       editJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
