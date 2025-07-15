@@ -1,8 +1,10 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Briefcase, Calendar, Check, Clock } from 'lucide-react';
+import { Briefcase, Calendar, Check, HelpCircle, Hourglass } from 'lucide-react';
 import type { Stats } from '@/interfaces/Stats';
 import { useTranslation } from 'react-i18next';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip } from '@radix-ui/react-tooltip';
 
 interface OverviewProps {
   stats: Stats | null;
@@ -45,15 +47,27 @@ export const Overview = ({ stats, loading }: OverviewProps) => {
           ) : (
             <div className='flex items-center justify-between'>
               <div>
-                <p className='text-sm font-medium text-gray-600'>
-                  {t('pages.home.overview.stats.labels.in_progress.title')}
-                </p>
+                <div className='flex items-center gap-2'>
+                  <p className='text-sm font-medium text-gray-600'>
+                    {t('pages.home.overview.stats.labels.in_progress.title')}
+                  </p>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild className='pt-1'>
+                        <HelpCircle className='w-4 h-4 text-gray-400' />
+                      </TooltipTrigger>
+                      <TooltipContent side='right'>
+                        <p>{t('pages.home.overview.stats.labels.in_progress.tooltip')}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <div className='text-2xl font-bold text-blue-600'>
                   {loading ? <Skeleton className='h-6 w-16' /> : stats?.inProgress}
                 </div>
                 <p className='text-xs text-gray-500'>{t('pages.home.overview.stats.labels.in_progress.description')}</p>
               </div>
-              <Clock className='w-5 h-5 text-gray-400' />
+              <Hourglass className='w-5 h-5 text-gray-400' />
             </div>
           )}
         </CardContent>
