@@ -7,6 +7,8 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 
 import { Form } from '@/components/ui/form';
 import { JobApplicationFormFields } from '../JobApplicationFormFields';
@@ -14,10 +16,18 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface EditJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
-  jobApplication?: JobApplication;
+  refreshAll?: (action: updateActionType) => void;
+  jobApplication: JobApplication;
+  resetPagination?: () => void;
 }
 
-export const EditJobApplicationForm = ({ dialog, refresh, jobApplication }: EditJobApplicationFormProps) => {
+export const EditJobApplicationForm = ({
+  dialog,
+  refresh,
+  refreshAll,
+  jobApplication,
+  resetPagination,
+}: EditJobApplicationFormProps) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -28,13 +38,13 @@ export const EditJobApplicationForm = ({ dialog, refresh, jobApplication }: Edit
     resolver: zodResolver(editJobApplicationSchema),
     mode: 'onTouched',
     defaultValues: {
-      title: jobApplication?.title,
-      company: jobApplication?.company,
-      city: jobApplication?.city,
-      date: jobApplication?.date ? new Date(jobApplication.date) : new Date(),
-      category: jobApplication?.category,
-      status: jobApplication?.status,
-      link: jobApplication?.link,
+      title: jobApplication.title,
+      company: jobApplication.company,
+      city: jobApplication.city,
+      date: jobApplication.date ? new Date(jobApplication.date) : new Date(),
+      category: jobApplication.category,
+      status: jobApplication.status,
+      link: jobApplication.link,
       notes: jobApplication?.notes,
     },
   });
@@ -42,10 +52,12 @@ export const EditJobApplicationForm = ({ dialog, refresh, jobApplication }: Edit
   const onEditSubmit: SubmitHandler<z.infer<typeof editJobApplicationSchema>> = async values => {
     try {
       setLoading(true);
-      const response = await axiosConfig.put(`/jobApplications/${jobApplication?._id}`, values);
+      const response = await axiosConfig.put(`/jobApplications/${jobApplication._id}`, values);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
+      refreshAll?.({ type: Actions.EDIT, payload: response.data.jobApplication });
       editJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));

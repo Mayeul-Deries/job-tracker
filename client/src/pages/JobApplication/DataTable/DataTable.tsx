@@ -27,6 +27,7 @@ interface DataTableProps<TData> {
   dataCount: number;
   onAction: (action: string, data: TData[]) => void;
   onResetSelectionRef?: (resetFn: () => void) => void;
+  onPaginationResetRef?: (resetFn: () => void) => void;
 }
 
 export function DataTable<TData>({
@@ -37,6 +38,7 @@ export function DataTable<TData>({
   dataCount,
   onAction,
   onResetSelectionRef,
+  onPaginationResetRef,
 }: DataTableProps<TData>) {
   const { t } = useTranslation();
 
@@ -72,6 +74,17 @@ export function DataTable<TData>({
   useEffect(() => {
     if (onResetSelectionRef) {
       onResetSelectionRef(() => setRowSelection({})); // réinitialiser les checkbox
+    }
+  }, []);
+
+  useEffect(() => {
+    if (onPaginationResetRef) {
+      onPaginationResetRef(() => {
+        setPagination({
+          pageIndex: 0,
+          pageSize: 10,
+        });
+      });
     }
   }, []);
 

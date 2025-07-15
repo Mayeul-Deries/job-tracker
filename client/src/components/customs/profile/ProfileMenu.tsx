@@ -43,14 +43,17 @@ export const ProfileMenu = () => {
     <>
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost'>
+          <Button className='cursor-pointer' variant='ghost'>
             <Menu />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-58'>
           <DropdownMenuLabel>{t('pages.profile.form.button.actions.title')}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setOpenUpdatePasswordDialog(true)} className='flex justify-between'>
+          <DropdownMenuItem
+            onClick={() => setOpenUpdatePasswordDialog(true)}
+            className='cursor-pointer flex justify-between'
+          >
             {t('pages.profile.form.button.edit_password')}
             <ChevronRight className='text-black' />
           </DropdownMenuItem>
@@ -63,7 +66,7 @@ export const ProfileMenu = () => {
                   <DropdownMenuItem
                     key={l}
                     onClick={() => handleChangeLanguage(l)}
-                    className={` cursor-pointer flex items-center ${language === l ? 'bg-secondary' : ''}`}
+                    className={`cursor-pointer flex items-center ${language === l ? 'bg-secondary' : ''}`}
                   >
                     {l === 'fr' && <FR />}
                     {l === 'en' && <GB />}
@@ -76,13 +79,13 @@ export const ProfileMenu = () => {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem onClick={logout} disabled={loading}>
+          <DropdownMenuItem className='cursor-pointer' onClick={logout} disabled={loading}>
             {t('navbar.avatar.logout')}
           </DropdownMenuItem>
 
           <DropdownMenuItem
             onClick={() => setOpenDeleteAccountDialog(true)}
-            className='text-red-500 focus:text-red-500 flex justify-between'
+            className='cursor-pointer text-red-500 focus:text-red-500 flex justify-between'
           >
             {t('pages.profile.delete_account.title')}
             <ChevronRight className='text-red-500' />

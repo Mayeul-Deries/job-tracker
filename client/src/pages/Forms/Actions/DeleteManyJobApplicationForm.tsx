@@ -3,21 +3,27 @@ import type { JobApplication } from '@/interfaces/JobApplication';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 
 import { Button } from '@/components/ui/button';
 
 interface DeleteManyJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
+  refreshAll?: (action: updateActionType) => void;
   resetSelection?: () => void;
   selectedJobApplications?: JobApplication[];
+  resetPagination?: () => void;
 }
 
 export const DeleteManyJobApplicationForm = ({
   dialog,
   refresh,
+  refreshAll,
   resetSelection,
   selectedJobApplications,
+  resetPagination,
 }: DeleteManyJobApplicationFormProps) => {
   const { t } = useTranslation();
 
@@ -32,7 +38,9 @@ export const DeleteManyJobApplicationForm = ({
       });
       toast.success(response.data.deletedCount + ' ' + t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
+      refreshAll?.({ type: Actions.DELETE_MANY, payload: ids });
       resetSelection?.();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
@@ -46,11 +54,11 @@ export const DeleteManyJobApplicationForm = ({
       <p className='text-sm text-muted-foreground text-center'>{t('pages.deleteManyJobApplications.description')}</p>
 
       <div className='flex flex-col sm:flex-row gap-2 sm:gap-4'>
-        <Button className='flex-1 min-w-[120px]' onClick={() => dialog(false)} disabled={loading}>
+        <Button className='flex-1 min-w-[120px] cursor-pointer' onClick={() => dialog(false)} disabled={loading}>
           {t('pages.deleteManyJobApplications.button.cancel')}
         </Button>
         <Button
-          className='bg-red-700 hover:bg-red-800 text-white flex-1 min-w-[120px]'
+          className='bg-red-700 hover:bg-red-800 text-white flex-1 min-w-[120px] cursor-pointer'
           onClick={onDeleteManySubmit}
           disabled={loading}
         >

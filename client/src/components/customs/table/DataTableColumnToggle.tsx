@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Table } from '@tanstack/react-table';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Settings2, Trash2 } from 'lucide-react';
+import { Search, Settings2, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from '@/hooks/useDebounce';
 
@@ -14,6 +14,7 @@ import {
 } from '../../ui/dropdown-menu';
 import { Button } from '../../ui/button';
 import { Input } from '../../ui/input';
+import { Label } from '@/components/ui/label';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -30,15 +31,22 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
   }, [debouncedSearch, table]);
 
   const selectedRows = table.getSelectedRowModel().rows;
-
   return (
-    <div className='flex items-center gap-2 justify-between'>
-      <Input
-        placeholder={t('pages.dataTable.search.placeholder')}
-        value={search}
-        onChange={event => setSearch(event.target.value)}
-        className='max-w-sm truncate'
-      />
+    <div className='flex items-end gap-2 justify-between'>
+      <div className='flex flex-col flex-grow max-w-[300px]'>
+        <Label htmlFor='search' className='text-sm font-medium text-gray-700'>
+          {t('pages.dataTable.search.label')}
+        </Label>
+        <div className='relative mt-1'>
+          <Search className='hidden sm:block absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4' />
+          <Input
+            placeholder={t('pages.dataTable.search.placeholder')}
+            value={search}
+            onChange={event => setSearch(event.target.value)}
+            className='w-full pl-3 sm:pl-10 truncate placeholder:text-sm'
+          />
+        </div>
+      </div>
 
       <div className='flex gap-2'>
         <Button
@@ -49,15 +57,15 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
             }
           }}
           disabled={selectedRows.length === 0}
-          className='gap-2 bg-red-700 hover:bg-red-800 text-white'
+          className='cursor-pointer gap-2 bg-red-700 hover:bg-red-800 text-white'
         >
           <Trash2 className='h-4 w-4' />({selectedRows.length})
         </Button>
 
         <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              <Settings2 className='hidden sm:inline-block h-4 w-4' />
+          <DropdownMenuTrigger asChild className='hidden sm:flex'>
+            <Button variant='outline' className='cursor-pointer'>
+              <Settings2 className='h-4 w-4' />
               {t('pages.dataTable.visibility.columns')}
             </Button>
           </DropdownMenuTrigger>
@@ -70,8 +78,10 @@ export function DataTableViewOptions<TData>({ table, onAction }: DataTableViewOp
               .map(column => {
                 return (
                   <DropdownMenuCheckboxItem
+                    className='cursor-pointer'
                     key={column.id}
                     checked={column.getIsVisible()}
+                    onSelect={event => event.preventDefault()}
                     onCheckedChange={value => column.toggleVisibility(!!value)}
                   >
                     {t(`pages.dataTable.visibility.${column.id}`)}

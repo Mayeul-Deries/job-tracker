@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { axiosConfig } from '@/config/axiosConfig';
 import { useAuthContext } from '@/contexts/authContext';
 import { getUpdatePasswordSchema } from '@/validations/schemas/user';
@@ -11,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { PasswordInput } from '../PasswordInput';
 
 interface UpdatePasswordProps {
   setOpen: (open: boolean) => void;
@@ -63,8 +63,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
               <FormItem className='flex-1'>
                 <FormLabel>{t('pages.profile.password_changer.label.current_password')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
+                  <PasswordInput
                     placeholder={t('pages.profile.password_changer.placeholder.current_password')}
                     {...field}
                   />
@@ -80,8 +79,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
               <FormItem className='flex-1'>
                 <FormLabel>{t('pages.profile.password_changer.label.new_password')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
+                  <PasswordInput
                     placeholder={t('pages.profile.password_changer.placeholder.new_password')}
                     {...field}
                   />
@@ -100,8 +98,7 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
               <FormItem className='flex-1'>
                 <FormLabel>{t('pages.profile.password_changer.label.new_password_confirm')}</FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
+                  <PasswordInput
                     placeholder={t('pages.profile.password_changer.placeholder.new_password_confirm')}
                     {...field}
                   />
@@ -112,10 +109,10 @@ export const UpdatePasswordForm = ({ setOpen }: UpdatePasswordProps) => {
           />
 
           <DialogFooter>
-            <Button variant='outline' onClick={() => setOpen(false)} type='button'>
+            <Button className='cursor-pointer' variant='outline' onClick={() => setOpen(false)} type='button'>
               {t('pages.profile.password_changer.button.cancel')}
             </Button>
-            <Button disabled={loading} type='submit'>
+            <Button className='cursor-pointer' disabled={loading} type='submit'>
               {t('pages.profile.password_changer.button.save')}
             </Button>
           </DialogFooter>

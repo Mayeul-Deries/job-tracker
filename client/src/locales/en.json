@@ -1,4 +1,8 @@
 {
+  "errors": {
+    "forbidden_action": "Forbbiden action",
+    "jobApplication_missing": "Job application data is missing"
+  },
   "status": {
     "SENT": "Sent",
     "FOLLOWED_UP": "Followed up",
@@ -112,6 +116,7 @@
     },
     "jobApplication": {
       "success": {
+        "jobApplication_stats_recovered": "Stats successfully recovered",
         "jobApplications_recovered": "Job applications successfully recovered",
         "jobApplication_created": "Job application successfully created",
         "jobApplication_recovered": "Job application successfully recovered",
@@ -280,8 +285,33 @@
       }
     },
     "home": {
+      "title": "Welcome to Job Tracker",
+      "description": "Keep track of all your job, internship and work-study applications from the table below. Click on “New job application” and start organizing them now.",
       "button": {
         "add_job_application": "New job application"
+      },
+      "overview": {
+        "stats": {
+          "labels": {
+            "total": {
+              "title": "Total",
+              "description": "applications submitted"
+            },
+            "in_progress": {
+              "title": "In progress",
+              "description": "pending applications",
+              "tooltip": "Job applications not accepted or rejected"
+            },
+            "accepted": {
+              "title": "Accepted",
+              "description": "accepted applications"
+            },
+            "interview_scheduled": {
+              "title": "Interviews",
+              "description": "scheduled interviews"
+            }
+          }
+        }
       }
     },
     "createJobApplication": {
@@ -289,9 +319,9 @@
         "title": "Add a job application",
         "description": "Fill out the form to add a new job application",
         "label": {
-          "jobTitle": "Job title",
-          "companyName": "Company name",
-          "city": "City",
+          "jobTitle": "Job",
+          "companyName": "Company",
+          "city": "Location",
           "applicationDate": "Application date",
           "category": "Category",
           "status": "Status",
@@ -299,9 +329,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Web developer apprenticeship",
-          "companyName": "XYZ Company",
-          "city": "Paris",
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
           "applicationDate": "Choose a date",
           "category": "Select a category",
           "status": "Select a status",
@@ -318,9 +348,9 @@
       "form": {
         "title": "Edit a job application",
         "label": {
-          "jobTitle": "Job title",
-          "companyName": "Company name",
-          "city": "City",
+          "jobTitle": "Job",
+          "companyName": "Company",
+          "city": "Location",
           "applicationDate": "Application date",
           "category": "Category",
           "status": "Status",
@@ -328,9 +358,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Web developer apprenticeship",
-          "companyName": "XYZ Company",
-          "city": "Paris",
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
           "applicationDate": "Choose a date",
           "category": "Select a category",
           "status": "Select a status",
@@ -347,9 +377,9 @@
         "title": "Duplicate a job application",
         "description": "Fill out the form to add a new job application",
         "label": {
-          "jobTitle": "Job title",
-          "companyName": "Company name",
-          "city": "City",
+          "jobTitle": "Job",
+          "companyName": "Company",
+          "city": "Location",
           "applicationDate": "Application date",
           "category": "Category",
           "status": "Status",
@@ -357,9 +387,9 @@
           "notes": "Notes"
         },
         "placeholder": {
-          "jobTitle": "Web developer apprenticeship",
-          "companyName": "XYZ Company",
-          "city": "Paris",
+          "jobTitle": "Job title",
+          "companyName": "Company name",
+          "city": "City",
           "applicationDate": "Choose a date",
           "category": "Select a category",
           "status": "Select a status",
@@ -437,7 +467,8 @@
         "notes": "Notes"
       },
       "search": {
-        "placeholder": "Search for a job application"
+        "label": "Search",
+        "placeholder": "Search by job, company, city..."
       },
       "errors": {
         "no_data": "No job applications found"

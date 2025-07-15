@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { LogOut, Menu, User, X } from 'lucide-react';
+import { LogOut, Menu, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useLogout } from '@/hooks/useLogout';
@@ -61,10 +61,6 @@ export function Navbar() {
         <div className='flex flex-col'>
           <div className='flex justify-between items-center gap-2'>
             <LocaleChanger />
-            <X
-              className='cursor-pointer transition duration-200 ease-in-out hover:scale-110'
-              onClick={() => setIsOpen(false)}
-            />
           </div>
           <Separator className='mt-2 mb-4' />
           <div className='flex flex-col'>

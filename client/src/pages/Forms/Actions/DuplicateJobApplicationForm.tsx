@@ -7,6 +7,8 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { axiosConfig } from '@/config/axiosConfig';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 
 import { Form } from '@/components/ui/form';
 import { JobApplicationFormFields } from '../JobApplicationFormFields';
@@ -14,10 +16,18 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface DuplicateJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
-  jobApplication?: JobApplication;
+  refreshAll?: (action: updateActionType) => void;
+  jobApplication: JobApplication;
+  resetPagination?: () => void;
 }
 
-export const DuplicateJobApplicationForm = ({ dialog, refresh, jobApplication }: DuplicateJobApplicationFormProps) => {
+export const DuplicateJobApplicationForm = ({
+  dialog,
+  refresh,
+  refreshAll,
+  jobApplication,
+  resetPagination,
+}: DuplicateJobApplicationFormProps) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -28,14 +38,14 @@ export const DuplicateJobApplicationForm = ({ dialog, refresh, jobApplication }:
     resolver: zodResolver(duplicateJobApplicationSchema),
     mode: 'onTouched',
     defaultValues: {
-      title: jobApplication?.title,
-      company: jobApplication?.company,
-      city: jobApplication?.city,
-      date: jobApplication?.date ? new Date(jobApplication.date) : new Date(),
-      category: jobApplication?.category,
-      status: jobApplication?.status,
-      link: jobApplication?.link,
-      notes: jobApplication?.notes,
+      title: jobApplication.title,
+      company: jobApplication.company,
+      city: jobApplication.city,
+      date: jobApplication.date ? new Date(jobApplication.date) : new Date(),
+      category: jobApplication.category,
+      status: jobApplication.status,
+      link: jobApplication.link,
+      notes: jobApplication.notes,
     },
   });
 
@@ -50,7 +60,9 @@ export const DuplicateJobApplicationForm = ({ dialog, refresh, jobApplication }:
       const response = await axiosConfig.post('jobApplications', data);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
+      refreshAll?.({ type: Actions.DUPLICATE, payload: response.data.jobApplication });
       duplicateJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));

@@ -168,13 +168,13 @@ export const Profile = () => {
 
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className='w-full'>
+                            <SelectTrigger className='w-full cursor-pointer'>
                               <SelectValue placeholder={t('pages.profile.form.placeholder.preferred_category')} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             {Object.values(Categories).map(category => (
-                              <SelectItem key={category} value={category}>
+                              <SelectItem className='cursor-pointer' key={category} value={category}>
                                 {t(`categories.${category}`)}
                               </SelectItem>
                             ))}
@@ -185,7 +185,7 @@ export const Profile = () => {
                     )}
                   />
 
-                  <Button type='submit' className='w-full' disabled={loading}>
+                  <Button type='submit' className='w-full cursor-pointer' disabled={loading}>
                     {t('pages.profile.form.button.confirm')}
                   </Button>
                 </div>

@@ -39,8 +39,10 @@ export function AvatarDropdown() {
       <DropdownMenuContent className='w-40'>
         <DropdownMenuLabel>{t('navbar.avatar.my_account')}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate('/profile')}>{t('navbar.avatar.profile')}</DropdownMenuItem>
-        <DropdownMenuItem onClick={logout} disabled={loading}>
+        <DropdownMenuItem className='cursor-pointer' onClick={() => navigate('/profile')}>
+          {t('navbar.avatar.profile')}
+        </DropdownMenuItem>
+        <DropdownMenuItem className='cursor-pointer' onClick={logout} disabled={loading}>
           {t('navbar.avatar.logout')}
         </DropdownMenuItem>
       </DropdownMenuContent>

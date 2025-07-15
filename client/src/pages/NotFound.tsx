@@ -10,7 +10,7 @@ export function NotFound() {
     <div className='flex flex-col items-center justify-center h-screen text-center px-4'>
       <h1 className='text-5xl font-bold mb-4'>404</h1>
       <p className='text-xl text-muted-foreground mb-6'>{t('pages.not_found.title')}</p>
-      <Button asChild>
+      <Button asChild className='cursor-pointer'>
         <Link to='/'>{t('pages.not_found.button.back_to_home')}</Link>
       </Button>
     </div>

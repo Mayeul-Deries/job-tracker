@@ -9,6 +9,8 @@ import { Categories, type CategoryType } from '@/constants/categories';
 import { StatusOffer } from '@/constants/statusOffer';
 import { useAuthContext } from '@/contexts/authContext';
 import { getJobApplicationSchema } from '@/validations/schemas/jobApplication';
+import type { updateActionType } from '@/types/updateActionType';
+import { Actions } from '@/constants/actions';
 
 import { Form } from '@/components/ui/form';
 import { JobApplicationFormFields } from '../JobApplicationFormFields';
@@ -16,9 +18,16 @@ import { JobApplicationFormFields } from '../JobApplicationFormFields';
 interface CreateJobApplicationFormProps {
   dialog: (isOpen: boolean) => void;
   refresh: () => void;
+  refreshAll?: (action: updateActionType) => void;
+  resetPagination?: () => void;
 }
 
-export const CreateJobApplicationForm = ({ dialog, refresh }: CreateJobApplicationFormProps) => {
+export const CreateJobApplicationForm = ({
+  dialog,
+  refresh,
+  refreshAll,
+  resetPagination,
+}: CreateJobApplicationFormProps) => {
   const { t } = useTranslation();
 
   const [loading, setLoading] = useState(false);
@@ -53,7 +62,9 @@ export const CreateJobApplicationForm = ({ dialog, refresh }: CreateJobApplicati
       const response = await axiosConfig.post('jobApplications', data);
       toast.success(t(`toast.${response.data.translationKey}`));
       dialog(false);
+      resetPagination?.();
       refresh();
+      refreshAll?.({ type: Actions.CREATE, payload: response.data.jobApplication });
       createJobApplicationForm.reset();
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
