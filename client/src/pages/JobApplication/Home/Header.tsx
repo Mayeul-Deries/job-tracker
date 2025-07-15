@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Briefcase, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {

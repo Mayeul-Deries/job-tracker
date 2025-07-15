@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import jobApplicationModel from '../models/jobApplicationModel.js';
-import { StatusOffer } from '../utils/enums/statusOffer.js';
 
 export const getJobApplications = async (req, res) => {
   const size = parseInt(req.query.size);

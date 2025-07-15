@@ -117,7 +117,6 @@ export const JobApplicationsList = () => {
       toast.success(t(`toast.${response.data.translationKey}`));
     } catch (error: any) {
       toast.error(t(`toast.${error.response.data.translationKey}`));
-    } finally {
     }
   }
 

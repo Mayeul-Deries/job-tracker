@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { LogOut, Menu, User, X } from 'lucide-react';
+import { LogOut, Menu, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
 import { useLogout } from '@/hooks/useLogout';
