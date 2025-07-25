@@ -34,3 +34,7 @@ export const loginSchema = z.object({
     }),
   password: z.string({ required_error: 'All fields are required' }).min(1).max(255),
 });
+
+export const forgotPasswordSchema = z.object({
+  email: z.string({ required_error: 'All fields are required' }).email(),
+});

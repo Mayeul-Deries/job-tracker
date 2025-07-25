@@ -1,8 +1,11 @@
 import bcrypt from 'bcryptjs';
-import { registerSchema, loginSchema } from '../validations/authSchemas.js';
+import crypto from 'crypto';
+import { registerSchema, loginSchema, forgotPasswordSchema } from '../validations/authSchemas.js';
 import { Constants } from '../utils/constants/constants.js';
 import { generateToken } from '../utils/generateToken.js';
+import { sendResetCodeEmail } from '../utils/sendResetCodeEmail.js';
 import userModel from '../models/userModel.js';
+import passwordResetModel from '../models/passwordResetModel.js';
 
 export const register = async (req, res) => {
   try {
@@ -95,5 +98,35 @@ export const getConnectedUser = async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = forgotPasswordSchema.parse(req.body);
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ error: 'User not found', translationKey: 'auth.error.forgot_password.user_not_found' });
+    }
+
+    const code = crypto.randomInt(100000, 999999).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // expire dans 10 minutes
+
+    await passwordResetModel.findOneAndUpdate({ email }, { code, expiresAt, attempts: 0 }, { upsert: true, new: true });
+
+    await sendResetCodeEmail(email, code);
+
+    return res.status(200).json({
+      message: 'Reset code sent successfully',
+      translationKey: 'auth.success.code_sent',
+    });
+  } catch (error) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
+    return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
