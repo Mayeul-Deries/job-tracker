@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { registerSchema, loginSchema, forgotPasswordSchema } from '../validations/authSchemas.js';
@@ -115,7 +116,7 @@ export const forgotPassword = async (req, res) => {
     const code = crypto.randomInt(100000, 999999).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // expire dans 10 minutes
 
-    await passwordResetModel.findOneAndUpdate({ email }, { code, expiresAt, attempts: 0 }, { upsert: true, new: true });
+    await passwordResetModel.findOneAndUpdate({ email }, { code, expiresAt, used: false }, { upsert: true, new: true });
 
     await sendResetCodeEmail(email, code);
 
@@ -127,6 +128,65 @@ export const forgotPassword = async (req, res) => {
     if (error.name === 'ZodError') {
       return res.status(400).json({ error: error.errors[0].message });
     }
+    return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
+  }
+};
+
+export const verifyResetCode = async (req, res) => {
+  try {
+    const { email, code } = req.body;
+
+    const record = await passwordResetModel.findOne({ email });
+
+    if (!record) {
+      return res.status(400).json({
+        error: 'Code not found',
+        translationKey: 'auth.error.verify_reset_code.code_not_found',
+      });
+    }
+
+    if (record.attempts >= 5) {
+      return res.status(429).json({
+        error: 'Too many attempts',
+        translationKey: 'auth.error.verify_reset_code.too_many_attempts',
+      });
+    }
+
+    if (record.used) {
+      return res
+        .status(400)
+        .json({ error: 'Code already used', translationKey: 'auth.error.verify_reset_code.code_used' });
+    }
+
+    if (record.code !== code) {
+      record.attempts += 1;
+      await record.save();
+
+      return res.status(400).json({
+        error: 'Invalid code',
+        translationKey: 'auth.error.verify_reset_code.invalid_code',
+      });
+    }
+
+    if (record.expiresAt < new Date()) {
+      return res
+        .status(400)
+        .json({ error: 'Code expired', translationKey: 'auth.error.verify_reset_code.code_expired' });
+    }
+
+    record.used = true;
+    await record.save();
+
+    const token = jwt.sign({ email }, process.env.SECRET_ACCESS_TOKEN, {
+      expiresIn: Constants.MAX_DURATION_RESET_PASSWORD,
+    });
+
+    return res.status(200).json({
+      message: 'Code verified successfully',
+      translationKey: 'auth.success.verify_reset_code',
+      token,
+    });
+  } catch (error) {
     return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };

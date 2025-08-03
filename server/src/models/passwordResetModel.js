@@ -6,6 +6,7 @@ const passwordResetSchema = new mongoose.Schema(
     code: { type: String, required: true, unique: true },
     expiresAt: { type: Date, required: true },
     attempts: { type: Number, default: 0 },
+    used: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
