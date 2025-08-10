@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import { registerSchema, loginSchema, forgotPasswordSchema } from '../validations/authSchemas.js';
+import { registerSchema, loginSchema, forgotPasswordSchema, resetPasswordSchema } from '../validations/authSchemas.js';
 import { Constants } from '../utils/constants/constants.js';
 import { generateToken } from '../utils/generateToken.js';
 import { sendResetCodeEmail } from '../utils/sendResetCodeEmail.js';
@@ -192,5 +192,63 @@ export const verifyResetCode = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        error: 'Token missing or invalid',
+        translationKey: 'auth.error.reset_password.token_missing',
+      });
+    }
+
+    const token = authHeader.split(' ')[1];
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.SECRET_ACCESS_TOKEN);
+    } catch (err) {
+      return res.status(401).json({
+        error: 'Invalid or expired token',
+        translationKey: 'auth.error.reset_password.token_invalid',
+      });
+    }
+
+    const { newPassword } = resetPasswordSchema.parse(req.body);
+
+    const user = await userModel.findOne({ email: decoded.email }).select('+password');
+    if (!user) {
+      return res.status(404).json({
+        error: 'User not found',
+        translationKey: 'auth.error.reset_password.user_not_found',
+      });
+    }
+
+    const sameAsOld = await bcrypt.compare(newPassword, user.password);
+    if (sameAsOld) {
+      return res.status(400).json({
+        error: 'New password must differ from current',
+        translationKey: 'auth.error.reset_password.same_password',
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({
+      message: 'Password reset successfully',
+      translationKey: 'auth.success.reset_password',
+    });
+  } catch (error) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
+    return res.status(500).json({
+      error: error.message,
+      translationKey: 'internal_server_error',
+    });
   }
 };

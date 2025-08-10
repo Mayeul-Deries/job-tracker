@@ -6,6 +6,7 @@ import {
   getConnectedUser,
   forgotPassword,
   verifyResetCode,
+  resetPassword,
 } from '../controllers/authenticationController.js';
 import { verifyToken } from '../middlewares/verifyToken.js';
 
@@ -17,5 +18,6 @@ authenticationRouter.get('/logout', verifyToken, logout);
 authenticationRouter.get('/me', verifyToken, getConnectedUser);
 authenticationRouter.post('/forgot-password', forgotPassword);
 authenticationRouter.post('/verify-reset-code', verifyResetCode);
+authenticationRouter.post('/reset-password', resetPassword);
 
 export default authenticationRouter;
