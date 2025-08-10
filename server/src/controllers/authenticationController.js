@@ -116,7 +116,11 @@ export const forgotPassword = async (req, res) => {
     const code = crypto.randomInt(100000, 999999).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // expire dans 10 minutes
 
-    await passwordResetModel.findOneAndUpdate({ email }, { code, expiresAt, used: false }, { upsert: true, new: true });
+    await passwordResetModel.findOneAndUpdate(
+      { email },
+      { code, expiresAt, attempts: 0, used: false },
+      { upsert: true, new: true }
+    );
 
     await sendResetCodeEmail(email, code);
 
