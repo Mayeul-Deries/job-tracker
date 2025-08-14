@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(Categories),
       default: null,
     },
+    passwordChangedAt: { type: Date, default: null },
   },
   { timestamps: true }
 );

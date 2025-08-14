@@ -198,7 +198,7 @@ export const verifyResetCode = async (req, res) => {
 export const resetPassword = async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!authHeader?.startsWith('Bearer ')) {
       return res.status(401).json({
         error: 'Token missing or invalid',
         translationKey: 'auth.error.reset_password.token_missing',
@@ -226,6 +226,13 @@ export const resetPassword = async (req, res) => {
       });
     }
 
+    if (user.passwordChangedAt && decoded.iat * 1000 < user.passwordChangedAt.getTime()) {
+      return res.status(401).json({
+        error: 'Token no longer valid due to password change',
+        translationKey: 'auth.error.reset_password.token_invalidated',
+      });
+    }
+
     const sameAsOld = await bcrypt.compare(newPassword, user.password);
     if (sameAsOld) {
       return res.status(400).json({
@@ -234,8 +241,8 @@ export const resetPassword = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.passwordChangedAt = new Date();
     await user.save();
 
     return res.status(200).json({
