@@ -9,7 +9,7 @@ export const getLoginSchema = (t: TFunction) =>
     loginName: z
       .string()
       .min(2, { message: t('form.errors.authentication.loginName_min') })
-      .regex(Regex.LOGIN_NAME, { message: t('form.errors.authentication.loginName_no_spaces') }),
+      .regex(Regex.LOGIN_NAME, { message: t('form.errors.authentication.loginName_invalid') }),
     password: z
       .string()
       .min(1, { message: t('form.errors.authentication.password_required') })

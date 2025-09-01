@@ -27,7 +27,7 @@
     "errors": {
       "authentication": {
         "loginName_min": "Adresse e-mail ou nom d'utilisateur requis",
-        "loginName_no_spaces": "Les espaces ne sont pas autorisés",
+        "loginName_invalid": "Le login ne doit pas contenir d'espaces ou de majuscules",
         "password_required": "Mot de passe requis",
         "username_min": "Le nom d'utilisateur doit contenir au moins 2 caractères",
         "username_max": "Le nom d'utilisateur doit contenir au maximum 25 caractères",

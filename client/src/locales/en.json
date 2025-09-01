@@ -27,7 +27,7 @@
     "errors": {
       "authentication": {
         "loginName_min": "Email or username is required",
-        "loginName_no_spaces": "Spaces are not allowed",
+        "loginName_invalid": "The login must not contain spaces or capital letters",
         "password_required": "Password is required",
         "username_min": "Username must be at least 2 characters long",
         "username_max": "Username must be no more than 25 characters",
