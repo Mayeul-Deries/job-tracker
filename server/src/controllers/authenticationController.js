@@ -156,10 +156,19 @@ export const verifyResetCode = async (req, res) => {
       });
     }
 
+    if (record.used && record.resetToken && !record.tokenUsed) {
+      return res.status(200).json({
+        message: 'Code already verified, returning token',
+        translationKey: 'auth.success.verify_reset_code_already',
+        token: record.resetToken,
+      });
+    }
+
     if (record.used) {
-      return res
-        .status(400)
-        .json({ error: 'Code already used', translationKey: 'auth.error.verify_reset_code.code_used' });
+      return res.status(400).json({
+        error: 'Code already used',
+        translationKey: 'auth.error.verify_reset_code.code_used',
+      });
     }
 
     if (record.code !== code) {
@@ -173,22 +182,26 @@ export const verifyResetCode = async (req, res) => {
     }
 
     if (record.expiresAt < new Date()) {
-      return res
-        .status(400)
-        .json({ error: 'Code expired', translationKey: 'auth.error.verify_reset_code.code_expired' });
+      return res.status(400).json({
+        error: 'Code expired',
+        translationKey: 'auth.error.verify_reset_code.code_expired',
+      });
     }
 
     record.used = true;
-    await record.save();
 
-    const token = jwt.sign({ email }, process.env.SECRET_ACCESS_TOKEN, {
+    const resetToken = jwt.sign({ email }, process.env.SECRET_ACCESS_TOKEN, {
       expiresIn: Constants.MAX_DURATION_RESET_PASSWORD,
     });
+
+    record.resetToken = resetToken;
+    record.tokenUsed = false;
+    await record.save();
 
     return res.status(200).json({
       message: 'Code verified successfully',
       translationKey: 'auth.success.verify_reset_code',
-      token,
+      token: resetToken,
     });
   } catch (error) {
     return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
@@ -216,6 +229,14 @@ export const resetPassword = async (req, res) => {
       });
     }
 
+    const record = await passwordResetModel.findOne({ email: decoded.email });
+    if (!record || record.resetToken !== token || record.tokenUsed) {
+      return res.status(401).json({
+        error: 'Invalid or expired token',
+        translationKey: 'auth.error.reset_password.token_invalid',
+      });
+    }
+
     const { newPassword } = resetPasswordSchema.parse(req.body);
 
     const user = await userModel.findOne({ email: decoded.email }).select('+password');
@@ -223,13 +244,6 @@ export const resetPassword = async (req, res) => {
       return res.status(404).json({
         error: 'User not found',
         translationKey: 'auth.error.reset_password.user_not_found',
-      });
-    }
-
-    if (user.passwordChangedAt && decoded.iat * 1000 < user.passwordChangedAt.getTime()) {
-      return res.status(401).json({
-        error: 'Token no longer valid due to password change',
-        translationKey: 'auth.error.reset_password.token_invalidated',
       });
     }
 
@@ -244,6 +258,9 @@ export const resetPassword = async (req, res) => {
     user.password = await bcrypt.hash(newPassword, 10);
     user.passwordChangedAt = new Date();
     await user.save();
+
+    record.tokenUsed = true;
+    await record.save();
 
     return res.status(200).json({
       message: 'Password reset successfully',
