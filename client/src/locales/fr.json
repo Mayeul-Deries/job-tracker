@@ -44,6 +44,9 @@
         "password_number": "Le mot de passe doit contenir un chiffre",
         "password_special": "Le mot de passe doit contenir un caractère spécial"
       },
+      "forgot_password": {
+        "email_invalid": "Adresse e-mail invalide"
+      },
       "delete_account": {
         "check_approval": "Veuillez cocher la case pour confirmer la suppression de votre compte"
       },
@@ -62,7 +65,8 @@
       "success": {
         "register": "Utilisateur créé avec succès",
         "login": "L'utilisateur s'est connecté avec succès",
-        "logout": "L'utilisateur s'est déconnecté avec succès"
+        "logout": "L'utilisateur s'est déconnecté avec succès",
+        "code_sent": "E-mail de réinitialisation du mot de passe envoyé avec succès"
       },
       "error": {
         "register": {
@@ -72,6 +76,9 @@
         "login": {
           "not_found": "Utilisateur introuvable",
           "invalid_credentials": "Identifiants invalides"
+        },
+        "forgot_password": {
+          "user_not_found": "Utilisateur introuvable"
         }
       }
     },
@@ -254,6 +261,9 @@
         "text": {
           "or_continue_with": "Ou continuez avec",
           "no_account": "Vous n'avez pas de compte ?"
+        },
+        "link": {
+          "forgot_password": "Mot de passe oublié ?"
         }
       }
     },
@@ -282,6 +292,20 @@
           "or_continue_with": "Ou continuez avec",
           "no_account": "Vous possédez déjà un compte ?"
         }
+      }
+    },
+    "forgot_password": {
+      "title": "Réinitialiser votre mot de passe",
+      "description": "Entrez votre adresse e-mail pour recevoir un code de réinitialisation de mot de passe.",
+      "label": {
+        "email": "E-mail"
+      },
+      "placeholder": {
+        "email": "exemple@email.com"
+      },
+      "button": {
+        "submit": "Envoyer le code",
+        "back": "Retour"
       }
     },
     "home": {

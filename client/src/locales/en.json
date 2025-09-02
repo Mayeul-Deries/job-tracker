@@ -44,6 +44,9 @@
         "password_number": "Password must include at least one number",
         "password_special": "Password must include at least one special character"
       },
+      "forgot_password": {
+        "email_invalid": "Invalid email address"
+      },
       "delete_account": {
         "check_approval": "Please check the box to confirm account deletion"
       },
@@ -62,7 +65,8 @@
       "success": {
         "register": "User successfully created",
         "login": "User successfully logged in",
-        "logout": "User successfully logged out"
+        "logout": "User successfully logged out",
+        "code_sent": "Password reset code sent to your email"
       },
       "error": {
         "register": {
@@ -72,6 +76,9 @@
         "login": {
           "not_found": "User not found",
           "invalid_credentials": "Invalid credentials"
+        },
+        "forgot_password": {
+          "user_not_found": "User not found"
         }
       }
     },
@@ -254,6 +261,9 @@
         "text": {
           "or_continue_with": "Or continue with",
           "no_account": "Don't have an account?"
+        },
+        "link": {
+          "forgot_password": "Forgot password?"
         }
       }
     },
@@ -282,6 +292,20 @@
           "or_continue_with": "Or continue with",
           "no_account": "Already have an account?"
         }
+      }
+    },
+    "forgot_password": {
+      "title": "Reset your password",
+      "description": "Enter your email address and we'll send you a code to reset your password.",
+      "label": {
+        "email": "Email"
+      },
+      "placeholder": {
+        "email": "exemple@email.com"
+      },
+      "button": {
+        "submit": "Send reset code",
+        "back": "Back"
       }
     },
     "home": {

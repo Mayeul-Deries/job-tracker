@@ -29,6 +29,11 @@ export const getRegisterSchema = (t: TFunction) =>
       path: ['confirmPassword'],
     });
 
+export const getForgotPasswordSchema = (t: TFunction) =>
+  z.object({
+    email: z.string().email({ message: t('form.errors.forgot_password.email_invalid') }),
+  });
+
 export const getUpdateUserSchema = (t: TFunction) =>
   z.object({
     username: getUsernameCommonSchema(t),

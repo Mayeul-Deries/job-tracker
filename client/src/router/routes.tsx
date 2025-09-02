@@ -6,6 +6,7 @@ import { NotFound } from '@/pages/NotFound';
 import { JobApplicationsList } from '@/pages/JobApplication/Home/JobApplicationsList';
 import { Register } from '@/pages/Authentication/Register';
 import { Login } from '@/pages/Authentication/Login';
+import { ForgotPassword } from '@/pages/ResetPassword/ForgotPassword';
 
 export const Router = () => {
   return (
@@ -25,6 +26,14 @@ export const Router = () => {
           element={
             <ProtectedRoute authRequired={false}>
               <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/forgot-password'
+          element={
+            <ProtectedRoute authRequired={false}>
+              <ForgotPassword />
             </ProtectedRoute>
           }
         />

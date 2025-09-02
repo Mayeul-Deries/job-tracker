@@ -88,7 +88,17 @@ export const Login = () => {
                     name='password'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t('pages.login.form.label.password')}</FormLabel>
+                        <div className='flex items-center justify-between'>
+                          <FormLabel>{t('pages.login.form.label.password')}</FormLabel>
+                          <div className='text-right'>
+                            <Link
+                              to='/forgot-password'
+                              className='text-sm text-muted-foreground hover:text-primary hover:underline'
+                            >
+                              {t('pages.login.form.link.forgot_password')}
+                            </Link>
+                          </div>
+                        </div>
                         <FormControl>
                           <PasswordInput placeholder={t('pages.login.form.placeholder.password')} {...field} />
                         </FormControl>
