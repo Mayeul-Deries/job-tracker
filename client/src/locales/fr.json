@@ -66,7 +66,8 @@
         "register": "Utilisateur créé avec succès",
         "login": "L'utilisateur s'est connecté avec succès",
         "logout": "L'utilisateur s'est déconnecté avec succès",
-        "code_sent": "E-mail de réinitialisation du mot de passe envoyé avec succès"
+        "code_sent": "E-mail de réinitialisation du mot de passe envoyé avec succès, pensez à vérifier vos spams",
+        "verify_reset_code": "Code vérifié avec succès, vous pouvez maintenant réinitialiser votre mot de passe"
       },
       "error": {
         "register": {
@@ -79,6 +80,14 @@
         },
         "forgot_password": {
           "user_not_found": "Utilisateur introuvable"
+        },
+        "verify_reset_code": {
+          "code_not_found": "Code non trouvé dans la base de données",
+          "too_many_attempts": "Trop de tentatives, veuillez demander un nouveau code",
+          "verify_reset_code_already": "Ce code a déjà été vérifié",
+          "code_used": "Ce code a déjà été utilisé",
+          "invalid_code": "Code invalide",
+          "code_expired": "Ce code a expiré"
         }
       }
     },
@@ -305,6 +314,13 @@
       },
       "button": {
         "submit": "Envoyer le code",
+        "back": "Retour"
+      }
+    },
+    "verify_reset_code": {
+      "title": "Vérifier le code de réinitialisation",
+      "description": "Entrez le code à 6 chiffres envoyé à votre adresse e-mail.",
+      "button": {
         "back": "Retour"
       }
     },

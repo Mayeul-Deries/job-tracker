@@ -7,6 +7,7 @@ import { JobApplicationsList } from '@/pages/JobApplication/Home/JobApplications
 import { Register } from '@/pages/Authentication/Register';
 import { Login } from '@/pages/Authentication/Login';
 import { ForgotPassword } from '@/pages/ResetPassword/ForgotPassword';
+import { VerifyResetCode } from '@/pages/ResetPassword/VerifyResetCode';
 
 export const Router = () => {
   return (
@@ -34,6 +35,14 @@ export const Router = () => {
           element={
             <ProtectedRoute authRequired={false}>
               <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/verify-reset-code'
+          element={
+            <ProtectedRoute authRequired={false}>
+              <VerifyResetCode />
             </ProtectedRoute>
           }
         />

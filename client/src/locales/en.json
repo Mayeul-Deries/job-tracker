@@ -66,7 +66,8 @@
         "register": "User successfully created",
         "login": "User successfully logged in",
         "logout": "User successfully logged out",
-        "code_sent": "Password reset code sent to your email"
+        "code_sent": "Password reset code sent to your email, remember to check your spam folder",
+        "verify_reset_code": "Code successfully verified, you can now reset your password"
       },
       "error": {
         "register": {
@@ -79,6 +80,14 @@
         },
         "forgot_password": {
           "user_not_found": "User not found"
+        },
+        "verify_reset_code": {
+          "code_not_found": "Code not found in database",
+          "too_many_attempts": "Too many attempts, please request a new code",
+          "verify_reset_code_already": "This code has already been verified",
+          "code_used": "This code has already been used",
+          "invalid_code": "Invalid code",
+          "code_expired": "This code has expired"
         }
       }
     },
@@ -305,6 +314,13 @@
       },
       "button": {
         "submit": "Send reset code",
+        "back": "Back"
+      }
+    },
+    "verify_reset_code": {
+      "title": "Verify your code",
+      "description": "Enter the code sent to your email to reset your password.",
+      "button": {
         "back": "Back"
       }
     },
