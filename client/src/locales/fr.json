@@ -50,6 +50,9 @@
       "delete_account": {
         "check_approval": "Veuillez cocher la case pour confirmer la suppression de votre compte"
       },
+      "reset_password": {
+        "password_do_not_match": "Les mots de passe ne correspondent pas"
+      },
       "jobApplication": {
         "jobTitle_required": "L'intitulé du poste est requis",
         "companyName_required": "Le nom de l'entreprise est requis",
@@ -67,7 +70,8 @@
         "login": "L'utilisateur s'est connecté avec succès",
         "logout": "L'utilisateur s'est déconnecté avec succès",
         "code_sent": "E-mail de réinitialisation du mot de passe envoyé avec succès, pensez à vérifier vos spams",
-        "verify_reset_code": "Code vérifié avec succès, vous pouvez maintenant réinitialiser votre mot de passe"
+        "verify_reset_code": "Code vérifié avec succès, vous pouvez maintenant réinitialiser votre mot de passe",
+        "reset_password": "Mot de passe réinitialisé avec succès, vous pouvez maintenant vous connecter avec votre nouveau mot de passe"
       },
       "error": {
         "register": {
@@ -88,6 +92,12 @@
           "code_used": "Ce code a déjà été utilisé",
           "invalid_code": "Code invalide",
           "code_expired": "Ce code a expiré"
+        },
+        "reset_password": {
+          "token_missing": "Token manquant ou invalide",
+          "token_invalid": "Token invalide ou expiré, veuillez demander un nouveau code",
+          "user_not_found": "Utilisateur introuvable",
+          "same_password": "Le nouveau mot de passe doit être différent du mot de passe actuel"
         }
       }
     },
@@ -322,6 +332,24 @@
       "description": "Entrez le code à 6 chiffres envoyé à votre adresse e-mail.",
       "button": {
         "back": "Retour"
+      }
+    },
+    "reset_password": {
+      "form": {
+        "title": "Définir un nouveau mot de passe",
+        "description": "Entrez et confirmez votre nouveau mot de passe en complétant le formulaire ci-dessous.",
+        "label": {
+          "new_password": "Nouveau mot de passe",
+          "confirm_password": "Confirmez le mot de passe"
+        },
+        "placeholder": {
+          "new_password": "*******",
+          "confirm_password": "*******"
+        },
+        "button": {
+          "submit": "Réinitialiser le mot de passe",
+          "back": "Retour"
+        }
       }
     },
     "home": {

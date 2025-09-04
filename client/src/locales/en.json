@@ -50,6 +50,9 @@
       "delete_account": {
         "check_approval": "Please check the box to confirm account deletion"
       },
+      "reset_password": {
+        "password_do_not_match": "Passwords do not match"
+      },
       "jobApplication": {
         "jobTitle_required": "Job title is required",
         "companyName_required": "Company name is required",
@@ -67,7 +70,8 @@
         "login": "User successfully logged in",
         "logout": "User successfully logged out",
         "code_sent": "Password reset code sent to your email, remember to check your spam folder",
-        "verify_reset_code": "Code successfully verified, you can now reset your password"
+        "verify_reset_code": "Code successfully verified, you can now reset your password",
+        "reset_password": "Password successfully reset, you can now log in with your new password"
       },
       "error": {
         "register": {
@@ -88,6 +92,12 @@
           "code_used": "This code has already been used",
           "invalid_code": "Invalid code",
           "code_expired": "This code has expired"
+        },
+        "reset_password": {
+          "token_missing": "Token missing or invalid",
+          "token_invalid": "Invalid or expired token, please request a new code",
+          "user_not_found": "User not found",
+          "same_password": "New password must differ from current"
         }
       }
     },
@@ -322,6 +332,24 @@
       "description": "Enter the code sent to your email to reset your password.",
       "button": {
         "back": "Back"
+      }
+    },
+    "reset_password": {
+      "form": {
+        "title": "Set a new password",
+        "description": "Enter your new password below to reset it.",
+        "label": {
+          "new_password": "New password",
+          "confirm_password": "Confirm your new password"
+        },
+        "placeholder": {
+          "new_password": "*******",
+          "confirm_password": "*******"
+        },
+        "button": {
+          "submit": "Reset password",
+          "back": "Back"
+        }
       }
     },
     "home": {

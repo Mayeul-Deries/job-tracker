@@ -8,6 +8,7 @@ import { Register } from '@/pages/Authentication/Register';
 import { Login } from '@/pages/Authentication/Login';
 import { ForgotPassword } from '@/pages/ResetPassword/ForgotPassword';
 import { VerifyResetCode } from '@/pages/ResetPassword/VerifyResetCode';
+import { ResetPassword } from '@/pages/ResetPassword/ResetPassword';
 
 export const Router = () => {
   return (
@@ -43,6 +44,14 @@ export const Router = () => {
           element={
             <ProtectedRoute authRequired={false}>
               <VerifyResetCode />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/reset-password'
+          element={
+            <ProtectedRoute authRequired={false}>
+              <ResetPassword />
             </ProtectedRoute>
           }
         />

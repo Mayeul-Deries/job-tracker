@@ -28,7 +28,7 @@ export const ForgotPassword = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof forgotPasswordSchema>) => {
+  const sendEmailOTP = async (values: z.infer<typeof forgotPasswordSchema>) => {
     try {
       setLoading(true);
       const response = await axiosConfig.post('/auth/forgot-password', values);
@@ -52,7 +52,7 @@ export const ForgotPassword = () => {
         <div className='flex flex-1 items-center justify-center'>
           <div className='w-full max-w-xs sm:max-w-sm'>
             <Form {...forgotPasswordForm}>
-              <form onSubmit={forgotPasswordForm.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
+              <form onSubmit={forgotPasswordForm.handleSubmit(sendEmailOTP)} className='flex flex-col gap-6'>
                 <div className='flex flex-col items-center gap-2 text-center'>
                   <h1 className='text-2xl font-bold'>{t('pages.forgot_password.title')}</h1>
                   <p className=' text-sm text-muted-foreground'>{t('pages.forgot_password.description')}</p>

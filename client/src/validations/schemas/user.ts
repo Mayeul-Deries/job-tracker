@@ -53,6 +53,17 @@ export const getUpdatePasswordSchema = (t: TFunction) =>
       path: ['newPasswordConfirm'],
     });
 
+export const getResetPasswordSchema = (t: TFunction) =>
+  z
+    .object({
+      newPassword: getPasswordCommonSchema(t),
+      newPasswordConfirm: z.string(),
+    })
+    .refine(data => data.newPassword === data.newPasswordConfirm, {
+      message: t('form.errors.reset_password.password_do_not_match'),
+      path: ['newPasswordConfirm'],
+    });
+
 export const getDeleteUserSchema = (t: TFunction) =>
   z.object({
     checkApproval: z.boolean().refine(val => val === true, {
