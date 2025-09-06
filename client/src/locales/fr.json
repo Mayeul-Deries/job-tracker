@@ -370,6 +370,10 @@
               "description": "candidatures en attente",
               "tooltip": "Candidatures qui ne sont ni acceptées, ni rejetées."
             },
+            "rejected": {
+              "title": "Rejetées",
+              "description": "candidatures rejetées"
+            },
             "accepted": {
               "title": "Acceptées",
               "description": "candidatures acceptées"

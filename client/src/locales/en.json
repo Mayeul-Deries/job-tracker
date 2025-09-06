@@ -370,6 +370,10 @@
               "description": "pending applications",
               "tooltip": "Job applications not accepted or rejected"
             },
+            "rejected": {
+              "title": "Rejected",
+              "description": "rejected applications"
+            },
             "accepted": {
               "title": "Accepted",
               "description": "accepted applications"
