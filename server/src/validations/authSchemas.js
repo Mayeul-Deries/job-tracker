@@ -39,6 +39,11 @@ export const forgotPasswordSchema = z.object({
   email: z.string({ required_error: 'All fields are required' }).email(),
 });
 
+export const verifyResetCodeSchema = z.object({
+  email: z.string().email(),
+  code: z.string().length(6).regex(/^\d+$/),
+});
+
 export const resetPasswordSchema = z
   .object({
     newPassword: z

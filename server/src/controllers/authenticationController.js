@@ -1,7 +1,13 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import { registerSchema, loginSchema, forgotPasswordSchema, resetPasswordSchema } from '../validations/authSchemas.js';
+import {
+  registerSchema,
+  loginSchema,
+  forgotPasswordSchema,
+  verifyResetCodeSchema,
+  resetPasswordSchema,
+} from '../validations/authSchemas.js';
 import { Constants } from '../utils/constants/constants.js';
 import { generateToken } from '../utils/generateToken.js';
 import { sendResetCodeEmail } from '../utils/sendResetCodeEmail.js';
@@ -138,7 +144,7 @@ export const forgotPassword = async (req, res) => {
 
 export const verifyResetCode = async (req, res) => {
   try {
-    const { email, code } = req.body;
+    const { email, code } = verifyResetCodeSchema.parse(req.body);
 
     const record = await passwordResetModel.findOne({ email });
 
@@ -204,6 +210,9 @@ export const verifyResetCode = async (req, res) => {
       token: resetToken,
     });
   } catch (error) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ error: error.errors[0].message });
+    }
     return res.status(500).json({ error: error.message, translationKey: 'internal_server_error' });
   }
 };
