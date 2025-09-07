@@ -4,10 +4,15 @@ import { generateResetPasswordMJML } from '../emails/resetPasswordTemplate.js';
 
 export const sendResetCodeEmail = async (to, code) => {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.GMAIL_USER,
       pass: process.env.GMAIL_APP_PASSWORD, // le mot de passe d'application fourni par Google
+    },
+    tls: {
+      rejectUnauthorized: true, // sécurité supplémentaire
     },
   });
 
