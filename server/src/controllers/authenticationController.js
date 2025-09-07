@@ -197,7 +197,7 @@ export const verifyResetCode = async (req, res) => {
     record.used = true;
 
     const resetToken = jwt.sign({ email }, process.env.SECRET_ACCESS_TOKEN, {
-      expiresIn: Constants.MAX_DURATION_RESET_PASSWORD,
+      expiresIn: Constants.MAX_DURATION_RESET_TOKEN,
     });
 
     record.resetToken = resetToken;

@@ -92,7 +92,7 @@ export const VerifyResetCode = () => {
                 >
                   <InputOTPGroup>
                     {Array.from({ length: 6 }).map((_, i) => (
-                      <InputOTPSlot key={`otp-slot-${i}`} index={i} />
+                      <InputOTPSlot key={i} index={i} />
                     ))}
                   </InputOTPGroup>
                 </InputOTP>
