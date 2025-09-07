@@ -9,7 +9,7 @@ export const getLoginSchema = (t: TFunction) =>
     loginName: z
       .string()
       .min(2, { message: t('form.errors.authentication.loginName_min') })
-      .regex(Regex.LOGIN_NAME, { message: t('form.errors.authentication.loginName_no_spaces') }),
+      .regex(Regex.LOGIN_NAME, { message: t('form.errors.authentication.loginName_invalid') }),
     password: z
       .string()
       .min(1, { message: t('form.errors.authentication.password_required') })
@@ -29,6 +29,11 @@ export const getRegisterSchema = (t: TFunction) =>
       path: ['confirmPassword'],
     });
 
+export const getForgotPasswordSchema = (t: TFunction) =>
+  z.object({
+    email: z.string().email({ message: t('form.errors.forgot_password.email_invalid') }),
+  });
+
 export const getUpdateUserSchema = (t: TFunction) =>
   z.object({
     username: getUsernameCommonSchema(t),
@@ -45,6 +50,17 @@ export const getUpdatePasswordSchema = (t: TFunction) =>
     })
     .refine(data => data.newPassword === data.newPasswordConfirm, {
       message: t('form.errors.authentication.password_do_not_match'),
+      path: ['newPasswordConfirm'],
+    });
+
+export const getResetPasswordSchema = (t: TFunction) =>
+  z
+    .object({
+      newPassword: getPasswordCommonSchema(t),
+      newPasswordConfirm: z.string(),
+    })
+    .refine(data => data.newPassword === data.newPasswordConfirm, {
+      message: t('form.errors.reset_password.password_do_not_match'),
       path: ['newPasswordConfirm'],
     });
 

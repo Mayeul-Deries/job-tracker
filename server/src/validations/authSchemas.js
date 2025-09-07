@@ -34,3 +34,28 @@ export const loginSchema = z.object({
     }),
   password: z.string({ required_error: 'All fields are required' }).min(1).max(255),
 });
+
+export const forgotPasswordSchema = z.object({
+  email: z.string({ required_error: 'All fields are required' }).email(),
+});
+
+export const verifyResetCodeSchema = z.object({
+  email: z.string().email(),
+  code: z.string().length(6).regex(/^\d+$/),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    newPassword: z
+      .string()
+      .max(255, { message: 'Password must be at most 255 characters long' })
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&:.]).{8,}$/, {
+        message:
+          'Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+      }),
+    newPasswordConfirm: z.string(),
+  })
+  .refine(data => data.newPassword === data.newPasswordConfirm, {
+    message: "Passwords don't match",
+    path: ['newPasswordConfirm'],
+  });

@@ -27,7 +27,7 @@
     "errors": {
       "authentication": {
         "loginName_min": "Email or username is required",
-        "loginName_no_spaces": "Spaces are not allowed",
+        "loginName_invalid": "The login must not contain spaces or capital letters",
         "password_required": "Password is required",
         "username_min": "Username must be at least 2 characters long",
         "username_max": "Username must be no more than 25 characters",
@@ -44,8 +44,14 @@
         "password_number": "Password must include at least one number",
         "password_special": "Password must include at least one special character"
       },
+      "forgot_password": {
+        "email_invalid": "Invalid email address"
+      },
       "delete_account": {
         "check_approval": "Please check the box to confirm account deletion"
+      },
+      "reset_password": {
+        "password_do_not_match": "Passwords do not match"
       },
       "jobApplication": {
         "jobTitle_required": "Job title is required",
@@ -62,7 +68,10 @@
       "success": {
         "register": "User successfully created",
         "login": "User successfully logged in",
-        "logout": "User successfully logged out"
+        "logout": "User successfully logged out",
+        "code_sent": "Password reset code sent to your email, remember to check your spam folder",
+        "verify_reset_code": "Code successfully verified, you can now reset your password",
+        "reset_password": "Password successfully reset, you can now log in with your new password"
       },
       "error": {
         "register": {
@@ -72,6 +81,23 @@
         "login": {
           "not_found": "User not found",
           "invalid_credentials": "Invalid credentials"
+        },
+        "forgot_password": {
+          "user_not_found": "User not found"
+        },
+        "verify_reset_code": {
+          "code_not_found": "Code not found in database",
+          "too_many_attempts": "Too many attempts, please request a new code",
+          "verify_reset_code_already": "This code has already been verified",
+          "code_used": "This code has already been used",
+          "invalid_code": "Invalid code",
+          "code_expired": "This code has expired"
+        },
+        "reset_password": {
+          "token_missing": "Token missing or invalid",
+          "token_invalid": "Invalid or expired token, please request a new code",
+          "user_not_found": "User not found",
+          "same_password": "New password must differ from current"
         }
       }
     },
@@ -254,6 +280,9 @@
         "text": {
           "or_continue_with": "Or continue with",
           "no_account": "Don't have an account?"
+        },
+        "link": {
+          "forgot_password": "Forgot password?"
         }
       }
     },
@@ -284,6 +313,45 @@
         }
       }
     },
+    "forgot_password": {
+      "title": "Reset your password",
+      "description": "Enter your email address and we'll send you a code to reset your password.",
+      "label": {
+        "email": "Email"
+      },
+      "placeholder": {
+        "email": "exemple@email.com"
+      },
+      "button": {
+        "submit": "Send reset code",
+        "back": "Back"
+      }
+    },
+    "verify_reset_code": {
+      "title": "Verify your code",
+      "description": "Enter the code sent to your email to reset your password.",
+      "button": {
+        "back": "Back"
+      }
+    },
+    "reset_password": {
+      "form": {
+        "title": "Set a new password",
+        "description": "Enter your new password below to reset it.",
+        "label": {
+          "new_password": "New password",
+          "confirm_password": "Confirm your new password"
+        },
+        "placeholder": {
+          "new_password": "*******",
+          "confirm_password": "*******"
+        },
+        "button": {
+          "submit": "Reset password",
+          "back": "Back"
+        }
+      }
+    },
     "home": {
       "title": "Welcome to Job Tracker",
       "description": "Keep track of all your job, internship and work-study applications from the table below. Click on “New job application” and start organizing them now.",
@@ -301,6 +369,10 @@
               "title": "In progress",
               "description": "pending applications",
               "tooltip": "Job applications not accepted or rejected"
+            },
+            "rejected": {
+              "title": "Rejected",
+              "description": "rejected applications"
             },
             "accepted": {
               "title": "Accepted",

@@ -27,7 +27,7 @@
     "errors": {
       "authentication": {
         "loginName_min": "Adresse e-mail ou nom d'utilisateur requis",
-        "loginName_no_spaces": "Les espaces ne sont pas autorisés",
+        "loginName_invalid": "Le login ne doit pas contenir d'espaces ou de majuscules",
         "password_required": "Mot de passe requis",
         "username_min": "Le nom d'utilisateur doit contenir au moins 2 caractères",
         "username_max": "Le nom d'utilisateur doit contenir au maximum 25 caractères",
@@ -44,8 +44,14 @@
         "password_number": "Le mot de passe doit contenir un chiffre",
         "password_special": "Le mot de passe doit contenir un caractère spécial"
       },
+      "forgot_password": {
+        "email_invalid": "Adresse e-mail invalide"
+      },
       "delete_account": {
         "check_approval": "Veuillez cocher la case pour confirmer la suppression de votre compte"
+      },
+      "reset_password": {
+        "password_do_not_match": "Les mots de passe ne correspondent pas"
       },
       "jobApplication": {
         "jobTitle_required": "L'intitulé du poste est requis",
@@ -62,7 +68,10 @@
       "success": {
         "register": "Utilisateur créé avec succès",
         "login": "L'utilisateur s'est connecté avec succès",
-        "logout": "L'utilisateur s'est déconnecté avec succès"
+        "logout": "L'utilisateur s'est déconnecté avec succès",
+        "code_sent": "E-mail de réinitialisation du mot de passe envoyé avec succès, pensez à vérifier vos spams",
+        "verify_reset_code": "Code vérifié avec succès, vous pouvez maintenant réinitialiser votre mot de passe",
+        "reset_password": "Mot de passe réinitialisé avec succès, vous pouvez maintenant vous connecter avec votre nouveau mot de passe"
       },
       "error": {
         "register": {
@@ -72,6 +81,23 @@
         "login": {
           "not_found": "Utilisateur introuvable",
           "invalid_credentials": "Identifiants invalides"
+        },
+        "forgot_password": {
+          "user_not_found": "Utilisateur introuvable"
+        },
+        "verify_reset_code": {
+          "code_not_found": "Code non trouvé dans la base de données",
+          "too_many_attempts": "Trop de tentatives, veuillez demander un nouveau code",
+          "verify_reset_code_already": "Ce code a déjà été vérifié",
+          "code_used": "Ce code a déjà été utilisé",
+          "invalid_code": "Code invalide",
+          "code_expired": "Ce code a expiré"
+        },
+        "reset_password": {
+          "token_missing": "Token manquant ou invalide",
+          "token_invalid": "Token invalide ou expiré, veuillez demander un nouveau code",
+          "user_not_found": "Utilisateur introuvable",
+          "same_password": "Le nouveau mot de passe doit être différent du mot de passe actuel"
         }
       }
     },
@@ -254,6 +280,9 @@
         "text": {
           "or_continue_with": "Ou continuez avec",
           "no_account": "Vous n'avez pas de compte ?"
+        },
+        "link": {
+          "forgot_password": "Mot de passe oublié ?"
         }
       }
     },
@@ -284,6 +313,45 @@
         }
       }
     },
+    "forgot_password": {
+      "title": "Réinitialiser votre mot de passe",
+      "description": "Entrez votre adresse e-mail pour recevoir un code de réinitialisation de mot de passe.",
+      "label": {
+        "email": "E-mail"
+      },
+      "placeholder": {
+        "email": "exemple@email.com"
+      },
+      "button": {
+        "submit": "Envoyer le code",
+        "back": "Retour"
+      }
+    },
+    "verify_reset_code": {
+      "title": "Vérifier le code de réinitialisation",
+      "description": "Entrez le code à 6 chiffres envoyé à votre adresse e-mail.",
+      "button": {
+        "back": "Retour"
+      }
+    },
+    "reset_password": {
+      "form": {
+        "title": "Définir un nouveau mot de passe",
+        "description": "Entrez et confirmez votre nouveau mot de passe en complétant le formulaire ci-dessous.",
+        "label": {
+          "new_password": "Nouveau mot de passe",
+          "confirm_password": "Confirmez le mot de passe"
+        },
+        "placeholder": {
+          "new_password": "*******",
+          "confirm_password": "*******"
+        },
+        "button": {
+          "submit": "Réinitialiser le mot de passe",
+          "back": "Retour"
+        }
+      }
+    },
     "home": {
       "title": "Bienvenue sur Job Tracker",
       "description": "Suivez toutes vos candidatures d'emploi, stages et alternances depuis le tableau ci-dessous. Cliquez sur « Nouvelle candidature » et commencez à les organiser dès maintenant.",
@@ -301,6 +369,10 @@
               "title": "En cours",
               "description": "candidatures en attente",
               "tooltip": "Candidatures qui ne sont ni acceptées, ni rejetées."
+            },
+            "rejected": {
+              "title": "Rejetées",
+              "description": "candidatures rejetées"
             },
             "accepted": {
               "title": "Acceptées",
