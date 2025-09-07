@@ -26,16 +26,6 @@ export const ResetPassword = () => {
 
   const token = location.state?.token;
 
-  useEffect(() => {
-    if (!token) {
-      navigate('/auth/forgot-password', { replace: true });
-    }
-  }, [token, navigate]);
-
-  if (!token) {
-    return null;
-  }
-
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
@@ -43,6 +33,16 @@ export const ResetPassword = () => {
       newPasswordConfirm: '',
     },
   });
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/forgot-password', { replace: true });
+    }
+  }, [token, navigate]);
+
+  if (!token) {
+    return null;
+  }
 
   const setNewPassword = async (values: z.infer<typeof resetPasswordSchema>) => {
     try {
