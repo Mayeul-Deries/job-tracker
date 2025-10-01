@@ -516,6 +516,7 @@
         }
       },
       "pagination": {
+        "all": "All",
         "rows_per_page": "Rows per page",
         "rows_selected": "Row(s) selected.",
         "page": "Page",

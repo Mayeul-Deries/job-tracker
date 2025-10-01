@@ -32,9 +32,9 @@ export function DataTablePagination<TData>({ table, dataCount }: DataTablePagina
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side='top'>
-              {[10, 25, 50].map(pageSize => (
+              {[10, 25, 50, 100, dataCount].map(pageSize => (
                 <SelectItem className='cursor-pointer' key={pageSize} value={`${pageSize}`}>
-                  {pageSize}
+                  {pageSize === dataCount ? t('pages.dataTable.pagination.all') : pageSize}
                 </SelectItem>
               ))}
             </SelectContent>

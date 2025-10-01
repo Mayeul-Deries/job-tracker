@@ -516,6 +516,7 @@
         }
       },
       "pagination": {
+        "all": "Tout",
         "rows_per_page": "Lignes par page",
         "rows_selected": "Lignes sélectionnée(s).",
         "page": "Page",
