@@ -45,9 +45,9 @@ export function DataTable<TData>({
   const { t } = useTranslation();
 
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
+  const [pagination, setPagination] = useState(() => {
+    const saved = localStorage.getItem('paginationSettings');
+    return saved ? JSON.parse(saved) : { pageIndex: 0, pageSize: 10 };
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -96,6 +96,7 @@ export function DataTable<TData>({
         getPagination: () => pagination,
       });
     }
+    localStorage.setItem('paginationSettings', JSON.stringify(pagination));
   }, [pagination]);
 
   const table = useReactTable({
