@@ -28,6 +28,7 @@ interface DataTableProps<TData> {
   onAction: (action: string, data: TData[]) => void;
   onResetSelectionRef?: (resetFn: () => void) => void;
   onPaginationResetRef?: (resetFn: () => void) => void;
+  onPaginationInfoRef?: (info: { getPagination: () => { pageIndex: number; pageSize: number } }) => void;
 }
 
 export function DataTable<TData>({
@@ -39,6 +40,7 @@ export function DataTable<TData>({
   onAction,
   onResetSelectionRef,
   onPaginationResetRef,
+  onPaginationInfoRef,
 }: DataTableProps<TData>) {
   const { t } = useTranslation();
 
@@ -80,13 +82,21 @@ export function DataTable<TData>({
   useEffect(() => {
     if (onPaginationResetRef) {
       onPaginationResetRef(() => {
-        setPagination({
+        setPagination(prev => ({
+          ...prev,
           pageIndex: 0,
-          pageSize: 10,
-        });
+        }));
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (onPaginationInfoRef) {
+      onPaginationInfoRef({
+        getPagination: () => pagination,
+      });
+    }
+  }, [pagination]);
 
   const table = useReactTable({
     data: sortedData,
