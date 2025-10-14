@@ -28,6 +28,7 @@ interface DataTableProps<TData> {
   onAction: (action: string, data: TData[]) => void;
   onResetSelectionRef?: (resetFn: () => void) => void;
   onPaginationResetRef?: (resetFn: () => void) => void;
+  onPaginationInfoRef?: (info: { getPagination: () => { pageIndex: number; pageSize: number } }) => void;
 }
 
 export function DataTable<TData>({
@@ -39,13 +40,14 @@ export function DataTable<TData>({
   onAction,
   onResetSelectionRef,
   onPaginationResetRef,
+  onPaginationInfoRef,
 }: DataTableProps<TData>) {
   const { t } = useTranslation();
 
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({
-    pageIndex: 0,
-    pageSize: 10,
+  const [pagination, setPagination] = useState(() => {
+    const saved = localStorage.getItem('paginationSettings');
+    return saved ? JSON.parse(saved) : { pageIndex: 0, pageSize: 10 };
   });
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -80,13 +82,22 @@ export function DataTable<TData>({
   useEffect(() => {
     if (onPaginationResetRef) {
       onPaginationResetRef(() => {
-        setPagination({
+        setPagination(prev => ({
+          ...prev,
           pageIndex: 0,
-          pageSize: 10,
-        });
+        }));
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (onPaginationInfoRef) {
+      onPaginationInfoRef({
+        getPagination: () => pagination,
+      });
+    }
+    localStorage.setItem('paginationSettings', JSON.stringify(pagination));
+  }, [pagination]);
 
   const table = useReactTable({
     data: sortedData,

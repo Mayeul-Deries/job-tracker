@@ -34,6 +34,7 @@ export const JobApplicationsList = () => {
 
   const resetSelectionRef = useRef<() => void>(() => {});
   const resetPaginationRef = useRef<() => void>(() => {});
+  const paginationInfoRef = useRef<{ getPagination: () => { pageIndex: number; pageSize: number } }>();
 
   const hasAnyLink = jobApplications.some(app => !!app.link);
   const columns = getColumns(t, patchJobApplication, handleJobApplicationAction).filter(col =>
@@ -91,6 +92,12 @@ export const JobApplicationsList = () => {
       }
     });
   }
+
+  // middleware to refresh data table with current pagination
+  const refreshWithCurrentPagination = () => {
+    const pagination = paginationInfoRef.current?.getPagination?.();
+    fetchJobApplications(pagination?.pageIndex ?? 0, pagination?.pageSize ?? 10);
+  };
 
   async function fetchJobApplications(page: number = 0, size: number = 10) {
     setLoading(true);
@@ -177,6 +184,7 @@ export const JobApplicationsList = () => {
             onAction={handleJobApplicationAction}
             onResetSelectionRef={resetFn => (resetSelectionRef.current = resetFn)}
             onPaginationResetRef={resetFn => (resetPaginationRef.current = resetFn)}
+            onPaginationInfoRef={ref => (paginationInfoRef.current = ref)}
           />
           {openDialog && (
             <Dialog open={openDialog} onOpenChange={() => setOpenDialog(false)}>
@@ -198,7 +206,7 @@ export const JobApplicationsList = () => {
                 </DialogHeader>
                 <JobApplicationForm
                   dialog={setOpenDialog}
-                  refresh={fetchJobApplications}
+                  refresh={refreshWithCurrentPagination}
                   refreshAll={updateAllJobApplications}
                   action={action}
                   jobApplication={selectedJobApplication}
