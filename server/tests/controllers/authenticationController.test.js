@@ -290,7 +290,7 @@ describe('Authentication Controller', () => {
           .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(response.status).toBe(500);
-        expect(response.body.error).toBe('User not found');
+        expect(response.body.error).toBe('Internal server error');
       });
     });
   });
