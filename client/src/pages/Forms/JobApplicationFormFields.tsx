@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { DatePicker } from '@/components/customs/table/DatePicker';
 import { StatusSelect } from '@/components/customs/table/StatusSelect';
+import { CountrySelector } from '@/components/customs/CountrySelector';
 
 interface JobApplicationFormFieldsProps {
   form: ReturnType<typeof useForm<any>>;
@@ -60,6 +61,26 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
                   <FormLabel>{t(`pages.${formKey}.form.label.city`)}</FormLabel>
                   <FormControl>
                     <Input placeholder={t(`pages.${formKey}.form.placeholder.city`)} {...field} />
+                  </FormControl>
+                  <FormMessage className='text-xs -mt-1 px-1' />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div>
+            <FormField
+              control={form.control}
+              name='country'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t(`pages.${formKey}.form.label.country`)}</FormLabel>
+                  <FormControl>
+                    <CountrySelector
+                      formKey={formKey}
+                      value={field.value}
+                      onChange={field.onChange}
+                      disabled={loading}
+                    />
                   </FormControl>
                   <FormMessage className='text-xs -mt-1 px-1' />
                 </FormItem>
