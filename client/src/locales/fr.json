@@ -56,7 +56,7 @@
       "jobApplication": {
         "jobTitle_required": "L'intitulé du poste est requis",
         "companyName_required": "Le nom de l'entreprise est requis",
-        "city_required": "La ville est requise",
+        "city_required": "La localisation est requise",
         "applicationDate_required": "La date de candidature est requise",
         "link_invalid": "Le lien vers l'offre d'emploi doit être une URL valide"
       }
@@ -393,7 +393,7 @@
         "label": {
           "jobTitle": "Poste",
           "companyName": "Entreprise",
-          "city": "Localisation",
+          "location": "Localisation",
           "applicationDate": "Date de candidature",
           "category": "Catégorie",
           "status": "Statut",
@@ -403,7 +403,7 @@
         "placeholder": {
           "jobTitle": "Intitulé du poste",
           "companyName": "Nom de l'entreprise",
-          "city": "Ville",
+          "location": "Ville, pays, région...",
           "applicationDate": "Choisir une date",
           "category": "Sélectionnez une catégorie",
           "status": "Sélectionnez un statut",
@@ -422,7 +422,7 @@
         "label": {
           "jobTitle": "Poste",
           "companyName": "Entreprise",
-          "city": "Localisation",
+          "location": "Localisation",
           "applicationDate": "Date de candidature",
           "category": "Catégorie",
           "status": "Statut",
@@ -432,7 +432,7 @@
         "placeholder": {
           "jobTitle": "Intitulé du poste",
           "companyName": "Nom de l'entreprise",
-          "city": "Ville",
+          "location": "Ville, pays, région...",
           "applicationDate": "Choisir une date",
           "category": "Sélectionnez une catégorie",
           "status": "Sélectionnez un statut",
@@ -451,7 +451,7 @@
         "label": {
           "jobTitle": "Poste",
           "companyName": "Entreprise",
-          "city": "Localisation",
+          "location": "Localisation",
           "applicationDate": "Date de candidature",
           "category": "Catégorie",
           "status": "Statut",
@@ -461,7 +461,7 @@
         "placeholder": {
           "jobTitle": "Intitulé du poste",
           "companyName": "Nom de l'entreprise",
-          "city": "Ville",
+          "location": "Ville, pays, région...",
           "applicationDate": "Choisir une date",
           "category": "Sélectionnez une catégorie",
           "status": "Sélectionnez un statut",
@@ -494,7 +494,7 @@
       "columns": {
         "title": "Poste",
         "company": "Entreprise",
-        "city": "Ville",
+        "location": "Localisation",
         "date": "Date",
         "category": "Catégorie",
         "status": "Statut",
@@ -529,14 +529,14 @@
       },
       "search": {
         "label": "Recherche",
-        "placeholder": "Rechercher par poste, entreprise, ville..."
+        "placeholder": "Rechercher par poste, entreprise, localisation..."
       },
       "visibility": {
         "toggle_columns": "Afficher les colonnes",
         "columns": "Colonnes",
         "title": "Poste",
         "company": "Entreprise",
-        "city": "Ville",
+        "location": "Localisation",
         "date": "Date",
         "category": "Catégorie",
         "status": "Statut",

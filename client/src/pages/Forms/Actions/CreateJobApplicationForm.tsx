@@ -42,7 +42,7 @@ export const CreateJobApplicationForm = ({
     defaultValues: {
       title: '',
       company: '',
-      city: '',
+      location: '',
       date: new Date(),
       category: (authenticatedUser?.preferredCategory as CategoryType) ?? Categories.FULL_TIME,
       status: StatusOffer.SENT,

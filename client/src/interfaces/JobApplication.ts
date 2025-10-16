@@ -5,7 +5,7 @@ export interface JobApplication {
   _id: string;
   title: string;
   company: string;
-  city: string;
+  location: string;
   date: Date;
   category: CategoryType;
   status: StatusType;

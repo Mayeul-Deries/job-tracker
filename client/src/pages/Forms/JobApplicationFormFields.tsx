@@ -54,12 +54,12 @@ export const JobApplicationFormFields = ({ form, formKey, loading }: JobApplicat
           <div className='w-1/2'>
             <FormField
               control={form.control}
-              name='city'
+              name='location'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t(`pages.${formKey}.form.label.city`)}</FormLabel>
+                  <FormLabel>{t(`pages.${formKey}.form.label.location`)}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t(`pages.${formKey}.form.placeholder.city`)} {...field} />
+                    <Input placeholder={t(`pages.${formKey}.form.placeholder.location`)} {...field} />
                   </FormControl>
                   <FormMessage className='text-xs -mt-1 px-1' />
                 </FormItem>

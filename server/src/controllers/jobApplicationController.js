@@ -29,9 +29,9 @@ export const getJobApplications = async (req, res) => {
 export const createJobApplication = async (req, res) => {
   const { userId } = req;
 
-  const { title, company, link, date, status, notes, category, city, favorite } = req.body;
+  const { title, company, link, date, status, notes, category, location, favorite } = req.body;
   try {
-    if (!title || !company || !date || !status || !category || !city) {
+    if (!title || !company || !date || !status || !category || !location) {
       return res.status(400).json({
         error: 'Missing required fields',
         translationKey: 'jobApplication.error.createJobApplication.missing_fields',
@@ -79,9 +79,9 @@ export const getJobApplication = async (req, res) => {
 export const updateJobApplication = async (req, res) => {
   const id = req.params.id.toString();
 
-  const { title, company, link, date, status, notes, category, city, favorite } = req.body;
+  const { title, company, link, date, status, notes, category, location, favorite } = req.body;
   try {
-    if (!title || !company || !date || !status || !category || !city) {
+    if (!title || !company || !date || !status || !category || !location) {
       return res.status(400).json({
         error: 'Missing required fields',
         translationKey: 'jobApplication.error.updateJobApplication.missing_fields',
