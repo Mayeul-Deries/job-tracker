@@ -58,7 +58,7 @@ describe('JobApplications Controller', () => {
             notes: firstJobApplication.notes,
             date: expect.any(Date),
             userId: user._id.toString(),
-            city: firstJobApplication.city,
+            location: firstJobApplication.location,
             favorite: true,
           }),
           expect.objectContaining({
@@ -71,7 +71,7 @@ describe('JobApplications Controller', () => {
             notes: secondJobApplication.notes,
             date: expect.any(Date),
             userId: user._id.toString(),
-            city: secondJobApplication.city,
+            location: secondJobApplication.location,
             favorite: true,
           }),
         ]);
@@ -112,7 +112,7 @@ describe('JobApplications Controller', () => {
             ...defaultJobApplication,
             date: expect.any(String),
             userId: user._id.toString(),
-            city: defaultJobApplication.city,
+            location: defaultJobApplication.location,
           },
         });
       });
@@ -168,7 +168,7 @@ describe('JobApplications Controller', () => {
             ...defaultJobApplication,
             date: expect.any(String),
             userId: user._id.toString(),
-            city: defaultJobApplication.city,
+            location: defaultJobApplication.location,
           },
         });
       });
@@ -188,11 +188,12 @@ describe('JobApplications Controller', () => {
       });
 
       it('should return 404 if the job application does not exist', async () => {
+        const user = await User.create(defaultUser);
         const nonExistentUserId = new mongoose.Types.ObjectId();
 
         const res = await request(app)
           .get(`/api/jobApplications/${nonExistentUserId}`)
-          .set('Authorization', `Bearer ${generateToken(nonExistentUserId)}`);
+          .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
         expect(res.status).toBe(404);
         expect(res.body.error).toBe('Job application not found');
@@ -225,7 +226,7 @@ describe('JobApplications Controller', () => {
           .send({
             ...otherJobApplication,
             userId: user._id,
-            city: otherJobApplication.city,
+            location: otherJobApplication.location,
           });
 
         expect(res.status).toBe(200);

@@ -40,7 +40,7 @@ export const DuplicateJobApplicationForm = ({
     defaultValues: {
       title: jobApplication.title,
       company: jobApplication.company,
-      city: jobApplication.city,
+      location: jobApplication.location,
       date: jobApplication.date ? new Date(jobApplication.date) : new Date(),
       category: jobApplication.category,
       status: jobApplication.status,

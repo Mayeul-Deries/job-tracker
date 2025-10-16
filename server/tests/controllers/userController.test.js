@@ -120,7 +120,7 @@ describe('User Controller', () => {
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({
-        error: 'Server error',
+        error: 'Internal server error',
       });
     });
   });
@@ -270,16 +270,16 @@ describe('User Controller', () => {
     });
 
     it('should return 500 if a server error occurs', async () => {
-      const userId = new mongoose.Types.ObjectId();
+      const user = await User.create(defaultUser);
 
       vi.spyOn(User, 'findOneAndUpdate').mockImplementationOnce(() => {
         throw new Error('Server error');
       });
 
       const res = await request(app)
-        .put(`/api/users/${userId}`)
+        .put(`/api/users/${user._id}`)
         .send({ username: 'johndoe' })
-        .set('Authorization', `Bearer ${generateToken(userId)}`);
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({
@@ -441,7 +441,7 @@ describe('User Controller', () => {
         });
 
       expect(res.status).toBe(500);
-      expect(res.body).toMatchObject({ error: 'Server error' });
+      expect(res.body).toMatchObject({ error: 'Internal server error' });
     });
   });
 
@@ -578,7 +578,7 @@ describe('User Controller', () => {
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({
-        error: 'Unexpected server error',
+        error: 'Internal server error',
         translationKey: 'internal_server_error',
       });
     });
@@ -737,6 +737,7 @@ describe('User Controller', () => {
         error: 'Invalid ID',
       });
     });
+
     it('should return 404 when user is not found', async () => {
       const nonExistentUserId = new mongoose.Types.ObjectId();
 
@@ -768,15 +769,15 @@ describe('User Controller', () => {
     });
 
     it('should return 500 if a server error occurs', async () => {
-      const userId = new mongoose.Types.ObjectId();
+      const user = await User.create(defaultUser);
 
       vi.spyOn(User, 'findOneAndDelete').mockImplementationOnce(() => {
         throw new Error('Server error');
       });
 
       const res = await request(app)
-        .delete(`/api/users/${userId}`)
-        .set('Authorization', `Bearer ${generateToken(userId)}`);
+        .delete(`/api/users/${user._id}`)
+        .set('Authorization', `Bearer ${generateToken(user._id)}`);
 
       expect(res.status).toBe(500);
       expect(res.body).toMatchObject({

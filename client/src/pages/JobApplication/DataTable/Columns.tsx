@@ -87,11 +87,11 @@ export const getColumns = (
     },
   },
   {
-    accessorKey: 'city',
+    accessorKey: 'location',
     size: 130,
-    header: ({ column }) => <DataTableColumnHeader column={column} title='city' />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title='location' />,
     cell: ({ row }) => {
-      const value = row.getValue('city') as string;
+      const value = row.getValue('location') as string;
       return <div className='truncate'>{value}</div>;
     },
   },

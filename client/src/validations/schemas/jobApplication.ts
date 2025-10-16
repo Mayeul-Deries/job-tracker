@@ -7,7 +7,7 @@ export const getJobApplicationSchema = (t: TFunction) =>
   z.object({
     title: z.string().min(1, { message: t('form.errors.jobApplication.jobTitle_required') }),
     company: z.string().min(1, { message: t('form.errors.jobApplication.companyName_required') }),
-    city: z.string().min(1, { message: t('form.errors.jobApplication.city_required') }),
+    location: z.string().min(1, { message: t('form.errors.jobApplication.city_required') }),
     date: z.date({ required_error: t('form.errors.jobApplication.applicationDate_required') }),
     category: z.enum([
       Categories.INTERNSHIP,

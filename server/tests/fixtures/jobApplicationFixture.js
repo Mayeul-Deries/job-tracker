@@ -6,7 +6,7 @@ export const defaultJobApplication = {
   status: 'SENT',
   notes: 'Some notes',
   category: 'APPRENTICESHIP',
-  city: 'Paris',
+  location: 'Paris',
   favorite: false,
 };
 
@@ -18,7 +18,7 @@ export const otherJobApplication = {
   status: 'SENT',
   notes: 'Other notes',
   category: 'INTERNSHIP',
-  city: 'Lyon',
+  location: 'Lyon',
   favorite: false,
 };
 
