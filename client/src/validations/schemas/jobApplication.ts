@@ -22,6 +22,7 @@ export const getJobApplicationSchema = (t: TFunction) =>
       StatusOffer.SENT,
       StatusOffer.FOLLOWED_UP,
       StatusOffer.INTERVIEW_SCHEDULED,
+      StatusOffer.AWAITING_RESPONSE,
       StatusOffer.ACCEPTED,
       StatusOffer.REJECTED,
     ]),

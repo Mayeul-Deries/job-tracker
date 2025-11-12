@@ -7,6 +7,7 @@
     "SENT": "Sent",
     "FOLLOWED_UP": "Followed up",
     "INTERVIEW_SCHEDULED": "Interview scheduled",
+    "AWAITING_RESPONSE": "Awaiting response",
     "ACCEPTED": "Accepted",
     "REJECTED": "Rejected"
   },
