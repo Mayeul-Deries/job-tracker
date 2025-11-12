@@ -4,6 +4,7 @@ export interface Stats {
   sent: number;
   followedUp: number;
   interviewScheduled: number;
+  awaitingResponse: number;
   accepted: number;
   rejected: number;
 }

@@ -53,6 +53,7 @@ export const JobApplicationsList = () => {
       sent: applications.filter(app => app.status === StatusOffer.SENT).length,
       followedUp: applications.filter(app => app.status === StatusOffer.FOLLOWED_UP).length,
       interviewScheduled: applications.filter(app => app.status === StatusOffer.INTERVIEW_SCHEDULED).length,
+      awaitingResponse: applications.filter(app => app.status === StatusOffer.AWAITING_RESPONSE).length,
       accepted: applications.filter(app => app.status === StatusOffer.ACCEPTED).length,
       rejected: applications.filter(app => app.status === StatusOffer.REJECTED).length,
     };

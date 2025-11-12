@@ -22,6 +22,7 @@ const statusOptions = [
     value: StatusOffer.INTERVIEW_SCHEDULED,
     color: 'bg-purple-50 hover:bg-purple-100 text-purple-700 border-purple-400',
   },
+  { value: StatusOffer.AWAITING_RESPONSE, color: 'bg-orange-50 hover:bg-orange-100 text-orange-700 border-orange-400' },
   { value: StatusOffer.ACCEPTED, color: 'bg-green-50 hover:bg-green-100 text-green-700 border-green-500' },
   { value: StatusOffer.REJECTED, color: 'bg-red-50 hover:bg-red-100 text-red-700 border-red-400' },
 ];
@@ -51,7 +52,7 @@ export const StatusSelect = ({ status, onStatusChange, variant = 'form' }: Statu
             <button
               key={option.value}
               className={cn(
-                'flex w-full items-center justify-between rounded-md px-3 py-1.5 text-sm cursor-pointer',
+                'flex w-full items-center justify-between rounded-md px-2 py-1.5 text-sm cursor-pointer',
                 option.value === status ? option.color : 'hover:bg-gray-100'
               )}
               onClick={() => onStatusChange(option.value)}
